@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout contentMain = (RelativeLayout) findViewById(R.id.content_main);
         contentMain.removeAllViews();
 
-        WebView kmarLogin = new WebView(getApplicationContext());
+        WebView kmarLogin = new WebView(this);
+
 
         contentMain.addView(kmarLogin);
         kmarLogin.loadUrl(String.valueOf(R.string.kmar_portal_url));
