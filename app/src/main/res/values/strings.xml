@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name" translatable="false">The Day Ahead</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="app_description">
+        Deadline notifications, virtual homework diary, dynamic timetable. The Day Ahead app
+        combines these 3 technologies together in mutual dependence. Furthermore, The Day Ahead app
+        also implements useful integration of schoology.com and a kamar portal (for sancta maria
+        college only) to reduce the frequency of having to switch between different software.
+    </string>
+    <string name="nav_share_title">Show The Day Ahead app to your friends!</string>
+    <string name="kmar_portal_url">portal.sanctamaria.school.nz</string>
+</resources>
