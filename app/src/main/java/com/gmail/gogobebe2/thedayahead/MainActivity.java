@@ -1,5 +1,9 @@
 package com.gmail.gogobebe2.thedayahead;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -7,12 +11,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private final static String TAG = "TheDayAhead";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +87,52 @@ public class MainActivity extends AppCompatActivity
 
         WebView kmarLogin = new WebView(this);
 
+        kmarLogin.clearCache(true);
+        kmarLogin.clearHistory();
+        clearCookies(this);
+
+        kmarLogin.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+        WebSettings webSettings = kmarLogin.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
         contentMain.addView(kmarLogin);
-        kmarLogin.loadUrl(String.valueOf(R.string.kmar_portal_url));
+
+        Document doc = null;
+        try {
+            doc = Jsoup.connect("https://portal.sanctamaria.school.nz/student/index.php").get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements loginElement = doc != null ? doc.select("div.wrapper") : null;
+
+        if (loginElement != null) {
+            kmarLogin.loadData(loginElement.html(), "text/html", "UTF-8");
+        }
+
+        kmarLogin.loadUrl("https://portal.sanctamaria.school.nz/student/index.php");
+    }
+
+    public static void clearCookies(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            Log.d(TAG, "Using clearCookies code for API >=" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
+            CookieManager.getInstance().removeAllCookies(null);
+            CookieManager.getInstance().flush();
+        } else {
+            Log.d(TAG, "Using clearCookies code for API <" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
+            CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);
+            cookieSyncMngr.startSync();
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookie();
+            cookieManager.removeSessionCookie();
+            cookieSyncMngr.stopSync();
+            cookieSyncMngr.sync();
+        }
     }
 }
