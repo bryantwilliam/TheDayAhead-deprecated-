@@ -1,11 +1,11 @@
 package com.gmail.gogobebe2.thedayahead;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,16 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 
@@ -85,17 +88,39 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout contentMain = (RelativeLayout) findViewById(R.id.content_main);
         contentMain.removeAllViews();
 
-        WebView kmarLogin = new WebView(this);
+        final WebView kmarLogin = new WebView(this);
+        kmarLogin.setVisibility(View.GONE);
 
         kmarLogin.clearCache(true);
         kmarLogin.clearHistory();
         clearCookies(this);
 
+        final ImageView kmarLoginLoadingImage = new ImageView(this);
+        kmarLoginLoadingImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
+                R.drawable.ic_menu_send, null));
+        contentMain.addView(kmarLoginLoadingImage);
+
         kmarLogin.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                if (!url.equals(getString(R.string.kmar_login_url))) {
+                    view.loadUrl(getString(R.string.kmar_timetable_url));
+                }
+                else {
+                    Toast.makeText(MainActivity.this,
+                            "Error logging in! Maybe the password or username is incorrect.",
+                            Toast.LENGTH_LONG).show();
+                }
                 return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                //hide loading image
+                kmarLoginLoadingImage.setVisibility(View.GONE);
+
+                //show webview
+                kmarLogin.setVisibility(View.VISIBLE);
             }
         });
 
@@ -104,19 +129,33 @@ public class MainActivity extends AppCompatActivity
 
         contentMain.addView(kmarLogin);
 
-        Document doc = null;
-        try {
-            doc = Jsoup.connect("https://portal.sanctamaria.school.nz/student/index.php").get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Elements loginElement = doc != null ? doc.select("div.wrapper") : null;
+        new AsyncTask<Void, Void, Document>() {
+            @Override
+            protected Document doInBackground(Void... params) {
+                try {
+                    return Jsoup.connect(getString(R.string.kmar_login_url)).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    this.cancel(true);
+                    return null;
+                }
+            }
 
-        if (loginElement != null) {
-            kmarLogin.loadData(loginElement.html(), "text/html", "UTF-8");
-        }
+            @Override
+            protected void onPostExecute(Document doc) {
+                Element loginElement = doc != null ? doc.select("#wrapper").first() : null;
+                if (doc != null) doc.select("input#loginSubmit").attr("value", "Login");
 
-        kmarLogin.loadUrl("https://portal.sanctamaria.school.nz/student/index.php");
+                if (loginElement != null) {
+                    kmarLogin.loadData(loginElement.html(), "text/html", "UTF-8");
+                }
+                else {
+                    // Do this if I can't crop the html. (This shouldn't ever happen).
+                    kmarLogin.loadUrl(getString(R.string.kmar_login_url));
+                    Log.e(TAG, "Can't find #wrapper html element! Trying to use whole page instead!");
+                }
+            }
+        }.execute();
     }
 
     public static void clearCookies(Context context) {
