@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity
         contentMain.removeAllViews();
 
         final WebView kmarLogin = new WebView(this);
-        kmarLogin.setVisibility(View.GONE);
 
         kmarLogin.clearCache(true);
         kmarLogin.clearHistory();
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         final ImageView kmarLoginLoadingImage = new ImageView(this);
         kmarLoginLoadingImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
                 R.drawable.ic_menu_send, null));
-        contentMain.addView(kmarLoginLoadingImage);
 
         kmarLogin.setWebViewClient(new WebViewClient() {
             @Override
@@ -116,23 +114,23 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                //hide loading image
-                kmarLoginLoadingImage.setVisibility(View.GONE);
-
-                //show webview
-                kmarLogin.setVisibility(View.VISIBLE);
+                hideWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
             }
         });
 
         WebSettings webSettings = kmarLogin.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+        showWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
+
+        contentMain.addView(kmarLoginLoadingImage);
         contentMain.addView(kmarLogin);
 
         new AsyncTask<Void, Void, Document>() {
             @Override
             protected Document doInBackground(Void... params) {
                 try {
+                    showWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
                     return Jsoup.connect(getString(R.string.kmar_login_url)).get();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -154,8 +152,20 @@ public class MainActivity extends AppCompatActivity
                     kmarLogin.loadUrl(getString(R.string.kmar_login_url));
                     Log.e(TAG, "Can't find #wrapper html element! Trying to use whole page instead!");
                 }
+
+                hideWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
             }
         }.execute();
+    }
+
+    private void showWebviewLoadingImage(ImageView kmarLoginLoadingImage, WebView kmarLogin) {
+        kmarLoginLoadingImage.setVisibility(View.VISIBLE);
+        kmarLogin.setVisibility(View.GONE);
+    }
+
+    private void hideWebviewLoadingImage(ImageView kmarLoginLoadingImage, WebView kmarLogin) {
+        kmarLoginLoadingImage.setVisibility(View.GONE);
+        kmarLogin.setVisibility(View.VISIBLE);
     }
 
     public static void clearCookies(Context context) {
