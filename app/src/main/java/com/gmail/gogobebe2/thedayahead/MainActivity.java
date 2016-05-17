@@ -28,6 +28,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,8 +71,6 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_slideshow:
                 break;
-            case R.id.nav_manage:
-                break;
             case R.id.nav_share:
                 break;
             case R.id.nav_timetable:
@@ -96,15 +96,14 @@ public class MainActivity extends AppCompatActivity
 
         final ImageView kmarLoginLoadingImage = new ImageView(this);
         kmarLoginLoadingImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
-                R.drawable.ic_menu_send, null));
+                R.drawable.ic_menu_share, null));
 
         kmarLogin.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (!url.equals(getString(R.string.kmar_login_url))) {
                     view.loadUrl(getString(R.string.kmar_timetable_url));
-                }
-                else {
+                } else {
                     Toast.makeText(MainActivity.this,
                             "Error logging in! Maybe the password or username is incorrect.",
                             Toast.LENGTH_LONG).show();
@@ -126,17 +125,35 @@ public class MainActivity extends AppCompatActivity
         contentMain.addView(kmarLoginLoadingImage);
         contentMain.addView(kmarLogin);
 
-        new AsyncTask<Void, Void, Document>() {
+        new AsyncTask<Void, Boolean, Document>() {
+            // Void: No params.
+            // Boolean: true if connection was successful, false otherwise.
+            // Document: The kmar page's html document using Jsoup.
             @Override
             protected Document doInBackground(Void... params) {
                 try {
-                    showWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
-                    return Jsoup.connect(getString(R.string.kmar_login_url)).get();
+                    Document kmarDocument = Jsoup.connect(getString(R.string.kmar_login_url)).get();
+                    this.publishProgress(true);
+                    return kmarDocument;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    this.publishProgress(false);
+                    if (e instanceof ConnectException) Log.w(TAG, "ConnectException, Kmar Portal " +
+                            "down or internet down.");
+                    else {
+                        Log.w(TAG, "Failed to connect to Kmar Portal.");
+                        e.printStackTrace();
+                    }
                     this.cancel(true);
                     return null;
                 }
+            }
+
+            @Override
+            protected void onProgressUpdate(Boolean... success) {
+                if (!success[0]) Toast.makeText(MainActivity.this, "Failed to connect to the Kmar Portal.",
+                            Toast.LENGTH_LONG).show();
+                else Toast.makeText(MainActivity.this, "Successfully connected to the Kmar Portal..",
+                            Toast.LENGTH_SHORT).show();
             }
 
             @Override
