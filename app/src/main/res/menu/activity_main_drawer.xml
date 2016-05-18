@@ -7,12 +7,9 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow Guide" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-        <item
             android:id="@+id/nav_timetable"
-            android:title="Timetable" />
+            android:title="Timetable"
+            android:checked="true" />
     </group>
 
     <item android:title="@string/nav_share_title">
