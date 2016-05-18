@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
+
             @Override
             protected void onProgressUpdate(Boolean... success) {
                 if (!success[0]) Toast.makeText(MainActivity.this, "Failed to connect to the Kmar Portal.",
