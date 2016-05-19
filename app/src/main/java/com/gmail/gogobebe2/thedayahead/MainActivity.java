@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private final static String TAG = "TheDayAhead";
 
+    private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -50,6 +55,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        goToTimetablePage();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override
@@ -62,31 +74,58 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawer.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        switch (id) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        Class fragmentClass;
+
+        switch (menuItem.getItemId()) {
             case R.id.nav_slideshow:
+                // fragmentClass = SlideshowFragment.class;
                 break;
             case R.id.nav_share:
+                // fragmentClass = ShareFragment.class;
                 break;
             case R.id.nav_timetable:
-                goToTimetablePage();
-                break;
             default:
-                return false;
+                // fragmentClass = TimetableFragment.class;
+                goToTimetablePage();
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+/*
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+*/
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void goToTimetablePage() {
-        RelativeLayout contentMain = (RelativeLayout) findViewById(R.id.content_main);
-        contentMain.removeAllViews();
+        FrameLayout flContent = (FrameLayout) findViewById(R.id.flContent);
 
         final WebView kmarLogin = new WebView(this);
 
@@ -122,8 +161,8 @@ public class MainActivity extends AppCompatActivity
 
         showWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
 
-        contentMain.addView(kmarLoginLoadingImage);
-        contentMain.addView(kmarLogin);
+        flContent.addView(kmarLoginLoadingImage);
+        flContent.addView(kmarLogin);
 
         new AsyncTask<Void, Boolean, Document>() {
             // Void: No params.
@@ -153,7 +192,7 @@ public class MainActivity extends AppCompatActivity
             protected void onProgressUpdate(Boolean... success) {
                 if (!success[0]) Toast.makeText(MainActivity.this, "Failed to connect to the Kmar Portal.",
                             Toast.LENGTH_LONG).show();
-                else Toast.makeText(MainActivity.this, "Successfully connected to the Kmar Portal..",
+                else Toast.makeText(MainActivity.this, "Successfully connected to the Kmar Portal.",
                             Toast.LENGTH_SHORT).show();
             }
 

@@ -15,4 +15,5 @@
     <string name="kmar_portal_url">https://portal.sanctamaria.school.nz/student/index.php</string>
     <string name="kmar_login_url">https://portal.sanctamaria.school.nz/student/index.php/login</string>
     <string name="kmar_timetable_url">https://portal.sanctamaria.school.nz/student/index.php/timetable</string>
+    <string name="title_activity_timetable">TimetableActivity</string>
 </resources>
