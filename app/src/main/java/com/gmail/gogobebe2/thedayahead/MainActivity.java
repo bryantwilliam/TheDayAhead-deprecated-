@@ -1,6 +1,7 @@
 package com.gmail.gogobebe2.thedayahead;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private final static String TAG = "TheDayAhead";
 
     private DrawerLayout drawer;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,42 +48,56 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        setupDrawer(toolbar);
+
+        // TODO Change this later to a home page: fragmentClass = HomeFragment.class; and remove goToTimetablePage();
+        goToTimetablePage();
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+    private void setupDrawer(Toolbar toolbar) {
+        this.drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.drawerToggle = new ActionBarDrawerToggle(
+                this, this.drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        this.drawer.setDrawerListener(this.drawerToggle);
+        this.drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        goToTimetablePage();
     }
 
+    // To make sure we synchronize the state whenever the screen is restored:
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    // To make sure we synchronize the state whenever configuration change (i.e screen rotation):
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
+        else super.onBackPressed();
     }
 
     @Override
     public boolean onKeyDown(int keycode, KeyEvent e) {
         // If the hardware options button is pressed on some devices, open drawer/close drawer.
-        switch(keycode) {
-            case KeyEvent.KEYCODE_MENU:
-                // Toggle drawer:
-                if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
-                else drawer.openDrawer(GravityCompat.START);
-                return true;
+        if (keycode == KeyEvent.KEYCODE_MENU) {
+            // Toggle drawer:
+            if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
+            else drawer.openDrawer(GravityCompat.START);
+            return true;
         }
 
         return super.onKeyDown(keycode, e);
@@ -98,17 +114,18 @@ public class MainActivity extends AppCompatActivity
 
         switch (menuItem.getItemId()) {
             case R.id.nav_slideshow:
-                // fragmentClass = SlideshowFragment.class;
+                // TODO fragmentClass = SlideshowFragment.class;
                 break;
             case R.id.nav_share:
-                // fragmentClass = ShareFragment.class;
+                // TODO fragmentClass = ShareFragment.class;
                 break;
-            case R.id.nav_timetable:
+            case R.id.nav_timetable: // TODO fragmentClass = TimetableFragment.class; break;
             default:
-                // fragmentClass = TimetableFragment.class;
+                // TODO Change this later to a home page:
+                // TODO fragmentClass = HomeFragment.class; Remove "goToTimetablePage();"
                 goToTimetablePage();
         }
-/*
+/*      TODO:
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -143,9 +160,8 @@ public class MainActivity extends AppCompatActivity
         kmarLogin.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (!url.equals(getString(R.string.kmar_login_url))) {
-                    view.loadUrl(getString(R.string.kmar_timetable_url));
-                } else {
+                if (!url.equals(getString(R.string.kmar_login_url))) view.loadUrl(getString(R.string.kmar_timetable_url));
+                else {
                     Toast.makeText(MainActivity.this,
                             "Error logging in! Maybe the password or username is incorrect.",
                             Toast.LENGTH_LONG).show();
@@ -179,8 +195,8 @@ public class MainActivity extends AppCompatActivity
                     return kmarDocument;
                 } catch (IOException e) {
                     this.publishProgress(false);
-                    if (e instanceof ConnectException) Log.w(TAG, "ConnectException, Kmar Portal " +
-                            "down or internet down.");
+                    if (e instanceof ConnectException) Log.w(TAG,
+                            "ConnectException, Kmar Portal down or internet down.");
                     else {
                         Log.w(TAG, "Failed to connect to Kmar Portal.");
                         e.printStackTrace();
@@ -193,10 +209,10 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             protected void onProgressUpdate(Boolean... success) {
-                if (!success[0]) Toast.makeText(MainActivity.this, "Failed to connect to the Kmar Portal.",
-                            Toast.LENGTH_LONG).show();
+                if (!success[0]) Toast.makeText(MainActivity.this,
+                        "Failed to connect to the Kmar Portal.", Toast.LENGTH_LONG).show();
                 else Toast.makeText(MainActivity.this, "Successfully connected to the Kmar Portal.",
-                            Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -204,9 +220,7 @@ public class MainActivity extends AppCompatActivity
                 Element loginElement = doc != null ? doc.select("#wrapper").first() : null;
                 if (doc != null) doc.select("input#loginSubmit").attr("value", "Login");
 
-                if (loginElement != null) {
-                    kmarLogin.loadData(loginElement.html(), "text/html", "UTF-8");
-                }
+                if (loginElement != null) kmarLogin.loadData(loginElement.html(), "text/html", "UTF-8");
                 else {
                     // Do this if I can't crop the html. (This shouldn't ever happen).
                     kmarLogin.loadUrl(getString(R.string.kmar_login_url));
