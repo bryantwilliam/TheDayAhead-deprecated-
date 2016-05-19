@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +22,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -126,6 +124,8 @@ public class MainActivity extends AppCompatActivity
 
     private void goToTimetablePage() {
         FrameLayout flContent = (FrameLayout) findViewById(R.id.flContent);
+
+        flContent.removeAllViews();
 
         final WebView kmarLogin = new WebView(this);
 

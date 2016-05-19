@@ -8,7 +8,6 @@
             android:title="Slideshow Guide" />
         <item
             android:id="@+id/nav_timetable"
-
             android:title="Timetable"
             android:checked="true" />
     </group>
