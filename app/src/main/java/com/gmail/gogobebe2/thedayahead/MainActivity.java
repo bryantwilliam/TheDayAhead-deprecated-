@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -73,15 +74,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawer.openDrawer(GravityCompat.START);
+    public boolean onKeyDown(int keycode, KeyEvent e) {
+        // If the hardware options button is pressed on some devices, open drawer/close drawer.
+        switch(keycode) {
+            case KeyEvent.KEYCODE_MENU:
+                // Toggle drawer:
+                if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
+                else drawer.openDrawer(GravityCompat.START);
                 return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onKeyDown(keycode, e);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -225,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         kmarLogin.setVisibility(View.VISIBLE);
     }
 
-    public static void clearCookies(Context context) {
+    private static void clearCookies(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             Log.d(TAG, "Using clearCookies code for API >=" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
             CookieManager.getInstance().removeAllCookies(null);
