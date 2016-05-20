@@ -2,11 +2,13 @@ package com.gmail.gogobebe2.thedayahead;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -34,7 +36,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TimetableFragment.OnFragmentInteractionListener {
     private final static String TAG = "TheDayAhead";
 
     private DrawerLayout drawer;
@@ -50,9 +52,11 @@ public class MainActivity extends AppCompatActivity
 
         setupDrawer(toolbar);
 
-        // TODO Change this later to a home page: fragmentClass = HomeFragment.class; and remove goToTimetablePage();
-        goToTimetablePage();
-        drawer.openDrawer(GravityCompat.START);
+        drawer.openDrawer(GravityCompat.START); // Opened this on first run so they know what's in it.
+
+        // TODO Change this later to a home page and remove goToTimetablePage();
+        // goToTimetablePage();
+        goToNavFragment((MenuItem) findViewById(R.id.nav_timetable));
     }
 
     private void setupDrawer(Toolbar toolbar) {
@@ -103,43 +107,49 @@ public class MainActivity extends AppCompatActivity
         return super.onKeyDown(keycode, e);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         // Handle navigation view item clicks here.
 
+        goToNavFragment(menuItem);
+        return true;
+    }
+
+    private void goToNavFragment(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
 
         switch (menuItem.getItemId()) {
-            case R.id.nav_slideshow:
-                // TODO fragmentClass = SlideshowFragment.class;
+            case R.id.nav_slideshow: // TODO fragmentClass = SlideshowFragment.class; break;
+            case R.id.nav_share: // TODO fragmentClass = ShareFragment.class; break;
+            case R.id.nav_timetable:
+                fragmentClass = TimetableFragment.class;
+                // goToTimetablePage();
                 break;
-            case R.id.nav_share:
-                // TODO fragmentClass = ShareFragment.class;
-                break;
-            case R.id.nav_timetable: // TODO fragmentClass = TimetableFragment.class; break;
             default:
+                fragmentClass = TimetableFragment.class;
                 // TODO Change this later to a home page:
                 // TODO fragmentClass = HomeFragment.class; Remove "goToTimetablePage();"
-                goToTimetablePage();
         }
-/*      TODO:
+
+
+        //noinspection TryWithIdenticalCatches
         try {
             fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-*/
+
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private void goToTimetablePage() {
@@ -257,5 +267,10 @@ public class MainActivity extends AppCompatActivity
             cookieSyncMngr.stopSync();
             cookieSyncMngr.sync();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
