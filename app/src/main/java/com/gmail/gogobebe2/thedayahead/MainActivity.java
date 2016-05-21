@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         // TODO Change this later to a home page and remove goToTimetablePage();
         // goToTimetablePage();
-        goToNavFragment((MenuItem) findViewById(R.id.nav_timetable));
+        goToFragmentFromNavMenuItem((MenuItem) findViewById(R.id.nav_timetable));
     }
 
     private void setupDrawer(Toolbar toolbar) {
@@ -111,11 +111,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         // Handle navigation view item clicks here.
 
-        goToNavFragment(menuItem);
+        goToFragmentFromNavMenuItem(menuItem);
         return true;
     }
 
-    private void goToNavFragment(MenuItem menuItem) {
+    private void goToFragmentFromNavMenuItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
