@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity
 
         // TODO Change this later to a home page and remove goToTimetablePage();
         // goToTimetablePage();
-        goToFragmentFromNavMenuItem((MenuItem) findViewById(R.id.nav_timetable));
+
+       /* MenuItem timetableButton = (MenuItem) findViewById(R.id.nav_timetable);
+        if (timetableButton != null) goToFragmentFromNavMenuItem(timetableButton);*/
     }
 
     private void setupDrawer(Toolbar toolbar) {
