@@ -16,9 +16,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -43,18 +43,18 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
+    protected static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setupDrawer(toolbar);
-
-        drawer.openDrawer(GravityCompat.START); // Opened this on first run so they know what's in it.
 
         // TODO Change this later to a home page and remove goToTimetablePage();
         // goToTimetablePage();
@@ -119,8 +119,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        goToFragmentFromNavMenuItem(menu.getItem(R.id.nav_timetable));
-        Log.i(TAG, menu.getItem(R.id.nav_timetable).getTitle().toString());
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_drawer, menu);
+
+        MenuItem timetableNavButton = menu.findItem(R.id.nav_timetable);
+        goToFragmentFromNavMenuItem(timetableNavButton);
+        drawer.openDrawer(GravityCompat.START); // Opened this on first run so they know what's in it.
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -142,7 +146,6 @@ public class MainActivity extends AppCompatActivity
                 // TODO fragmentClass = HomeFragment.class; Remove "goToTimetablePage();"
         }
 
-
         //noinspection TryWithIdenticalCatches
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private void goToTimetablePage() {
+    protected void goToTimetablePage() {
         FrameLayout flContent = (FrameLayout) findViewById(R.id.flContent);
 
         flContent.removeAllViews();
