@@ -16,7 +16,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         // TODO Change this later to a home page and remove goToTimetablePage();
         // goToTimetablePage();
 
-       /* MenuItem timetableButton = (MenuItem) findViewById(R.id.nav_timetable);
+        /*MenuItem timetableButton = (MenuItem) findViewById(R.id.nav_timetable);
         if (timetableButton != null) goToFragmentFromNavMenuItem(timetableButton);*/
     }
 
@@ -70,7 +72,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     // To make sure we synchronize the state whenever the screen is restored:
@@ -112,9 +113,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         // Handle navigation view item clicks here.
-
         goToFragmentFromNavMenuItem(menuItem);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        goToFragmentFromNavMenuItem(menu.getItem(R.id.nav_timetable));
+        Log.i(TAG, menu.getItem(R.id.nav_timetable).getTitle().toString());
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void goToFragmentFromNavMenuItem(MenuItem menuItem) {
