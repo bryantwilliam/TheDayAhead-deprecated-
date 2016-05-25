@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -155,9 +156,14 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        // Begin the transaction
+        FragmentTransaction fragmentTransactiont = getSupportFragmentManager().beginTransaction();
 
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        // Replace the contents of the container with the new fragment
+        fragmentTransactiont.replace(R.id.flContent, fragment);
+
+        // Complete the changes added above
+        fragmentTransactiont.commit();
 
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
