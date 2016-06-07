@@ -1,14 +1,12 @@
 package com.gmail.gogobebe2.thedayahead;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -230,13 +228,13 @@ public class TimetableFragment extends TheDayAheadFragment {
             CookieManager.getInstance().flush();
         } else {
             Log.d(instance.getLoggingTag(), "Using clearCookies code for API <" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
-            CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(instance.getContext());
-            cookieSyncMngr.startSync();
+            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(instance.getContext());
+            cookieSyncManager.startSync();
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
             cookieManager.removeSessionCookie();
-            cookieSyncMngr.stopSync();
-            cookieSyncMngr.sync();
+            cookieSyncManager.stopSync();
+            cookieSyncManager.sync();
         }
     }
 
