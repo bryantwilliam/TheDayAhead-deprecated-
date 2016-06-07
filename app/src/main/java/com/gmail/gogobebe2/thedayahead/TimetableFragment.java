@@ -1,5 +1,6 @@
 package com.gmail.gogobebe2.thedayahead;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,13 +32,19 @@ import java.net.ConnectException;
 
 public class TimetableFragment extends TheDayAheadFragment {
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener listener;
 
     public TimetableFragment() {
         // Required empty public constructorg
     }
 
-
+    // This event fires 2nd, before views are created for the fragment
+    // The onCreate method is called when the Fragment instance is being created, or re-created.
+    // Use onCreate for any standard setup that does not require the activity to be fully created
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -49,6 +57,7 @@ public class TimetableFragment extends TheDayAheadFragment {
     }
 
     // This event is triggered soon after onCreateView().
+    // onViewCreated() is only called if the view returned from onCreateView() is non-null.
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -57,28 +66,29 @@ public class TimetableFragment extends TheDayAheadFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) mListener.onFragmentInteraction(uri);
-    }
-
+    // This event fires 1st, before creation of fragment or any views
+    // The onAttach method is called when the Fragment instance is associated with an Activity.
+    // This does not mean the Activity is fully initialized.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) listener = (OnFragmentInteractionListener) context;
         else throw new RuntimeException(context.toString()
                 + " must implement OnFragmentInteractionListener");
+    }
+
+    // This method is called after the parent Activity's onCreate() method has completed.
+    // Accessing the view hierarchy of the parent activity must be done in the onActivityCreated.
+    // At this point, it is safe to search for activity View objects by their ID, for example.
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    @Override // TODO decide how to use this.
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+        listener = null;
     }
 
     @NonNull
@@ -107,9 +117,11 @@ public class TimetableFragment extends TheDayAheadFragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     protected void goToTimetablePage() {
         FrameLayout flContent = (FrameLayout) MainActivity.getInstance().findViewById(R.id.flContent);
 
+        assert flContent != null;
         flContent.removeAllViews();
 
         final WebView kmarLogin = new WebView(getContext());
@@ -210,6 +222,7 @@ public class TimetableFragment extends TheDayAheadFragment {
         kmarLogin.setVisibility(View.VISIBLE);
     }
 
+    @SuppressWarnings("deprecation")
     private static void clearCookies(TimetableFragment instance) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             Log.d(instance.getLoggingTag(), "Using clearCookies code for API >=" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
