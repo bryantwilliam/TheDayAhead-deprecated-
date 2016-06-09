@@ -1,7 +1,6 @@
 package com.gmail.gogobebe2.thedayahead;
 
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -14,13 +13,15 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, TimetableFragment.OnFragmentInteractionListener, Loggable {
+public class MainActivity extends AppCompatActivity implements Loggable,
+        NavigationView.OnNavigationItemSelectedListener {
     private static MainActivity instance;
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
+    private TimetableFragment timetableFragment;
 
+    @SuppressWarnings("TryWithIdenticalCatches")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +33,19 @@ public class MainActivity extends AppCompatActivity
 
         setupDrawer(toolbar);
 
-        // TODO Change this later to a home page fragment class.
-        showFragmentInFrameLayout(TimetableFragment.class);
+        /*******Default Fragment*******/
+        if (timetableFragment == null) try {
+            timetableFragment = TimetableFragment.class.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        // TODO Change this later to a home page fragment
+        showFragmentInFrameLayout(timetableFragment);
+        /******************************/
+
+
         drawer.openDrawer(GravityCompat.START); // Opened this on first run so they know what's in it.
 
         Log.i(getLoggingTag(), "onCreate has finished.");
@@ -88,42 +100,35 @@ public class MainActivity extends AppCompatActivity
         return super.onKeyDown(keycode, e);
     }
 
+    /*
+    Handle navigation view item clicks here.
+     */
+    @SuppressWarnings("TryWithIdenticalCatches")
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        // Handle navigation view item clicks here.
-        Class<? extends TheDayAheadFragment> fragmentClass;
-
-        switch (menuItem.getItemId()) {
-            case R.id.nav_slideshow: // TODO fragmentClass = SlideshowFragment.class; break;
-            case R.id.nav_share: // TODO fragmentClass = ShareFragment.class; break;
-            case R.id.nav_timetable:
-                fragmentClass = TimetableFragment.class;
-                // goToTimetablePage();
-                break;
-            default:
-                fragmentClass = TimetableFragment.class;
-                // TODO Change this later to a home page:
-                // TODO fragmentClass = HomeFragment.class; Remove "goToTimetablePage();"
-        }
-
-        showFragmentInFrameLayout(fragmentClass);
-        menuItem.setChecked(true);
-        return true;
-    }
-
-    private void showFragmentInFrameLayout(Class<? extends TheDayAheadFragment> fragmentClass) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
         TheDayAheadFragment fragment = null;
-
-        //noinspection TryWithIdenticalCatches
         try {
-            fragment = fragmentClass.newInstance();
+            switch (menuItem.getItemId()) {
+                case R.id.nav_slideshow: // TODO fragmentClass = SlideshowFragment.class; break;
+                case R.id.nav_share: // TODO fragmentClass = ShareFragment.class; break;
+                case R.id.nav_timetable:
+                    if (timetableFragment == null) timetableFragment = TimetableFragment.class.newInstance();
+                    fragment = timetableFragment;
+                    break;
+            }
+            showFragmentInFrameLayout(fragment);
         } catch (InstantiationException e) {
             e.printStackTrace();
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
+        menuItem.setChecked(true);
+        return true;
+    }
+
+    private void showFragmentInFrameLayout(TheDayAheadFragment fragment) {
         // Begin the transaction
         FragmentTransaction fragmentTransactiont = getSupportFragmentManager().beginTransaction();
 
@@ -139,11 +144,6 @@ public class MainActivity extends AppCompatActivity
 
         // This just makes the menu get recreated and thus no need to do menuItem.setChecked(false):
         invalidateOptionsMenu();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override

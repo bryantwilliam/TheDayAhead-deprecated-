@@ -1,8 +1,6 @@
 package com.gmail.gogobebe2.thedayahead;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,49 +28,18 @@ import java.net.ConnectException;
 
 public class TimetableFragment extends TheDayAheadFragment {
 
-    private OnFragmentInteractionListener listener;
+    public TimetableFragment() { /* Required empty public constructor */}
 
-    public TimetableFragment() {
-        // Required empty public constructorg
-    }
-
-    // This event fires 2nd, before views are created for the fragment
-    // The onCreate method is called when the Fragment instance is being created, or re-created.
-    // Use onCreate for any standard setup that does not require the activity to be fully created
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    // The onCreateView method is called when Fragment should create its View object hierarchy,
-    // either dynamically or via XML layout inflation.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        goToTimetablePage();
-
+        loadTimetable();
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_timetable, parent, false);
-    }
-
-    // This event is triggered soon after onCreateView().
-    // onViewCreated() is only called if the view returned from onCreateView() is non-null.
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    // This event fires 1st, before creation of fragment or any views
-    // The onAttach method is called when the Fragment instance is associated with an Activity.
-    // This does not mean the Activity is fully initialized.
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) listener = (OnFragmentInteractionListener) context;
-        else throw new RuntimeException(context.toString()
-                + " must implement OnFragmentInteractionListener");
     }
 
     // This method is called after the parent Activity's onCreate() method has completed.
@@ -81,12 +48,6 @@ public class TimetableFragment extends TheDayAheadFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
     }
 
     @NonNull
@@ -100,23 +61,8 @@ public class TimetableFragment extends TheDayAheadFragment {
         return Utils.createTagName(TimetableFragment.class);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @SuppressLint("SetJavaScriptEnabled")
-    protected void goToTimetablePage() {
+    private void loadTimetable() {
         FrameLayout flContent = (FrameLayout) MainActivity.getInstance().findViewById(R.id.flContent);
 
         assert flContent != null;
@@ -237,5 +183,4 @@ public class TimetableFragment extends TheDayAheadFragment {
             cookieSyncManager.sync();
         }
     }
-
 }
