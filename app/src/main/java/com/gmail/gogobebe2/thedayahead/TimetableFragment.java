@@ -42,14 +42,6 @@ public class TimetableFragment extends TheDayAheadFragment {
         return inflater.inflate(R.layout.fragment_timetable, parent, false);
     }
 
-    // This method is called after the parent Activity's onCreate() method has completed.
-    // Accessing the view hierarchy of the parent activity must be done in the onActivityCreated.
-    // At this point, it is safe to search for activity View objects by their ID, for example.
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
     @NonNull
     @Override
     String getTitle() {
