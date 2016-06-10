@@ -15,17 +15,16 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements Loggable,
         NavigationView.OnNavigationItemSelectedListener {
-    private static MainActivity instance;
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
+
     private TimetableFragment timetableFragment;
 
     @SuppressWarnings("TryWithIdenticalCatches")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        instance = this;
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -149,9 +148,5 @@ public class MainActivity extends AppCompatActivity implements Loggable,
     @Override
     public String getLoggingTag() {
         return Utils.createTagName(MainActivity.class);
-    }
-
-    static MainActivity getInstance() {
-        return instance;
     }
 }

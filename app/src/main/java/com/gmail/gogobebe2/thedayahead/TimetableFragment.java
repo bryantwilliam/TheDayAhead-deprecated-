@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 public class TimetableFragment extends TheDayAheadFragment {
+    private RelativeLayout relativeLayout;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -37,9 +41,9 @@ public class TimetableFragment extends TheDayAheadFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
         loadTimetable();
-        // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_timetable, parent, false);
+        return relativeLayout;
     }
 
     @NonNull
@@ -55,46 +59,45 @@ public class TimetableFragment extends TheDayAheadFragment {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void loadTimetable() {
-        FrameLayout flContent = (FrameLayout) MainActivity.getInstance().findViewById(R.id.flContent);
+        final WebView webView = new WebView(getContext());
 
-        assert flContent != null;
-        flContent.removeAllViews();
+        webView.setVisibility(View.INVISIBLE);
 
-        final WebView kmarLogin = new WebView(getContext());
-
-        kmarLogin.clearCache(true);
-        kmarLogin.clearHistory();
+        webView.clearCache(true);
+        webView.clearHistory();
         clearCookies(this);
 
-        final ImageView kmarLoginLoadingImage = new ImageView(getContext());
-        kmarLoginLoadingImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
-                R.drawable.ic_menu_share, null));
+        final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
 
-        kmarLogin.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClient()  {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (!url.equals(getString(R.string.kmar_login_url))) view.loadUrl(getString(R.string.kmar_timetable_url));
-                else {
+                if (url.equals(getString(R.string.kmar_login_url))) {
                     Toast.makeText(getContext(),
                             "Error logging in! Maybe the password or username is incorrect.",
                             Toast.LENGTH_LONG).show();
                 }
+                else if (url.equals(getString(R.string.kmar_url))) {
+                    // Redirect to the timetable page:
+                    view.loadUrl(getString(R.string.kmar_timetable_url));
+                }
+
+                progressBar.setVisibility(View.VISIBLE);
                 return true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                hideWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
+                progressBar.setVisibility(View.INVISIBLE);
             }
+
+
         });
 
-        WebSettings webSettings = kmarLogin.getSettings();
+        WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        showWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
-
-        flContent.addView(kmarLoginLoadingImage);
-        flContent.addView(kmarLogin);
+        relativeLayout.addView(webView);
 
         new AsyncTask<Void, Boolean, Document>() {
             // Void: No params.
@@ -130,32 +133,21 @@ public class TimetableFragment extends TheDayAheadFragment {
 
             @Override
             protected void onPostExecute(Document doc) {
+                // TODO make username/password/login buttons all associate with the html ones.
                 Element loginElement = doc != null ? doc.select("#wrapper").first() : null;
                 if (doc != null) doc.select("input#loginSubmit").attr("value", "Login");
 
-                if (loginElement != null) kmarLogin.loadData(loginElement.html(), "text/html", "UTF-8");
+                if (loginElement != null) webView.loadData(loginElement.html(), "text/html", "UTF-8");
                 else {
                     // Do this if I can't crop the html. (This shouldn't ever happen)
                     // It will only happen if the school decides to change the html setup of kmar.
-                    kmarLogin.loadUrl(getString(R.string.kmar_login_url));
+                    webView.loadUrl(getString(R.string.kmar_login_url));
                     Toast.makeText(getContext(), "Can't find login section of kmar, now trying " +
                             "to load whole page as a last resort...", Toast.LENGTH_LONG).show();
                     Log.e(getLoggingTag(), "Can't find #wrapper html element! Trying to use whole page instead!");
                 }
-
-                hideWebviewLoadingImage(kmarLoginLoadingImage, kmarLogin);
             }
         }.execute();
-    }
-
-    private void showWebviewLoadingImage(ImageView kmarLoginLoadingImage, WebView kmarLogin) {
-        kmarLoginLoadingImage.setVisibility(View.VISIBLE);
-        kmarLogin.setVisibility(View.GONE);
-    }
-
-    private void hideWebviewLoadingImage(ImageView kmarLoginLoadingImage, WebView kmarLogin) {
-        kmarLoginLoadingImage.setVisibility(View.GONE);
-        kmarLogin.setVisibility(View.VISIBLE);
     }
 
     @SuppressWarnings("deprecation")
