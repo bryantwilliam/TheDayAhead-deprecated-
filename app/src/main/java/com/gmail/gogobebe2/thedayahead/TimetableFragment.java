@@ -71,16 +71,27 @@ public class TimetableFragment extends TheDayAheadFragment {
 
         webView.setWebViewClient(new WebViewClient()  {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.equals(getString(R.string.kmar_login_url))) {
+            public boolean shouldOverrideUrlLoading(WebView view, String destinationUrl) {
+                final String currentUrl = view.getUrl();
+                final String kmarLoginUrl = getString(R.string.kmar_login_url);
+                final String kmarMainUrl = getString(R.string.kmar_url);
+                final String kmarTimetableUrl = getString(R.string.kmar_timetable_url);
+
+                if (destinationUrl.equals(kmarLoginUrl)) {
+                    // It goes to the login url if details incorrect.
+                    // If it does, make an error message for user.
                     Toast.makeText(getContext(),
                             "Error logging in! Maybe the password or username is incorrect.",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (url.equals(getString(R.string.kmar_url))) {
-                    // Redirect to the timetable page:
-                    view.loadUrl(getString(R.string.kmar_timetable_url));
+                else if ((currentUrl.equals(kmarMainUrl) || currentUrl.equals(kmarLoginUrl))
+                        && destinationUrl.equals(kmarMainUrl)) {
+                    // If the the main url isn't the 1st url loaded, it means the user is logged in.
+                    // (Since if he wasnt logged in, then it would've gone to the login url)
+                    // Once logged in, redirect to the timetable page:
+                    view.loadUrl(kmarTimetableUrl);
                 }
+                else Log.w(getLoggingTag(), "Tried loading unexpected url: " + destinationUrl);
 
                 progressBar.setVisibility(View.VISIBLE);
                 return true;
@@ -106,7 +117,7 @@ public class TimetableFragment extends TheDayAheadFragment {
             @Override
             protected Document doInBackground(Void... params) {
                 try {
-                    Document kmarDocument = Jsoup.connect(getString(R.string.kmar_login_url)).get();
+                    Document kmarDocument = Jsoup.connect(getString(R.string.kmar_url)).get();
                     this.publishProgress(true);
                     return kmarDocument;
                 } catch (IOException e) {
