@@ -27,10 +27,9 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.ConnectException;
 
-public class TimetableFragment extends TheDayAheadFragment {
+public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
-    private WebView webView;
     private final String JAVASCRIPT_LOGIN_BUTTON_SCRIPT = "javascript:document.getElementById('loginSubmit').click();";
 
     public TimetableFragment() { /* Required empty public constructor */}
@@ -43,7 +42,9 @@ public class TimetableFragment extends TheDayAheadFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
-        loadTimetable();
+        Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
+        loginButton.setOnClickListener(this);
+        initKmarLoginConnection();
         return relativeLayout;
     }
 
@@ -59,65 +60,12 @@ public class TimetableFragment extends TheDayAheadFragment {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void loadTimetable() {
-        webView = new WebView(getContext());
-
-        webView.setVisibility(View.INVISIBLE);
-
-        webView.clearCache(true);
-        webView.clearHistory();
-        clearCookies(this);
-
-        final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
-
-        webView.setWebViewClient(new WebViewClient() {
+    private void initKmarLoginConnection() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String destinationUrl) {
-                final String currentUrl = view.getUrl();
-                final String kmarLoginUrl = getString(R.string.kmar_login_url);
-                final String kmarMainUrl = getString(R.string.kmar_url);
-                final String kmarTimetableUrl = getString(R.string.kmar_timetable_url);
-
-                // TODO make it work with updated code.
-                view.loadUrl(destinationUrl); // remove later.
-
-                /*if (destinationUrl.equals(kmarLoginUrl)) {
-                    // It goes to the login url if details incorrect.
-                    // If it does, make an error message for user.
-                    Toast.makeText(getContext(),
-                            "Error logging in! Maybe the password or username is incorrect.",
-                            Toast.LENGTH_LONG).show();
-                } else if ((currentUrl.equals(kmarMainUrl) || currentUrl.equals(kmarLoginUrl))
-                        && destinationUrl.equals(kmarMainUrl)) {
-                    // If the the main url isn't the 1st url loaded, it means the user is logged in.
-                    // (Since if he wasnt logged in, then it would've gone to the login url)
-                    // Once logged in, redirect to the timetable page:
-                    view.loadUrl(kmarTimetableUrl);
-                } else Log.w(getLoggingTag(), "Tried loading unexpected url: " + destinationUrl);*/
-
-
-                progressBar.setVisibility(View.VISIBLE);
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-
-        relativeLayout.addView(webView);
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
+            protected Boolean doInBackground(Void... params) {
                 try {
-                    kmarDocument = Jsoup.connect(getString(R.string.kmar_url)).get();
-                    Toast.makeText(getContext(), "Successfully connected to the Kmar Portal.",
-                            Toast.LENGTH_SHORT).show();
+                    kmarDocument = Jsoup.connect(getString(R.string.kmar_login_url)).get();
                 } catch (IOException e) {
                     if (e instanceof ConnectException) Log.w(getLoggingTag(),
                             "ConnectException, Kmar Portal down or internet down.");
@@ -125,26 +73,21 @@ public class TimetableFragment extends TheDayAheadFragment {
                         Log.w(getLoggingTag(), "Failed to connect to Kmar Portal.");
                         e.printStackTrace();
                     }
-                    Toast.makeText(getContext(),
-                            "Failed to connect to the Kmar Portal.", Toast.LENGTH_LONG).show();
-                    this.cancel(true);
+                    return false;
                 }
-                return null;
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean succesful) {
+                if (succesful)
+                    Toast.makeText(getContext(), "Successfully connected to the Kmar Portal.",
+                            Toast.LENGTH_SHORT).show();
+                else Toast.makeText(getContext(),
+                        "Failed to connect to the Kmar Portal.", Toast.LENGTH_LONG).show();
             }
         }.execute();
-    }
 
-    void onClickLoginButton(Button button) {
-            Element loginUsernameElement = kmarDocument.select("#loginUsername").first();
-            Element loginPasswordElement = kmarDocument.select("#loginPassword").first();
-
-            EditText usernameEditText = (EditText) getActivity().findViewById(R.id.editText_username);
-            EditText passwordEditText = (EditText) getActivity().findViewById(R.id.editText_password);
-
-            loginUsernameElement.attr("value", usernameEditText.getText().toString());
-            loginPasswordElement.attr("value", passwordEditText.getText().toString());
-
-            webView.loadUrl(JAVASCRIPT_LOGIN_BUTTON_SCRIPT);
     }
 
     @SuppressWarnings("deprecation")
@@ -162,6 +105,58 @@ public class TimetableFragment extends TheDayAheadFragment {
             cookieManager.removeSessionCookie();
             cookieSyncManager.stopSync();
             cookieSyncManager.sync();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.login_button) {
+            WebView webView = new WebView(getContext());
+
+            webView.setVisibility(View.INVISIBLE);
+
+            webView.clearCache(true);
+            webView.clearHistory();
+            clearCookies(this);
+
+            final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
+
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String destinationUrl) {
+                    final String currentUrl = view.getUrl();
+                    final String kmarLoginUrl = getString(R.string.kmar_login_url);
+                    final String kmarTimetableUrl = getString(R.string.kmar_timetable_url);
+
+                    // TODO make it work with updated code.
+                    view.loadUrl(destinationUrl); // change later.
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    return true;
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            WebSettings webSettings = webView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+
+            relativeLayout.addView(webView);
+
+            Element loginUsernameElement = kmarDocument.select("input#loginUsername").first();
+            Element loginPasswordElement = kmarDocument.select("input#loginPassword").first();
+
+            EditText usernameEditText = (EditText) getActivity().findViewById(R.id.editText_username);
+            EditText passwordEditText = (EditText) getActivity().findViewById(R.id.editText_password);
+
+            loginUsernameElement.attr("value", usernameEditText.getText().toString());
+            loginPasswordElement.attr("value", passwordEditText.getText().toString());
+
+            webView.loadData(kmarDocument.html(), "text/html", "UTF-8");
+            webView.loadUrl(JAVASCRIPT_LOGIN_BUTTON_SCRIPT);
         }
     }
 }

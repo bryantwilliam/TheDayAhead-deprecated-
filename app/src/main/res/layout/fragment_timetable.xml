@@ -33,11 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
-        android:id="@+id/button"
+        android:id="@+id/login_button"
         android:clickable="false"
         android:layout_below="@+id/editText_password"
-        android:layout_centerHorizontal="true"
-        android:onClick="onClickLoginButton" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="fill_parent"
