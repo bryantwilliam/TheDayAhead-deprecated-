@@ -5,19 +5,17 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -31,6 +29,8 @@ import java.net.ConnectException;
 
 public class TimetableFragment extends TheDayAheadFragment {
     private RelativeLayout relativeLayout;
+    private Document kmarDocument = null;
+    private WebView webView;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -59,7 +59,7 @@ public class TimetableFragment extends TheDayAheadFragment {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void loadTimetable() {
-        final WebView webView = new WebView(getContext());
+        webView = new WebView(getContext());
 
         webView.setVisibility(View.INVISIBLE);
 
@@ -69,7 +69,7 @@ public class TimetableFragment extends TheDayAheadFragment {
 
         final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
 
-        webView.setWebViewClient(new WebViewClient()  {
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String destinationUrl) {
                 final String currentUrl = view.getUrl();
@@ -83,15 +83,13 @@ public class TimetableFragment extends TheDayAheadFragment {
                     Toast.makeText(getContext(),
                             "Error logging in! Maybe the password or username is incorrect.",
                             Toast.LENGTH_LONG).show();
-                }
-                else if ((currentUrl.equals(kmarMainUrl) || currentUrl.equals(kmarLoginUrl))
+                } else if ((currentUrl.equals(kmarMainUrl) || currentUrl.equals(kmarLoginUrl))
                         && destinationUrl.equals(kmarMainUrl)) {
                     // If the the main url isn't the 1st url loaded, it means the user is logged in.
                     // (Since if he wasnt logged in, then it would've gone to the login url)
                     // Once logged in, redirect to the timetable page:
                     view.loadUrl(kmarTimetableUrl);
-                }
-                else Log.w(getLoggingTag(), "Tried loading unexpected url: " + destinationUrl);
+                } else Log.w(getLoggingTag(), "Tried loading unexpected url: " + destinationUrl);
 
                 progressBar.setVisibility(View.VISIBLE);
                 return true;
@@ -101,8 +99,6 @@ public class TimetableFragment extends TheDayAheadFragment {
             public void onPageFinished(WebView view, String url) {
                 progressBar.setVisibility(View.INVISIBLE);
             }
-
-
         });
 
         WebSettings webSettings = webView.getSettings();
@@ -110,55 +106,40 @@ public class TimetableFragment extends TheDayAheadFragment {
 
         relativeLayout.addView(webView);
 
-        new AsyncTask<Void, Boolean, Document>() {
-            // Void: No params.
-            // Boolean: true if connection was successful, false otherwise.
-            // Document: The kmar page's html document using Jsoup.
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Document doInBackground(Void... params) {
+            protected Void doInBackground(Void... params) {
                 try {
-                    Document kmarDocument = Jsoup.connect(getString(R.string.kmar_url)).get();
-                    this.publishProgress(true);
-                    return kmarDocument;
+                    kmarDocument = Jsoup.connect(getString(R.string.kmar_url)).get();
+                    Toast.makeText(getContext(), "Successfully connected to the Kmar Portal.",
+                            Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
-                    this.publishProgress(false);
                     if (e instanceof ConnectException) Log.w(getLoggingTag(),
                             "ConnectException, Kmar Portal down or internet down.");
                     else {
                         Log.w(getLoggingTag(), "Failed to connect to Kmar Portal.");
                         e.printStackTrace();
                     }
+                    Toast.makeText(getContext(),
+                            "Failed to connect to the Kmar Portal.", Toast.LENGTH_LONG).show();
                     this.cancel(true);
-                    return null;
                 }
-            }
-
-
-            @Override
-            protected void onProgressUpdate(Boolean... success) {
-                if (!success[0]) Toast.makeText(getContext(),
-                        "Failed to connect to the Kmar Portal.", Toast.LENGTH_LONG).show();
-                else Toast.makeText(getContext(), "Successfully connected to the Kmar Portal.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            protected void onPostExecute(Document doc) {
-                // TODO make username/password/login buttons all associate with the html ones.
-                Element loginElement = doc != null ? doc.select("#wrapper").first() : null;
-                if (doc != null) doc.select("input#loginSubmit").attr("value", "Login");
-
-                if (loginElement != null) webView.loadData(loginElement.html(), "text/html", "UTF-8");
-                else {
-                    // Do this if I can't crop the html. (This shouldn't ever happen)
-                    // It will only happen if the school decides to change the html setup of kmar.
-                    webView.loadUrl(getString(R.string.kmar_login_url));
-                    Toast.makeText(getContext(), "Can't find login section of kmar, now trying " +
-                            "to load whole page as a last resort...", Toast.LENGTH_LONG).show();
-                    Log.e(getLoggingTag(), "Can't find #wrapper html element! Trying to use whole page instead!");
-                }
+                return null;
             }
         }.execute();
+    }
+
+    void onClickLoginButton(Button button) {
+            Element loginUsernameElement = kmarDocument.select("#loginUsername").first();
+            Element loginPasswordElement = kmarDocument.select("#loginPassword").first();
+
+            EditText usernameEditText = (EditText) getActivity().findViewById(R.id.editText_username);
+            EditText passwordEditText = (EditText) getActivity().findViewById(R.id.editText_password);
+
+            loginUsernameElement.attr("value", usernameEditText.getText().toString());
+            loginPasswordElement.attr("value", passwordEditText.getText().toString());
+
+            webView.loadUrl("javascript:document.getElementById('loginSubmit').click();");
     }
 
     @SuppressWarnings("deprecation")
