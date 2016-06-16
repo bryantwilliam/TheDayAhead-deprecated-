@@ -79,8 +79,9 @@ public class TimetableFragment extends TheDayAheadFragment {
                 final String kmarTimetableUrl = getString(R.string.kmar_timetable_url);
 
                 // TODO make it work with updated code.
+                view.loadUrl(destinationUrl); // remove later.
 
-                if (destinationUrl.equals(kmarLoginUrl)) {
+                /*if (destinationUrl.equals(kmarLoginUrl)) {
                     // It goes to the login url if details incorrect.
                     // If it does, make an error message for user.
                     Toast.makeText(getContext(),
@@ -92,7 +93,8 @@ public class TimetableFragment extends TheDayAheadFragment {
                     // (Since if he wasnt logged in, then it would've gone to the login url)
                     // Once logged in, redirect to the timetable page:
                     view.loadUrl(kmarTimetableUrl);
-                } else Log.w(getLoggingTag(), "Tried loading unexpected url: " + destinationUrl);
+                } else Log.w(getLoggingTag(), "Tried loading unexpected url: " + destinationUrl);*/
+
 
                 progressBar.setVisibility(View.VISIBLE);
                 return true;
