@@ -31,6 +31,7 @@ public class TimetableFragment extends TheDayAheadFragment {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
     private WebView webView;
+    private final String JAVASCRIPT_LOGIN_BUTTON_SCRIPT = "javascript:document.getElementById('loginSubmit').click();";
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -76,6 +77,8 @@ public class TimetableFragment extends TheDayAheadFragment {
                 final String kmarLoginUrl = getString(R.string.kmar_login_url);
                 final String kmarMainUrl = getString(R.string.kmar_url);
                 final String kmarTimetableUrl = getString(R.string.kmar_timetable_url);
+
+                // TODO make it work with updated code.
 
                 if (destinationUrl.equals(kmarLoginUrl)) {
                     // It goes to the login url if details incorrect.
@@ -139,7 +142,7 @@ public class TimetableFragment extends TheDayAheadFragment {
             loginUsernameElement.attr("value", usernameEditText.getText().toString());
             loginPasswordElement.attr("value", passwordEditText.getText().toString());
 
-            webView.loadUrl("javascript:document.getElementById('loginSubmit').click();");
+            webView.loadUrl(JAVASCRIPT_LOGIN_BUTTON_SCRIPT);
     }
 
     @SuppressWarnings("deprecation")
