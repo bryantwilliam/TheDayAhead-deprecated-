@@ -30,7 +30,6 @@ import java.net.ConnectException;
 public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
-    private final String JAVASCRIPT_LOGIN_BUTTON_SCRIPT = "javascript:document.getElementById('loginSubmit').click();";
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -124,14 +123,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String destinationUrl) {
-                    final String currentUrl = view.getUrl();
-                    final String kmarLoginUrl = getString(R.string.kmar_login_url);
-                    final String kmarTimetableUrl = getString(R.string.kmar_timetable_url);
-
                     // TODO make it work with updated code.
-                    view.loadUrl(destinationUrl); // change later.
 
                     progressBar.setVisibility(View.VISIBLE);
+                    super.shouldOverrideUrlLoading(view, destinationUrl);
                     return true;
                 }
 
@@ -155,8 +150,19 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             loginUsernameElement.attr("value", usernameEditText.getText().toString());
             loginPasswordElement.attr("value", passwordEditText.getText().toString());
 
+            Element head = kmarDocument.select("head").first();
+
+            head.append(
+                    "<script>\n " +
+                        "function loginHack() { \n" +
+                            "var form = document.getElementById(\"loginForm\");\n" +
+                            "form.submit();\n" +
+                        "} \n" +
+                    "</script>\n");
+
+            webView.setVisibility(View.VISIBLE); // TODO: remove and reformat
+
             webView.loadData(kmarDocument.html(), "text/html", "UTF-8");
-            webView.loadUrl(JAVASCRIPT_LOGIN_BUTTON_SCRIPT);
         }
     }
 }
