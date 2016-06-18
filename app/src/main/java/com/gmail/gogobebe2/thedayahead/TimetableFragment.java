@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -35,6 +37,9 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // So keyboard doesnt popup on startup:
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         super.onCreate(savedInstanceState);
     }
 
@@ -65,6 +70,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             protected Boolean doInBackground(Void... params) {
                 try {
                     kmarDocument = Jsoup.connect(getString(R.string.kmar_login_url)).get();
+                    if (kmarDocument == null) throw new NullPointerException();
                 } catch (IOException e) {
                     if (e instanceof ConnectException) Log.w(getLoggingTag(),
                             "ConnectException, Kmar Portal down or internet down.");
@@ -107,6 +113,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         }
     }
 
+
+
+
+    @SuppressLint("AddJavascriptInterface")
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
@@ -120,19 +130,46 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
             final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
 
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String destinationUrl) {
-                    // TODO make it work with updated code.
+            class HTMLRetrieverJavaScriptInterface {
+                @JavascriptInterface
+                void showHTML(String html) {
+                    Toast.makeText(getContext(), html, Toast.LENGTH_LONG).show();
+                }
+            }
 
+            webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(), "HtmlRetriever");
+
+            webView.setWebViewClient(new WebViewClient() {
+                private boolean showWebViewNext = false;
+
+                @Override
+                public void onLoadResource(WebView webView, String destinationUrl) {
                     progressBar.setVisibility(View.VISIBLE);
-                    super.shouldOverrideUrlLoading(view, destinationUrl);
-                    return true;
+                    super.onLoadResource(webView, destinationUrl);
                 }
 
                 @Override
-                public void onPageFinished(WebView view, String url) {
+                public boolean shouldOverrideUrlLoading(WebView webView, String destinationUrl) {
+                    if (showWebViewNext) {
+                        webView.setVisibility(View.VISIBLE); // remove and reformat timetable.
+                        showWebViewNext = false;
+                    }
+                    return super.shouldOverrideUrlLoading(webView, destinationUrl);
+                }
+
+                @Override
+                public void onPageFinished(WebView webView, String urlLoaded) {
                     progressBar.setVisibility(View.INVISIBLE);
+
+                    final String LOGIN_SCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
+                    if (urlLoaded.equals(getString(R.string.kmar_timetable_url))) {
+                        webView.loadUrl("javascript:window.HtmlRetriever.showHTML" +
+                                "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');");
+                    }
+                    else if (!urlLoaded.equals(LOGIN_SCRIPT)) {
+                        showWebViewNext = true;
+                        webView.loadUrl(LOGIN_SCRIPT);
+                    }
                 }
             });
 
@@ -150,19 +187,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             loginUsernameElement.attr("value", usernameEditText.getText().toString());
             loginPasswordElement.attr("value", passwordEditText.getText().toString());
 
-            Element head = kmarDocument.select("head").first();
-
-            head.append(
-                    "<script>\n " +
-                        "function loginHack() { \n" +
-                            "var form = document.getElementById(\"loginForm\");\n" +
-                            "form.submit();\n" +
-                        "} \n" +
-                    "</script>\n");
-
-            webView.setVisibility(View.VISIBLE); // TODO: remove and reformat
-
             webView.loadData(kmarDocument.html(), "text/html", "UTF-8");
+
+            // I then call the click() function on the loginSubmit button when the page is finished
+            // loading in the overrided onPageFinished(WebView webView, String url) method.
         }
     }
 }
