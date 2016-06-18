@@ -133,6 +133,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             class HTMLRetrieverJavaScriptInterface {
                 @JavascriptInterface
                 void showHTML(String html) {
+                    // TODO make this method create a TimetableParser instance using this html and
+                    // store it in a instance variable of the TimetableFragment class.
                     Toast.makeText(getContext(), html, Toast.LENGTH_LONG).show();
                 }
             }
@@ -161,14 +163,15 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 public void onPageFinished(WebView webView, String urlLoaded) {
                     progressBar.setVisibility(View.INVISIBLE);
 
-                    final String LOGIN_SCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
+                    final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
+                    final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
+                            "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
                     if (urlLoaded.equals(getString(R.string.kmar_timetable_url))) {
-                        webView.loadUrl("javascript:window.HtmlRetriever.showHTML" +
-                                "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');");
+                        webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
                     }
-                    else if (!urlLoaded.equals(LOGIN_SCRIPT)) {
+                    else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
                         showWebViewNext = true;
-                        webView.loadUrl(LOGIN_SCRIPT);
+                        webView.loadUrl(LOGIN_JAVASCRIPT);
                     }
                 }
             });
