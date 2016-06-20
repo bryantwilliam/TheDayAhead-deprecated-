@@ -52,8 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
+        android:visibility="invisible"
         android:layout_below="@+id/login_button"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>

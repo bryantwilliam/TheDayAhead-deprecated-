@@ -32,7 +32,7 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.ConnectException;
 
-public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener, TextView.OnEditorActionListener {
+public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
 
@@ -49,9 +49,12 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
+
+        initKmarLoginConnection();
+
         Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
         loginButton.setOnClickListener(this);
-        initKmarLoginConnection();
+
         return relativeLayout;
     }
 
@@ -195,15 +198,5 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             // I then call the click() function on the loginSubmit button when the page is finished
             // loading in the overrided onPageFinished(WebView webView, String url) method.
         }
-    }
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (v.getId() == R.id.editText_password && ((event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) || actionId == EditorInfo.IME_ACTION_DONE)) {
-            Log.i(getLoggingTag(), "Enter pressed on password edittext");
-            relativeLayout.findViewById(R.id.login_button).callOnClick();
-            return true;
-        }
-        return false;
     }
 }
