@@ -32,7 +32,7 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.ConnectException;
 
-public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
+public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener, TextView.OnEditorActionListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
 
@@ -53,7 +53,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         initKmarLoginConnection();
 
         Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
+        EditText passwordEditText = (EditText) relativeLayout.findViewById(R.id.editText_password);
+
         loginButton.setOnClickListener(this);
+        passwordEditText.setOnEditorActionListener(this);
 
         return relativeLayout;
     }
@@ -120,7 +123,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     }
 
 
-    @SuppressLint("AddJavascriptInterface")
+    @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
@@ -198,5 +201,16 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             // I then call the click() function on the loginSubmit button when the page is finished
             // loading in the overrided onPageFinished(WebView webView, String url) method.
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (v.getId() == R.id.editText_password && ((event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) || actionId == EditorInfo.IME_ACTION_DONE)) {
+            Log.i(getLoggingTag(), "Enter pressed on password edittext");
+            Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
+            loginButton.performClick();
+            return true;
+        }
+        return false;
     }
 }
