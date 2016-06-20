@@ -36,7 +36,6 @@ import java.net.ConnectException;
 public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
-    private SharedPreferences.Editor loginPrefEditor;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -60,8 +59,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         EditText passwordField = (EditText) relativeLayout.findViewById(R.id.editText_password);
         CheckBox rememberMeCheckBox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
 
-        SharedPreferences loginPreferences = getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-        loginPrefEditor = loginPreferences.edit();
+        SharedPreferences loginPreferences = getLoginPreferencesInstance();
 
         boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
         if (saveLogin) {
@@ -71,6 +69,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         }
 
         return relativeLayout;
+    }
+
+    private SharedPreferences getLoginPreferencesInstance() {
+        return getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -143,15 +145,16 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         String usernameString = usernameEditText.getText().toString();
         String passwordString = passwordEditText.getText().toString();
 
+        SharedPreferences.Editor loginPrefEditor = getLoginPreferencesInstance().edit();
         if (rememberMeCheckBox.isChecked()) {
             loginPrefEditor.putBoolean("saveLogin", true);
             loginPrefEditor.putString("username", usernameString);
             loginPrefEditor.putString("password", passwordString);
-            loginPrefEditor.commit();
+            loginPrefEditor.apply();
         }
         else {
             loginPrefEditor.clear();
-            loginPrefEditor.commit();
+            loginPrefEditor.apply();
         }
     }
 
