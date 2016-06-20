@@ -12,12 +12,8 @@
         college only) to reduce the frequency of having to switch between different software.
     </string>
     <string name="nav_share_title">Show The Day Ahead app to your friends!</string>
-    <string name="kmar_login_url">https://portal.sanctamaria.school.nz/student/index.php/login</string>
-    <string name="kmar_timetable_url">https://portal.sanctamaria.school.nz/student/index.php/timetable</string>
     <string name="title_activity_timetable">TimetableActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>

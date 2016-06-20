@@ -34,6 +34,8 @@ import java.net.ConnectException;
 public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
+    private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
+    private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -83,7 +85,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    kmarDocument = Jsoup.connect(getString(R.string.kmar_login_url)).get();
+                    kmarDocument = Jsoup.connect(KMAR_LOGIN_URL).get();
                     if (kmarDocument == null) throw new NullPointerException();
                 } catch (IOException e) {
                     if (e instanceof ConnectException) Log.w(getLoggingTag(),
@@ -190,7 +192,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                     final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
                     final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
                             "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
-                    if (urlLoaded.equals(getString(R.string.kmar_timetable_url))) {
+                    if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
                         webView.setVisibility(View.VISIBLE); // TODO remove and reformat timetable.
                         webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
                     } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
@@ -213,7 +215,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             webView.loadData(kmarDocument.html(), "text/html", "UTF-8");
 
             // I then call the click() function on the loginSubmit button when the page is finished
-            // loading in the overrided onPageFinished(WebView webView, String url) method.
+            // loading in the overridden onPageFinished(WebView webView, String url) method.
         }
     }
 }
