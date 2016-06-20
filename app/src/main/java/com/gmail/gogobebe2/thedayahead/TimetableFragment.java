@@ -19,6 +19,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -135,8 +136,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             webView.clearHistory();
             clearCookies(this);
 
-            final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
-
             class HTMLRetrieverJavaScriptInterface {
                 @JavascriptInterface
                 void showHTML(String html) {
@@ -153,7 +152,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
                 @Override
                 public void onLoadResource(WebView webView, String destinationUrl) {
-                    progressBar.setVisibility(View.VISIBLE);
+                    toggleLoadingVisual(true);
                     super.onLoadResource(webView, destinationUrl);
                 }
 
@@ -168,7 +167,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
                 @Override
                 public void onPageFinished(WebView webView, String urlLoaded) {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    toggleLoadingVisual(false);
 
                     final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
                     final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
@@ -212,5 +211,19 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             return true;
         }
         return false;
+    }
+
+    private void toggleLoadingVisual(boolean on) {
+        final CheckBox rememberMeCheckbox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
+        final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
+        if (on) {
+            progressBar.setVisibility(View.VISIBLE);
+            rememberMeCheckbox.setVisibility(View.INVISIBLE);
+        }
+        else {
+            progressBar.setVisibility(View.INVISIBLE);
+            rememberMeCheckbox.setVisibility(View.VISIBLE);
+        }
+
     }
 }
