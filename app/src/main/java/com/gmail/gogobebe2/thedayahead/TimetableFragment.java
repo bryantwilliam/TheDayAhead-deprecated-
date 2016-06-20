@@ -134,34 +134,37 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         }
     }
 
+    private void updateLoginPreferences(CheckBox rememberMeCheckBox, EditText usernameEditText,
+                                      EditText passwordEditText) {
+        // So it doesnt show soft input:
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(usernameEditText.getWindowToken(), 0);
+
+        String usernameString = usernameEditText.getText().toString();
+        String passwordString = passwordEditText.getText().toString();
+
+        if (rememberMeCheckBox.isChecked()) {
+            loginPrefEditor.putBoolean("saveLogin", true);
+            loginPrefEditor.putString("username", usernameString);
+            loginPrefEditor.putString("password", passwordString);
+            loginPrefEditor.commit();
+        }
+        else {
+            loginPrefEditor.clear();
+            loginPrefEditor.commit();
+        }
+    }
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public void onClick(View view) {
-        EditText usernameEditText = (EditText) getActivity().findViewById(R.id.editText_username);
-        EditText passwordEditText = (EditText) getActivity().findViewById(R.id.editText_password);
-        if (view.getId() == R.id.checkBox_rememberMe) {
-            CheckBox checkBox = (CheckBox) view;
+        if (view.getId() == R.id.login_button) {
+            EditText usernameEditText = (EditText) relativeLayout.findViewById(R.id.editText_username);
+            EditText passwordEditText = (EditText) relativeLayout.findViewById(R.id.editText_password);
 
-            // So it doesnt show soft input:
-            ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
-                    .hideSoftInputFromWindow(usernameEditText.getWindowToken(), 0);
+            updateLoginPreferences((CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe),
+                    usernameEditText, passwordEditText);
 
-            String usernameString = usernameEditText.getText().toString();
-            String passwordString = passwordEditText.getText().toString();
-
-            if (checkBox.isChecked()) {
-                loginPrefEditor.putBoolean("saveLogin", true);
-                loginPrefEditor.putString("username", usernameString);
-                loginPrefEditor.putString("password", passwordString);
-                loginPrefEditor.commit();
-            }
-            else {
-                loginPrefEditor.clear();
-                loginPrefEditor.commit();
-            }
-        }
-        else if (view.getId() == R.id.login_button) {
             WebView webView = new WebView(getContext());
 
             webView.setVisibility(View.INVISIBLE);
