@@ -1,17 +1,18 @@
 package com.gmail.gogobebe2.thedayahead;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
@@ -23,7 +24,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -33,9 +33,10 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.ConnectException;
 
-public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener, TextView.OnEditorActionListener {
+public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
+    private SharedPreferences.Editor loginPrefEditor;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -43,7 +44,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     public void onCreate(Bundle savedInstanceState) {
         // So keyboard doesnt popup on startup:
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         super.onCreate(savedInstanceState);
     }
 
@@ -54,10 +54,21 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         initKmarLoginConnection();
 
         Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
-        EditText passwordEditText = (EditText) relativeLayout.findViewById(R.id.editText_password);
-
         loginButton.setOnClickListener(this);
-        passwordEditText.setOnEditorActionListener(this);
+
+        EditText usernameField = (EditText) relativeLayout.findViewById(R.id.editText_username);
+        EditText passwordField = (EditText) relativeLayout.findViewById(R.id.editText_password);
+        CheckBox rememberMeCheckBox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
+
+        SharedPreferences loginPreferences = getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        loginPrefEditor = loginPreferences.edit();
+
+        boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin) {
+            usernameField.setText(loginPreferences.getString("username", ""));
+            passwordField.setText(loginPreferences.getString("password", ""));
+            rememberMeCheckBox.setChecked(true);
+        }
 
         return relativeLayout;
     }
@@ -127,7 +138,30 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.login_button) {
+        EditText usernameEditText = (EditText) getActivity().findViewById(R.id.editText_username);
+        EditText passwordEditText = (EditText) getActivity().findViewById(R.id.editText_password);
+        if (view.getId() == R.id.checkBox_rememberMe) {
+            CheckBox checkBox = (CheckBox) view;
+
+            // So it doesnt show soft input:
+            ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(usernameEditText.getWindowToken(), 0);
+
+            String usernameString = usernameEditText.getText().toString();
+            String passwordString = passwordEditText.getText().toString();
+
+            if (checkBox.isChecked()) {
+                loginPrefEditor.putBoolean("saveLogin", true);
+                loginPrefEditor.putString("username", usernameString);
+                loginPrefEditor.putString("password", passwordString);
+                loginPrefEditor.commit();
+            }
+            else {
+                loginPrefEditor.clear();
+                loginPrefEditor.commit();
+            }
+        }
+        else if (view.getId() == R.id.login_button) {
             WebView webView = new WebView(getContext());
 
             webView.setVisibility(View.INVISIBLE);
@@ -189,9 +223,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             Element loginUsernameElement = kmarDocument.select("input#loginUsername").first();
             Element loginPasswordElement = kmarDocument.select("input#loginPassword").first();
 
-            EditText usernameEditText = (EditText) getActivity().findViewById(R.id.editText_username);
-            EditText passwordEditText = (EditText) getActivity().findViewById(R.id.editText_password);
-
             loginUsernameElement.attr("value", usernameEditText.getText().toString());
             loginPasswordElement.attr("value", passwordEditText.getText().toString());
 
@@ -200,17 +231,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             // I then call the click() function on the loginSubmit button when the page is finished
             // loading in the overrided onPageFinished(WebView webView, String url) method.
         }
-    }
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (v.getId() == R.id.editText_password && ((event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) || actionId == EditorInfo.IME_ACTION_DONE)) {
-            Log.i(getLoggingTag(), "Enter pressed on password edittext");
-            Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
-            loginButton.performClick();
-            return true;
-        }
-        return false;
     }
 
     private void toggleLoadingVisual(boolean on) {
