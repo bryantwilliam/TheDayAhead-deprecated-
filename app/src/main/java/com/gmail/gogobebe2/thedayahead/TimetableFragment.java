@@ -6,10 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -29,7 +32,7 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.ConnectException;
 
-public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
+public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener, TextView.OnEditorActionListener {
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
 
@@ -114,8 +117,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     }
 
 
-
-
     @SuppressLint("AddJavascriptInterface")
     @Override
     public void onClick(View view) {
@@ -168,8 +169,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                             "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
                     if (urlLoaded.equals(getString(R.string.kmar_timetable_url))) {
                         webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
-                    }
-                    else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
+                    } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
                         showWebViewNext = true;
                         webView.loadUrl(LOGIN_JAVASCRIPT);
                     }
@@ -195,5 +195,15 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             // I then call the click() function on the loginSubmit button when the page is finished
             // loading in the overrided onPageFinished(WebView webView, String url) method.
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (v.getId() == R.id.editText_password && ((event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) || actionId == EditorInfo.IME_ACTION_DONE)) {
+            Log.i(getLoggingTag(), "Enter pressed on password edittext");
+            relativeLayout.findViewById(R.id.login_button).callOnClick();
+            return true;
+        }
+        return false;
     }
 }
