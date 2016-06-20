@@ -151,71 +151,74 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
-            EditText usernameEditText = (EditText) relativeLayout.findViewById(R.id.editText_username);
-            EditText passwordEditText = (EditText) relativeLayout.findViewById(R.id.editText_password);
+            if (kmarDocument == null) initKmarLoginConnection();
+            else {
+                EditText usernameEditText = (EditText) relativeLayout.findViewById(R.id.editText_username);
+                EditText passwordEditText = (EditText) relativeLayout.findViewById(R.id.editText_password);
 
-            updateLoginPreferences((CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe),
-                    usernameEditText, passwordEditText);
+                updateLoginPreferences((CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe),
+                        usernameEditText, passwordEditText);
 
-            WebView webView = new WebView(getContext());
+                WebView webView = new WebView(getContext());
 
-            webView.setVisibility(View.INVISIBLE);
+                webView.setVisibility(View.INVISIBLE);
 
-            webView.clearCache(true);
-            webView.clearHistory();
-            clearCookies(this);
+                webView.clearCache(true);
+                webView.clearHistory();
+                clearCookies(this);
 
-            class HTMLRetrieverJavaScriptInterface {
-                @JavascriptInterface
-                void showHTML(String html) {
-                    // TODO make this method create a TimetableParser instance using this html and
-                    // store it in a instance variable of the TimetableFragment class.
-                    Toast.makeText(getContext(), html, Toast.LENGTH_LONG).show();
-                }
-            }
-
-            webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(), "HtmlRetriever");
-
-            webView.setWebViewClient(new WebViewClient() {
-
-                @Override
-                public void onLoadResource(WebView webView, String destinationUrl) {
-                    CheckBox rememberMeCheckbox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
-                    ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
-                    progressBar.setVisibility(View.VISIBLE);
-                    rememberMeCheckbox.setVisibility(View.INVISIBLE);
-                    super.onLoadResource(webView, destinationUrl);
-                }
-
-                @Override
-                public void onPageFinished(WebView webView, String urlLoaded) {
-                    final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
-                    final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
-                            "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
-                    if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
-                        webView.setVisibility(View.VISIBLE); // TODO remove and reformat timetable.
-                        webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
-                    } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
-                        webView.loadUrl(LOGIN_JAVASCRIPT);
+                class HTMLRetrieverJavaScriptInterface {
+                    @JavascriptInterface
+                    void showHTML(String html) {
+                        // TODO make this method create a TimetableParser instance using this html and
+                        // store it in a instance variable of the TimetableFragment class.
+                        Toast.makeText(getContext(), html, Toast.LENGTH_LONG).show();
                     }
                 }
-            });
 
-            WebSettings webSettings = webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
+                webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(), "HtmlRetriever");
 
-            relativeLayout.addView(webView);
+                webView.setWebViewClient(new WebViewClient() {
 
-            Element loginUsernameElement = kmarDocument.select("input#loginUsername").first();
-            Element loginPasswordElement = kmarDocument.select("input#loginPassword").first();
+                    @Override
+                    public void onLoadResource(WebView webView, String destinationUrl) {
+                        CheckBox rememberMeCheckbox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
+                        ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
+                        progressBar.setVisibility(View.VISIBLE);
+                        rememberMeCheckbox.setVisibility(View.INVISIBLE);
+                        super.onLoadResource(webView, destinationUrl);
+                    }
 
-            loginUsernameElement.attr("value", usernameEditText.getText().toString());
-            loginPasswordElement.attr("value", passwordEditText.getText().toString());
+                    @Override
+                    public void onPageFinished(WebView webView, String urlLoaded) {
+                        final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
+                        final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
+                                "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
+                        if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
+                            webView.setVisibility(View.VISIBLE); // TODO remove and reformat timetable.
+                            webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
+                        } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
+                            webView.loadUrl(LOGIN_JAVASCRIPT);
+                        }
+                    }
+                });
 
-            webView.loadData(kmarDocument.html(), "text/html", "UTF-8");
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
 
-            // I then call the click() function on the loginSubmit button when the page is finished
-            // loading in the overridden onPageFinished(WebView webView, String url) method.
+                relativeLayout.addView(webView);
+
+                Element loginUsernameElement = kmarDocument.select("input#loginUsername").first();
+                Element loginPasswordElement = kmarDocument.select("input#loginPassword").first();
+
+                loginUsernameElement.attr("value", usernameEditText.getText().toString());
+                loginPasswordElement.attr("value", passwordEditText.getText().toString());
+
+                webView.loadData(kmarDocument.html(), "text/html", "UTF-8");
+
+                // I then call the click() function on the loginSubmit button when the page is finished
+                // loading in the overridden onPageFinished(WebView webView, String url) method.
+            }
         }
     }
 }
