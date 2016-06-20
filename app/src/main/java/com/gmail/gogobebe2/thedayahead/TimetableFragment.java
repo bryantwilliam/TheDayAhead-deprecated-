@@ -11,8 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
@@ -38,13 +36,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private Document kmarDocument = null;
 
     public TimetableFragment() { /* Required empty public constructor */}
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        // So keyboard doesnt popup on startup:
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -138,10 +129,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
     private void updateLoginPreferences(CheckBox rememberMeCheckBox, EditText usernameEditText,
                                       EditText passwordEditText) {
-        // So it doesnt show soft input:
-        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
-                .hideSoftInputFromWindow(usernameEditText.getWindowToken(), 0);
-
         String usernameString = usernameEditText.getText().toString();
         String passwordString = passwordEditText.getText().toString();
 
@@ -188,34 +175,25 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(), "HtmlRetriever");
 
             webView.setWebViewClient(new WebViewClient() {
-                private boolean showWebViewNext = false;
 
                 @Override
                 public void onLoadResource(WebView webView, String destinationUrl) {
-                    toggleLoadingVisual(true);
+                    CheckBox rememberMeCheckbox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
+                    ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
+                    progressBar.setVisibility(View.VISIBLE);
+                    rememberMeCheckbox.setVisibility(View.INVISIBLE);
                     super.onLoadResource(webView, destinationUrl);
                 }
 
                 @Override
-                public boolean shouldOverrideUrlLoading(WebView webView, String destinationUrl) {
-                    if (showWebViewNext) {
-                        webView.setVisibility(View.VISIBLE); // remove and reformat timetable.
-                        showWebViewNext = false;
-                    }
-                    return super.shouldOverrideUrlLoading(webView, destinationUrl);
-                }
-
-                @Override
                 public void onPageFinished(WebView webView, String urlLoaded) {
-                    toggleLoadingVisual(false);
-
                     final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
                     final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
                             "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
                     if (urlLoaded.equals(getString(R.string.kmar_timetable_url))) {
+                        webView.setVisibility(View.VISIBLE); // TODO remove and reformat timetable.
                         webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
                     } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
-                        showWebViewNext = true;
                         webView.loadUrl(LOGIN_JAVASCRIPT);
                     }
                 }
@@ -237,19 +215,5 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             // I then call the click() function on the loginSubmit button when the page is finished
             // loading in the overrided onPageFinished(WebView webView, String url) method.
         }
-    }
-
-    private void toggleLoadingVisual(boolean on) {
-        final CheckBox rememberMeCheckbox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
-        final ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
-        if (on) {
-            progressBar.setVisibility(View.VISIBLE);
-            rememberMeCheckbox.setVisibility(View.INVISIBLE);
-        }
-        else {
-            progressBar.setVisibility(View.INVISIBLE);
-            rememberMeCheckbox.setVisibility(View.VISIBLE);
-        }
-
     }
 }
