@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
+    private static TimetableParser timetableParser = null;
+
     private RelativeLayout relativeLayout;
     private Document kmarDocument = null;
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
@@ -43,23 +45,30 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
 
-        initKmarLoginConnection();
+        if (timetableParser == null) {
+            initKmarLoginConnection();
 
-        Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
-        loginButton.setOnClickListener(this);
+            Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
+            loginButton.setOnClickListener(this);
 
-        EditText usernameField = (EditText) relativeLayout.findViewById(R.id.editText_username);
-        EditText passwordField = (EditText) relativeLayout.findViewById(R.id.editText_password);
-        CheckBox rememberMeCheckBox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
+            EditText usernameField = (EditText) relativeLayout.findViewById(R.id.editText_username);
+            EditText passwordField = (EditText) relativeLayout.findViewById(R.id.editText_password);
+            CheckBox rememberMeCheckBox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
 
-        SharedPreferences loginPreferences = getLoginPreferencesInstance();
+            SharedPreferences loginPreferences = getLoginPreferencesInstance();
 
-        boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
-        if (saveLogin) {
-            usernameField.setText(loginPreferences.getString("username", ""));
-            passwordField.setText(loginPreferences.getString("password", ""));
-            rememberMeCheckBox.setChecked(true);
+            boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+            if (saveLogin) {
+                usernameField.setText(loginPreferences.getString("username", ""));
+                passwordField.setText(loginPreferences.getString("password", ""));
+                rememberMeCheckBox.setChecked(true);
+            }
         }
+        else {
+            relativeLayout.removeAllViewsInLayout();
+            // TODO Use timetableParser to show timetable.
+        }
+
 
         return relativeLayout;
     }
@@ -170,8 +179,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 class HTMLRetrieverJavaScriptInterface {
                     @JavascriptInterface
                     void showHTML(String html) {
-                        // TODO make this method create a TimetableParser instance using this html and
-                        // store it in a instance variable of the TimetableFragment class.
+                        timetableParser = new TimetableParser(html);
                         Toast.makeText(getContext(), html, Toast.LENGTH_LONG).show();
                     }
                 }
@@ -195,7 +203,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                         final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
                                 "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
                         if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
-                            webView.setVisibility(View.VISIBLE); // TODO remove and reformat timetable.
+                            webView.setVisibility(View.VISIBLE); // TODO remove;
                             webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
                         } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
                             webView.loadUrl(LOGIN_JAVASCRIPT);
@@ -208,8 +216,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
                 relativeLayout.addView(webView);
 
-                Element loginUsernameElement = kmarDocument.select("input#loginUsername").first();
-                Element loginPasswordElement = kmarDocument.select("input#loginPassword").first();
+                Element loginUsernameElement = kmarDocument.getElementById("loginUsername");
+                Element loginPasswordElement = kmarDocument.getElementById("loginPassword");
 
                 loginUsernameElement.attr("value", usernameEditText.getText().toString());
                 loginPasswordElement.attr("value", passwordEditText.getText().toString());
