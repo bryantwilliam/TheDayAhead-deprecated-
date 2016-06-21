@@ -1,7 +1,7 @@
 package com.gmail.gogobebe2.thedayahead;
 
 public class Utils {
-    static String createTagName(Class classObject) {
-        return "TheDayAhead - " + classObject.getName();
+    static String getTagName(Object object) {
+        return "TheDayAhead - " + object.getClass().getName();
     }
 }

@@ -83,11 +83,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         return "Timetable";
     }
 
-    @Override
-    public String getLoggingTag() {
-        return Utils.createTagName(TimetableFragment.class);
-    }
-
     @SuppressLint("SetJavaScriptEnabled")
     private void initKmarLoginConnection() {
         new AsyncTask<Void, Void, Boolean>() {
@@ -97,10 +92,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                     kmarDocument = Jsoup.connect(KMAR_LOGIN_URL).get();
                     if (kmarDocument == null) throw new NullPointerException();
                 } catch (IOException e) {
-                    if (e instanceof ConnectException) Log.w(getLoggingTag(),
+                    if (e instanceof ConnectException) Log.w(Utils.getTagName(this),
                             "ConnectException, Kmar Portal down or internet down.");
                     else {
-                        Log.w(getLoggingTag(), "Failed to connect to Kmar Portal.");
+                        Log.w(Utils.getTagName(this), "Failed to connect to Kmar Portal.");
                         e.printStackTrace();
                     }
                     return false;
@@ -123,11 +118,11 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     @SuppressWarnings("deprecation")
     private static void clearCookies(TimetableFragment instance) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            Log.d(instance.getLoggingTag(), "Using clearCookies code for API >=" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
+            Log.d(Utils.getTagName(instance), "Using clearCookies code for API >=" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
             CookieManager.getInstance().removeAllCookies(null);
             CookieManager.getInstance().flush();
         } else {
-            Log.d(instance.getLoggingTag(), "Using clearCookies code for API <" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
+            Log.d(Utils.getTagName(instance), "Using clearCookies code for API <" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
             CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(instance.getContext());
             cookieSyncManager.startSync();
             CookieManager cookieManager = CookieManager.getInstance();

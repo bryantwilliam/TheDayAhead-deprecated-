@@ -13,8 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements Loggable,
-        NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
@@ -47,14 +46,14 @@ public class MainActivity extends AppCompatActivity implements Loggable,
 
         drawer.openDrawer(GravityCompat.START); // Opened this on first run so they know what's in it.
 
-        Log.i(getLoggingTag(), "onCreate has finished.");
+        Log.i(Utils.getTagName(this), "onCreate has finished.");
     }
 
     private void setupDrawer(Toolbar toolbar) {
         this.drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.drawerToggle = new ActionBarDrawerToggle(
                 this, this.drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        this.drawer.setDrawerListener(this.drawerToggle);
+        this.drawer.addDrawerListener(this.drawerToggle);
         this.drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -143,10 +142,5 @@ public class MainActivity extends AppCompatActivity implements Loggable,
 
         // This just makes the menu get recreated and thus no need to do menuItem.setChecked(false):
         invalidateOptionsMenu();
-    }
-
-    @Override
-    public String getLoggingTag() {
-        return Utils.createTagName(MainActivity.class);
     }
 }
