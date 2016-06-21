@@ -20,8 +20,10 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -34,26 +36,31 @@ import java.net.ConnectException;
 public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
     private static TimetableParser timetableParser = null;
 
-    private RelativeLayout relativeLayout;
+    private RelativeLayout loginRelativeLayout;
     private Document kmarDocument = null;
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
     public TimetableFragment() { /* Required empty public constructor */}
 
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        relativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
+        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
 
         if (timetableParser == null) {
+            loginRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable_login, null, false);
+            loginRelativeLayout.setVisibility(View.VISIBLE);
+            linearLayout.addView(loginRelativeLayout);
+
             initKmarLoginConnection();
 
-            Button loginButton = (Button) relativeLayout.findViewById(R.id.login_button);
+            Button loginButton = (Button) loginRelativeLayout.findViewById(R.id.login_button);
             loginButton.setOnClickListener(this);
 
-            EditText usernameField = (EditText) relativeLayout.findViewById(R.id.editText_username);
-            EditText passwordField = (EditText) relativeLayout.findViewById(R.id.editText_password);
-            CheckBox rememberMeCheckBox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
+            EditText usernameField = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
+            EditText passwordField = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
+            CheckBox rememberMeCheckBox = (CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe);
 
             SharedPreferences loginPreferences = getLoginPreferencesInstance();
 
@@ -65,12 +72,14 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             }
         }
         else {
-            relativeLayout.removeAllViewsInLayout();
+            linearLayout.removeView(loginRelativeLayout);
+            TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout);
+            tableLayout.setVisibility(View.VISIBLE);
             // TODO Use timetableParser to show timetable.
         }
 
 
-        return relativeLayout;
+        return linearLayout;
     }
 
     private SharedPreferences getLoginPreferencesInstance() {
@@ -157,10 +166,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         if (view.getId() == R.id.login_button) {
             if (kmarDocument == null) initKmarLoginConnection();
             else {
-                EditText usernameEditText = (EditText) relativeLayout.findViewById(R.id.editText_username);
-                EditText passwordEditText = (EditText) relativeLayout.findViewById(R.id.editText_password);
+                EditText usernameEditText = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
+                EditText passwordEditText = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
 
-                updateLoginPreferences((CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe),
+                updateLoginPreferences((CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe),
                         usernameEditText, passwordEditText);
 
                 WebView webView = new WebView(getContext());
@@ -185,8 +194,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
                     @Override
                     public void onLoadResource(WebView webView, String destinationUrl) {
-                        CheckBox rememberMeCheckbox = (CheckBox) relativeLayout.findViewById(R.id.checkBox_rememberMe);
-                        ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBar);
+                        CheckBox rememberMeCheckbox = (CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe);
+                        ProgressBar progressBar = (ProgressBar) loginRelativeLayout.findViewById(R.id.progressBar);
                         progressBar.setVisibility(View.VISIBLE);
                         rememberMeCheckbox.setVisibility(View.INVISIBLE);
                         super.onLoadResource(webView, destinationUrl);
@@ -209,7 +218,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 WebSettings webSettings = webView.getSettings();
                 webSettings.setJavaScriptEnabled(true);
 
-                relativeLayout.addView(webView);
+                loginRelativeLayout.addView(webView);
 
                 Element loginUsernameElement = kmarDocument.getElementById("loginUsername");
                 Element loginPasswordElement = kmarDocument.getElementById("loginPassword");

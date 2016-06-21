@@ -1,74 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearlayout_timetable"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:windowSoftInputMode="stateHidden"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context="com.gmail.gogobebe2.thedayahead.TimetableFragment"
-    android:id="@+id/relativelayout_timetable">
+    android:orientation="vertical"
+    tools:context="com.gmail.gogobebe2.thedayahead.TimetableFragment">
 
-    <EditText
+    <TableLayout
+        android:id="@+id/tablelayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/username"
-        android:ems="10"
-        android:id="@+id/editText_username"
-        android:textAlignment="center"
-        android:layout_marginTop="23dp"
-        android:layout_below="@+id/imageView_kmarLogo"
-        android:layout_alignLeft="@+id/editText_password"
-        android:layout_alignStart="@+id/editText_password"
-        tools:targetApi="jelly_bean_mr1" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/password"
-        android:ems="10"
-        android:id="@+id/editText_password"
-        android:textAlignment="center"
-        android:layout_below="@+id/editText_username"
-        android:layout_centerHorizontal="true"
-        tools:targetApi="jelly_bean_mr1" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:id="@+id/login_button"
-        android:clickable="false"
-        android:layout_below="@+id/editText_password"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView_kmarLogo"
-        android:src="@drawable/smclogo"
-        android:layout_marginTop="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="@string/sancta_maria_college_logo_content_description" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:visibility="invisible"
-        android:layout_below="@+id/login_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/remember_me"
-        android:id="@+id/checkBox_rememberMe"
-        android:layout_alignTop="@+id/progressBar"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>
+        android:visibility="invisible">
+    </TableLayout>
+</LinearLayout>
