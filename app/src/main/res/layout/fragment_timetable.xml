@@ -1,15 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearlayout_timetable"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gmail.gogobebe2.thedayahead.TimetableFragment">
+    tools:context=".TimetableFragment">
 
-    <TableLayout
-        android:id="@+id/tablelayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible">
-    </TableLayout>
+    <include layout="@layout/fragment_timetable_login"/>
+    <include layout="@layout/fragment_timetable_table"/>
 </LinearLayout>

@@ -34,9 +34,10 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 public class TimetableFragment extends TheDayAheadFragment implements View.OnClickListener {
-    private static TimetableParser timetableParser = null;
 
     private RelativeLayout loginRelativeLayout;
+    private LinearLayout linearLayout;
+
     private Document kmarDocument = null;
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
@@ -46,38 +47,26 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
+        linearLayout = (LinearLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
+        loginRelativeLayout = (RelativeLayout) linearLayout.findViewById(R.id.relativelayout_timetablelogin);
 
-        if (timetableParser == null) {
-            loginRelativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_timetable_login, null, false);
-            loginRelativeLayout.setVisibility(View.VISIBLE);
-            linearLayout.addView(loginRelativeLayout);
+        initKmarLoginConnection();
 
-            initKmarLoginConnection();
+        Button loginButton = (Button) loginRelativeLayout.findViewById(R.id.login_button);
+        loginButton.setOnClickListener(this);
 
-            Button loginButton = (Button) loginRelativeLayout.findViewById(R.id.login_button);
-            loginButton.setOnClickListener(this);
+        EditText usernameField = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
+        EditText passwordField = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
+        CheckBox rememberMeCheckBox = (CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe);
 
-            EditText usernameField = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
-            EditText passwordField = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
-            CheckBox rememberMeCheckBox = (CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe);
+        SharedPreferences loginPreferences = getLoginPreferencesInstance();
 
-            SharedPreferences loginPreferences = getLoginPreferencesInstance();
-
-            boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
-            if (saveLogin) {
-                usernameField.setText(loginPreferences.getString("username", ""));
-                passwordField.setText(loginPreferences.getString("password", ""));
-                rememberMeCheckBox.setChecked(true);
-            }
+        boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin) {
+            usernameField.setText(loginPreferences.getString("username", ""));
+            passwordField.setText(loginPreferences.getString("password", ""));
+            rememberMeCheckBox.setChecked(true);
         }
-        else {
-            linearLayout.removeView(loginRelativeLayout);
-            TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout);
-            tableLayout.setVisibility(View.VISIBLE);
-            // TODO Use timetableParser to show timetable.
-        }
-
 
         return linearLayout;
     }
@@ -183,8 +172,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 class HTMLRetrieverJavaScriptInterface {
                     @JavascriptInterface
                     void showHTML(String html) {
-                        timetableParser = new TimetableParser(html);
-                        Toast.makeText(getContext(), html, Toast.LENGTH_LONG).show();
+                        // TODO add: loginRelativeLayout.setVisibility(View.GONE);
+                        TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout_timetable);
+                        tableLayout.setVisibility(View.VISIBLE);
+                        // TODO Use timetableParser to show timetable.
                     }
                 }
 
