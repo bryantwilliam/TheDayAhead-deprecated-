@@ -6,6 +6,7 @@
     android:windowSoftInputMode="stateHidden"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:screenOrientation="portrait"
     tools:context=".TimetableFragment">
 
     <EditText

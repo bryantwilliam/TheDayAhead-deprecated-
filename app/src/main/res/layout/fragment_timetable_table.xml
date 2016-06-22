@@ -6,4 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".TimetableFragment"
     android:visibility="gone">
+
 </TableLayout>

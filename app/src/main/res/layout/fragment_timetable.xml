@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:screenOrientation="portrait"
     tools:context=".TimetableFragment">
 
     <include layout="@layout/fragment_timetable_login"/>
