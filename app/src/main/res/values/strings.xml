@@ -9,7 +9,8 @@
         Deadline notifications, virtual homework diary, dynamic timetable. The Day Ahead app
         combines these 3 technologies together in mutual dependence. Furthermore, The Day Ahead app
         also implements useful integration of schoology.com and a kamar portal (for sancta maria
-        college only) to reduce the frequency of having to switch between different software.
+        college only) to reduce the frequency of having to switch between different software where
+        each spectrum works together in order to bring to you an effective school management app.
     </string>
     <string name="nav_share_title">Show The Day Ahead app to your friends!</string>
     <string name="title_activity_timetable">TimetableActivity</string>
