@@ -1,13 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tablelayout_timetable"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:stretchColumns="*"
     tools:context=".TimetableFragment"
-    android:visibility="gone">
+    android:visibility="visible">
 
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTableDark">
 
+        <TextView
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop = "10dp"/>
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+            <View style="@style/dividerInvisible" />
+        </LinearLayout>
+
+        <TextView
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:text="DATE1"
+            android:textColor="#FFF"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+            <View style="@style/divider"/>
+        </LinearLayout>
+
+        <TextView
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:text="DATE2"
+            android:textColor="#FFF"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTableLight">
+
+        <TextView
+            android:padding="5dp"
+            android:text="PERIOD1"
+            android:textColor="#FFF"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+            <View style="@style/divider" />
+        </LinearLayout>
+
+        <TextView
+            android:padding="5dp"
+            android:text="ITEM1"
+            android:textColor="#FFF"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+            <View style="@style/divider" />
+        </LinearLayout>
+    </TableRow>
+</TableLayout>

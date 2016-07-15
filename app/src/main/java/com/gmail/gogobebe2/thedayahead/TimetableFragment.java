@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -180,8 +181,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                     @JavascriptInterface
                     void showHTML(String html) {
                         // TODO add: loginRelativeLayout.setVisibility(View.GONE);
-                        LinearLayout tableLinearLayout = (LinearLayout) linearLayout.findViewById(R.id.tablelayout_timetable);
-                        tableLinearLayout.setVisibility(View.VISIBLE);
+                        TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout_timetable);
+                        tableLayout.setVisibility(View.VISIBLE);
                         // TODO Use timetableParser to show timetable.
                     }
                 }
