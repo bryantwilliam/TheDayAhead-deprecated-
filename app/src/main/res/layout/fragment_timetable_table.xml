@@ -2,86 +2,252 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tablelayout_timetable"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:stretchColumns="*"
     tools:context=".TimetableFragment"
     android:visibility="visible">
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTableDark">
-
+        android:paddingTop="3dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">
         <TextView
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop = "10dp"/>
-
-        <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent">
-
-            <View style="@style/dividerInvisible" />
-        </LinearLayout>
-
+            android:text="MONDAY"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
         <TextView
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="10dp"
-            android:text="DATE1"
-            android:textColor="#FFF"
-            android:textSize="16sp"/>
-
-        <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent">
-
-            <View style="@style/divider"/>
-        </LinearLayout>
-
+            android:text="TUESDAY"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
         <TextView
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="10dp"
-            android:text="DATE2"
-            android:textColor="#FFF"
-            android:textSize="16sp"/>
+            android:text="WEDNESDAY"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="THURSDAY"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="FRIDAY"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
     </TableRow>
 
     <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTableLight">
-
-        <TextView
-            android:padding="5dp"
-            android:text="PERIOD1"
-            android:textColor="#FFF"
-            android:textSize="16sp"/>
-
+        android:minHeight="33dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">
         <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent">
-
-            <View style="@style/divider" />
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="BEFORE"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+            <TextView
+                android:text="SCHOOL"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
         </LinearLayout>
 
         <TextView
-            android:padding="5dp"
-            android:text="ITEM1"
-            android:textColor="#FFF"
-            android:textSize="16sp"/>
+            android:text="subject"
+            android:layout_height="wrap_content"/>
 
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:text="PERIOD 1"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:text="PERIOD 2"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:text="INTERVAL"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:text="PERIOD 3"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:text="PERIOD 4"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:text="LUNCH"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:minHeight="35dp"
+        android:paddingLeft="10dp">
         <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent">
-
-            <View style="@style/divider" />
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="AFTER"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+            <TextView
+                android:text="SCHOOL"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
         </LinearLayout>
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="subject"
+            android:layout_height="wrap_content"/>
     </TableRow>
 </TableLayout>
