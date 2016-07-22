@@ -20,4 +20,9 @@
     <string name="login">Login</string>
     <string name="sancta_maria_college_logo_content_description">Sancta Maria College Logo</string>
     <string name="remember_me">Remember me</string>
+    <string name="monday">MONDAY</string>
+    <string name="tuesday">TUESDAY</string>
+    <string name="wednesday">WEDNESDAY</string>
+    <string name="thursday">THURSDAY</string>
+    <string name="friday">FRIDAY</string>
 </resources>
