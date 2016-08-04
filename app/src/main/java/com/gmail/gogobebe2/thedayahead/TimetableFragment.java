@@ -28,6 +28,9 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.gmail.gogobebe2.thedayahead.timetable.TimetableParser;
+import com.gmail.gogobebe2.thedayahead.timetable.Week;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -180,10 +183,13 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 class HTMLRetrieverJavaScriptInterface {
                     @JavascriptInterface
                     void showHTML(String html) {
-                        // TODO add: loginRelativeLayout.setVisibility(View.GONE);
+                        loginRelativeLayout.setVisibility(View.GONE);
+                        TimetableParser timetableParser = new TimetableParser(html);
+                        Week week = timetableParser.getWeek();
+                        // TODO Use timetableParser to change text inside fragment_timetable_table.xml.
                         TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout_timetable);
+                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                         tableLayout.setVisibility(View.VISIBLE);
-                        // TODO Use timetableParser to show timetable.
                     }
                 }
 
