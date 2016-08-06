@@ -1,4 +1,4 @@
-package com.gmail.gogobebe2.thedayahead;
+package com.gmail.gogobebe2.thedayahead.timetable;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,8 +28,9 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import com.gmail.gogobebe2.thedayahead.timetable.TimetableParser;
-import com.gmail.gogobebe2.thedayahead.timetable.Week;
+import com.gmail.gogobebe2.thedayahead.R;
+import com.gmail.gogobebe2.thedayahead.TheDayAheadFragment;
+import com.gmail.gogobebe2.thedayahead.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,6 +47,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private Document kmarDocument = null;
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
+
+    private Timetable timetable;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -88,7 +91,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
     @NonNull
     @Override
-    String getTitle() {
+    protected String getTitle() {
         return "Timetable";
     }
 
@@ -183,11 +186,11 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 class HTMLRetrieverJavaScriptInterface {
                     @JavascriptInterface
                     void showHTML(String html) {
-                        loginRelativeLayout.setVisibility(View.GONE);
-                        TimetableParser timetableParser = new TimetableParser(html);
-                        Week week = timetableParser.getWeek();
-                        // TODO Use timetableParser to change text inside fragment_timetable_table.xml.
                         TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout_timetable);
+
+                        timetable = new Timetable(html, tableLayout);
+
+                        loginRelativeLayout.setVisibility(View.GONE);
                         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                         tableLayout.setVisibility(View.VISIBLE);
                     }

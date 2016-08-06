@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:screenOrientation="portrait"
-    tools:context=".TimetableFragment">
+    tools:context=".timetable.TimetableFragment">
 
     <EditText
         android:layout_width="wrap_content"

@@ -5,5 +5,5 @@ import android.support.v4.app.Fragment;
 
 abstract public class TheDayAheadFragment extends Fragment {
     @NonNull
-    abstract String getTitle();
+    protected abstract String getTitle();
 }

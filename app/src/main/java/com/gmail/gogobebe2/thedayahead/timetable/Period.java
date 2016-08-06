@@ -1,33 +1,23 @@
 package com.gmail.gogobebe2.thedayahead.timetable;
 
-import org.jsoup.nodes.Element;
+import android.view.View;
 
 public class Period {
-    private String subjectName;
-    private String teacherInitials;
-    private String classroom;
+    private View view;
 
-    public String getSubjectName() {
-        return this.subjectName;
+    Period(View view) {
+        this.view = view;
     }
 
-    public String getTeacherInitials() {
-        return this.teacherInitials;
+    public void highlightImportant() {
+        view.setBackgroundColor(view.getResources().getColor(android.R.color.holo_red_light));
     }
 
-    public String getClassroom() {
-        return this.classroom;
+    public void highlightAsCurrentSession() {
+        view.setBackgroundColor(view.getResources().getColor(android.R.color.background_light));
     }
 
-    public Period(String subjectName, String teacherInitials, String classroom) {
-        this.subjectName = subjectName;
-        this.teacherInitials = teacherInitials;
-        this.classroom = classroom;
-    }
-
-    static Period parsePeriod(Element period) {
-        String[] classroomAndTeacherInitials = period.getElementsByClass("result").text().split(" ");
-        return new Period(period.getElementsByAttribute("strong").first().text(),
-                classroomAndTeacherInitials[0], classroomAndTeacherInitials[1]);
+    static Period parsePeriod(View view) {
+        return new Period(view);
     }
 }

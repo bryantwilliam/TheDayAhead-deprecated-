@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:stretchColumns="*"
     android:visibility="visible"
-    tools:context=".TimetableFragment">
+    tools:context=".timetable.TimetableFragment">
 
     <TableRow
         android:layout_width="wrap_content"
@@ -96,23 +96,23 @@
             android:textStyle="bold" />
 
         <Space
-            android:id="@+id/lession_r1c1"
+            android:id="@+id/lesson_r1c1"
             android:layout_column="2" />
 
         <Space
-            android:id="@+id/lession_r1c2"
+            android:id="@+id/lesson_r1c2"
             android:layout_column="3" />
 
         <Space
-            android:id="@+id/lession_r1c3"
+            android:id="@+id/lesson_r1c3"
             android:layout_column="4" />
 
         <Space
-            android:id="@+id/lession_r1c4"
+            android:id="@+id/lesson_r1c4"
             android:layout_column="5" />
 
         <Space
-            android:id="@+id/lession_r1c5"
+            android:id="@+id/lesson_r1c5"
             android:layout_column="6" />
 
 
@@ -141,23 +141,23 @@
             android:textStyle="bold" />
 
         <Space
-            android:id="@+id/lession_r2c1"
+            android:id="@+id/lesson_r2c1"
             android:layout_column="2" />
 
         <Space
-            android:id="@+id/lession_r2c2"
+            android:id="@+id/lesson_r2c2"
             android:layout_column="3" />
 
         <Space
-            android:id="@+id/lession_r2c3"
+            android:id="@+id/lesson_r2c3"
             android:layout_column="4" />
 
         <Space
-            android:id="@+id/lession_r2c4"
+            android:id="@+id/lesson_r2c4"
             android:layout_column="5" />
 
         <Space
-            android:id="@+id/lession_r2c5"
+            android:id="@+id/lesson_r2c5"
             android:layout_column="6" />
     </TableRow>
 
@@ -184,7 +184,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/lession_r3c1"
+            android:id="@+id/lesson_r3c1"
             android:orientation="horizontal">
 
             <TextView
@@ -218,7 +218,7 @@
 
 
         <LinearLayout
-            android:id="@+id/lession_r3c2"
+            android:id="@+id/lesson_r3c2"
             android:orientation="horizontal">
 
             <TextView
@@ -251,7 +251,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r3c3"
+            android:id="@+id/lesson_r3c3"
             android:orientation="horizontal">
 
             <TextView
@@ -284,7 +284,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r3c4"
+            android:id="@+id/lesson_r3c4"
             android:orientation="horizontal">
 
             <TextView
@@ -317,7 +317,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r3c5"
+            android:id="@+id/lesson_r3c5"
             android:orientation="horizontal">
 
             <TextView
@@ -373,7 +373,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/lession_r4c1"
+            android:id="@+id/lesson_r4c1"
             android:orientation="horizontal">
 
             <TextView
@@ -406,7 +406,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r4c2"
+            android:id="@+id/lesson_r4c2"
             android:orientation="horizontal">
 
             <TextView
@@ -439,7 +439,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r4c3"
+            android:id="@+id/lesson_r4c3"
             android:orientation="horizontal">
 
             <TextView
@@ -472,7 +472,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r4c4"
+            android:id="@+id/lesson_r4c4"
             android:orientation="horizontal">
 
             <TextView
@@ -505,7 +505,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r4c5"
+            android:id="@+id/lesson_r4c5"
             android:orientation="horizontal">
 
             <TextView
@@ -561,23 +561,23 @@
             android:textStyle="bold" />
 
         <Space
-            android:id="@+id/lession_r5c1"
+            android:id="@+id/lesson_r5c1"
             android:layout_column="2" />
 
         <Space
-            android:id="@+id/lession_r5c2"
+            android:id="@+id/lesson_r5c2"
             android:layout_column="3" />
 
         <Space
-            android:id="@+id/lession_r5c3"
+            android:id="@+id/lesson_r5c3"
             android:layout_column="4" />
 
         <Space
-            android:id="@+id/lession_r5c4"
+            android:id="@+id/lesson_r5c4"
             android:layout_column="5" />
 
         <Space
-            android:id="@+id/lession_r5c5"
+            android:id="@+id/lesson_r5c5"
             android:layout_column="6" />
     </TableRow>
 
@@ -604,7 +604,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/lession_r6c1"
+            android:id="@+id/lesson_r6c1"
             android:orientation="horizontal">
 
             <TextView
@@ -637,7 +637,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r6c2"
+            android:id="@+id/lesson_r6c2"
             android:orientation="horizontal">
 
             <TextView
@@ -670,7 +670,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r6c3"
+            android:id="@+id/lesson_r6c3"
             android:orientation="horizontal">
 
             <TextView
@@ -703,7 +703,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r6c4"
+            android:id="@+id/lesson_r6c4"
             android:orientation="horizontal">
 
             <TextView
@@ -736,7 +736,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r6c5"
+            android:id="@+id/lesson_r6c5"
             android:orientation="horizontal">
 
             <TextView
@@ -792,7 +792,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/lession_r7c1"
+            android:id="@+id/lesson_r7c1"
             android:orientation="horizontal">
 
             <TextView
@@ -825,7 +825,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r7c2"
+            android:id="@+id/lesson_r7c2"
             android:orientation="horizontal">
 
             <TextView
@@ -858,7 +858,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r7c3"
+            android:id="@+id/lesson_r7c3"
             android:orientation="horizontal">
 
             <TextView
@@ -891,7 +891,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r7c4"
+            android:id="@+id/lesson_r7c4"
             android:orientation="horizontal">
 
             <TextView
@@ -924,7 +924,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r7c5"
+            android:id="@+id/lesson_r7c5"
             android:orientation="horizontal">
 
             <TextView
@@ -980,23 +980,23 @@
             android:textStyle="bold" />
 
         <Space
-            android:id="@+id/lession_r8c1"
+            android:id="@+id/lesson_r8c1"
             android:layout_column="2" />
 
         <Space
-            android:id="@+id/lession_r8c2"
+            android:id="@+id/lesson_r8c2"
             android:layout_column="3" />
 
         <Space
-            android:id="@+id/lession_r8c3"
+            android:id="@+id/lesson_r8c3"
             android:layout_column="4" />
 
         <Space
-            android:id="@+id/lession_r8c4"
+            android:id="@+id/lesson_r8c4"
             android:layout_column="5" />
 
         <Space
-            android:id="@+id/lession_r8c5"
+            android:id="@+id/lesson_r8c5"
             android:layout_column="6" />
     </TableRow>
 
@@ -1023,7 +1023,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/lession_r9c1"
+            android:id="@+id/lesson_r9c1"
             android:orientation="horizontal">
 
             <TextView
@@ -1056,7 +1056,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r9c2"
+            android:id="@+id/lesson_r9c2"
             android:orientation="horizontal">
 
             <TextView
@@ -1089,7 +1089,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r9c3"
+            android:id="@+id/lesson_r9c3"
             android:orientation="horizontal">
 
             <TextView
@@ -1122,7 +1122,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r9c4"
+            android:id="@+id/lesson_r9c4"
             android:orientation="horizontal">
 
             <TextView
@@ -1155,7 +1155,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lession_r9c5"
+            android:id="@+id/lesson_r9c5"
             android:orientation="horizontal">
 
             <TextView
