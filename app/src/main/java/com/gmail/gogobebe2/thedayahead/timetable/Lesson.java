@@ -1,6 +1,7 @@
 package com.gmail.gogobebe2.thedayahead.timetable;
 
 import android.view.View;
+import android.widget.LinearLayout;
 
 import org.jsoup.nodes.Element;
 
@@ -9,6 +10,7 @@ public class Lesson extends Period {
     private String subjectName;
     private String teacherInitials;
     private String classroom;
+    private LinearLayout view;
 
     public String getSubjectName() {
         return this.subjectName;
@@ -27,6 +29,8 @@ public class Lesson extends Period {
         this.subjectName = subjectName;
         this.teacherInitials = teacherInitials;
         this.classroom = classroom;
+        this.view = (LinearLayout) getView();
+
 
         // TODO replace default values in each view with ones in objects.
     }

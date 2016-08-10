@@ -17,6 +17,10 @@ public class Period {
         view.setBackgroundColor(view.getResources().getColor(android.R.color.background_light));
     }
 
+    View getView() {
+        return this.view;
+    }
+
     static Period parsePeriod(View view) {
         return new Period(view);
     }

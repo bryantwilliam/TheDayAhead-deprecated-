@@ -140,25 +140,181 @@
             android:textColor="#000000"
             android:textStyle="bold" />
 
-        <Space
+        <LinearLayout
             android:id="@+id/lesson_r2c1"
-            android:layout_column="2" />
+            android:orientation="horizontal">
 
-        <Space
+            <TextView
+                android:id="@+id/textView79"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="center_vertical"
+                android:text="12LIS"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XYZ"
+                    android:id="@+id/textview_hrTeacher1"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DG1"
+                    android:id="@+id/textview_hrSubject1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/lesson_r2c2"
-            android:layout_column="3" />
+            android:orientation="horizontal">
 
-        <Space
+            <TextView
+                android:id="@+id/textView80"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="center_vertical"
+                android:text="12LIS"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_hrTeacher2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XYZ"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textview_hrSubject2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DG1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/lesson_r2c3"
-            android:layout_column="4" />
+            android:orientation="horizontal">
 
-        <Space
+            <TextView
+                android:id="@+id/textView81"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="center_vertical"
+                android:text="12LIS"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_hrTeacher3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XYZ"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textview_hrSubject3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DG1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/lesson_r2c4"
-            android:layout_column="5" />
+            android:orientation="horizontal">
 
-        <Space
+            <TextView
+                android:id="@+id/textView82"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="center_vertical"
+                android:text="12LIS"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_hrTeacher4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XYZ"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textview_hrSubject4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DG1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/lesson_r2c5"
-            android:layout_column="6" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView83"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="center_vertical"
+                android:text="12LIS"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_hrTeacher5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XYZ"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textview_hrSubject5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DG1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </TableRow>
 
     <TableRow
@@ -202,12 +358,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p1Teacher1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p1Subject1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -236,12 +394,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p1Teacher2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p1Subject2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -269,12 +429,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p1Teacher3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p1Subject3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -302,12 +464,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p1Teacher4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p1Subject4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -335,12 +499,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p1Teacher5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p1Subject5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -391,12 +557,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p2Teacher1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p2Subject1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -424,12 +592,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p2Teacher2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p2Subject2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -457,12 +627,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p2Teacher3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p2Subject3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -490,12 +662,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p2Teacher4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p2Subject4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -523,12 +697,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p2Teacher5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p2Subject5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -622,12 +798,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p3Teacher1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p3Subject1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -655,12 +833,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p3Teacher2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p3Subject2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -688,12 +868,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p3Teacher3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p3Subject3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -721,12 +903,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p3Teacher4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p3Subject4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -754,12 +938,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p3Teacher5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p3Subject5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -810,12 +996,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p4Teacher1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p4Subject1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -843,12 +1031,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p4Teacher2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p4Subject2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -876,12 +1066,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p4Teacher3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p4Subject3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -909,12 +1101,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p4Teacher4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p4Subject4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -942,12 +1136,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p4Teacher5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p4Subject5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -1041,12 +1237,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p5Teacher1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p5Subject1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -1074,12 +1272,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p5Teacher2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p5Subject2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -1107,12 +1307,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p5Teacher3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p5Subject3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -1140,12 +1342,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p5Teacher4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p5Subject4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
@@ -1173,12 +1377,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_p5Teacher5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/textview_p5Subject5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
