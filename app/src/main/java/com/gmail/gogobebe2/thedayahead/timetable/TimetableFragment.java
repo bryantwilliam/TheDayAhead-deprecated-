@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.gmail.gogobebe2.thedayahead.R;
@@ -48,7 +47,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
-    private Timetable timetable;
+    private Timetable timetable = null;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -81,6 +80,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             passwordField.setText(loginPreferences.getString("password", ""));
             rememberMeCheckBox.setChecked(true);
         }
+
+        if (timetable != null) timetable.show();
 
         return linearLayout;
     }
@@ -183,16 +184,13 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 webView.clearHistory();
                 clearCookies(this);
 
+                final TimetableFragment INSTANCE = this;
+
                 class HTMLRetrieverJavaScriptInterface {
                     @JavascriptInterface
                     void showHTML(String html) {
-                        TableLayout tableLayout = (TableLayout) linearLayout.findViewById(R.id.tablelayout_timetable);
-
-                        timetable = new Timetable(html, tableLayout);
-
-                        loginRelativeLayout.setVisibility(View.GONE);
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                        tableLayout.setVisibility(View.VISIBLE);
+                        timetable = new Timetable(html, INSTANCE);
+                        timetable.show();
                     }
                 }
 
@@ -240,5 +238,13 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 // loading in the overridden onPageFinished(WebView webView, String url) method.
             }
         }
+    }
+
+    public RelativeLayout getLoginRelativeLayout() {
+        return this.loginRelativeLayout;
+    }
+
+    public LinearLayout getTimetableLinearLayout() {
+        return this.linearLayout;
     }
 }

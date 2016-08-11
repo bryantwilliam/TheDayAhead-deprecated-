@@ -2,15 +2,19 @@ package com.gmail.gogobebe2.thedayahead.timetable;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.gmail.gogobebe2.thedayahead.R;
 
 import org.jsoup.nodes.Element;
+import org.w3c.dom.Text;
 
 
 public class Lesson extends Period {
     private String subjectName;
     private String teacherInitials;
     private String classroom;
-    private LinearLayout view;
+    private LinearLayout linearLayout;
 
     public String getSubjectName() {
         return this.subjectName;
@@ -29,10 +33,16 @@ public class Lesson extends Period {
         this.subjectName = subjectName;
         this.teacherInitials = teacherInitials;
         this.classroom = classroom;
-        this.view = (LinearLayout) getView();
+        this.linearLayout = (LinearLayout) getView();
 
+        // Replaces default values in TextViews with the ones from the parsed html from Kmar.
+        TextView textViewSubject = (TextView) linearLayout.getChildAt(0);
+        TextView textViewTeacher = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
+        TextView textViewClass = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
 
-        // TODO replace default values in each view with ones in objects.
+        textViewSubject.setText(subjectName);
+        textViewTeacher.setText(teacherInitials);
+        textViewClass.setText(classroom);
     }
 
     static Lesson parseLesson(Element period, View view) {

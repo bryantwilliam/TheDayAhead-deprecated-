@@ -1,7 +1,11 @@
 package com.gmail.gogobebe2.thedayahead.timetable;
 
+import android.content.pm.ActivityInfo;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+
+import com.gmail.gogobebe2.thedayahead.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,8 +16,12 @@ import java.util.ArrayList;
 
 public class Timetable {
     private Week week;
+    private TimetableFragment timetableFragment;
+    private TableLayout tableLayout;
 
-    public Timetable(String htmlString, TableLayout tableLayout) {
+    public Timetable(String htmlString, TimetableFragment timetableFragment) {
+        this.timetableFragment = timetableFragment;
+        this.tableLayout = (TableLayout) timetableFragment.getTimetableLinearLayout().findViewById(R.id.tablelayout_timetable);
         Document html = Jsoup.parse(htmlString);
         Element timetableTableElement = html.getElementsByAttribute("tbody").first();
         Elements rows = timetableTableElement.getElementsByAttribute("tr");
@@ -26,10 +34,10 @@ public class Timetable {
                 Elements topRow = row.getElementsByAttribute("th");
                 Element weekElement = topRow.first();
                 topRow.remove(0);
-                week = Week.parseWeek(weekElement);
+                this.week = Week.parseWeek(weekElement);
 
                 for (Day day : Day.parseDays(row.getElementsByAttribute("th")))
-                    week.getDays().put(day,
+                    this.week.getDays().put(day,
                             new ArrayList<Period>());
             } else {
                 columns.remove(0);
@@ -51,6 +59,17 @@ public class Timetable {
         }
     }
 
+    public void show() {
+        timetableFragment.getLoginRelativeLayout().setVisibility(View.GONE);
+        timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        tableLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void hide() {
+        timetableFragment.getLoginRelativeLayout().setVisibility(View.VISIBLE);
+        timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        tableLayout.setVisibility(View.GONE);
+    }
 
     public Week getWeek() {
         return this.week;
