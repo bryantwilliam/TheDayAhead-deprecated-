@@ -4,11 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gmail.gogobebe2.thedayahead.R;
-
 import org.jsoup.nodes.Element;
-import org.w3c.dom.Text;
-
 
 public class Lesson extends Period {
     private String subjectName;
@@ -51,7 +47,7 @@ public class Lesson extends Period {
         if (subjectInfo == null || subjectInfo.equals(" ")) return null;
         else {
             classroomAndTeacherInitials = subjectInfo.split(" ");
-            return new Lesson(period.getElementsByAttribute("strong").first().text(),
+            return new Lesson(period.getElementsByTag("strong").first().text(),
                     classroomAndTeacherInitials[0], classroomAndTeacherInitials[1], view);
         }
     }
