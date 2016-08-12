@@ -43,7 +43,6 @@ public class Lesson extends Period {
 
     static Lesson parseLesson(Element period, View view) {
         String subjectInfo = period.getElementsByClass("result").text();
-
         if (subjectInfo == null || subjectInfo.equals(" ")) return null;
         else {
             subjectInfo = subjectInfo.replaceAll("\t", "").replaceAll(" ", "");
