@@ -37,8 +37,8 @@ public class Lesson extends Period {
 
         // Replaces default values in TextViews with the ones from the parsed html from Kmar.
         TextView textViewSubject = (TextView) linearLayout.getChildAt(0);
-        TextView textViewTeacher = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
-        TextView textViewClass = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
+        TextView textViewTeacher = (TextView) ((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
+        TextView textViewClass = (TextView) ((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
 
         textViewSubject.setText(subjectName);
         textViewTeacher.setText(teacherInitials);
@@ -47,12 +47,14 @@ public class Lesson extends Period {
 
     static Lesson parseLesson(Element period, View view) {
         String subjectInfo = period.getElementsByClass("result").text();
-        String[] classroomAndTeacherInitials;
+
         if (subjectInfo == null || subjectInfo.equals(" ")) return null;
         else {
-            classroomAndTeacherInitials = subjectInfo.split(" ");
+            subjectInfo = subjectInfo.replaceAll("\t", "").replaceAll(" ", "");
+            String teacher = subjectInfo.substring(0, 2);
+            String classroom = subjectInfo.substring(3, 5);
             return new Lesson(period.getElementsByAttribute("strong").first().text(),
-                    classroomAndTeacherInitials[0], classroomAndTeacherInitials[1], view);
+                    teacher, classroom, view);
         }
     }
 }
