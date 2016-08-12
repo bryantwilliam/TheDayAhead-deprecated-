@@ -2,7 +2,6 @@ package com.gmail.gogobebe2.thedayahead.timetable;
 
 import android.content.pm.ActivityInfo;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
 import com.gmail.gogobebe2.thedayahead.R;
@@ -23,20 +22,19 @@ public class Timetable {
         this.timetableFragment = timetableFragment;
         this.tableLayout = (TableLayout) timetableFragment.getTimetableLinearLayout().findViewById(R.id.tablelayout_timetable);
         Document html = Jsoup.parse(htmlString);
-        Element timetableTableElement = html.getElementsByAttribute("tbody").first();
-        Elements rows = timetableTableElement.getElementsByAttribute("tr");
+        Element timetableTableElement = html.getElementsByTag("tbody").first();
+        Elements rows = timetableTableElement.getElementsByTag("tr");
 
 
         for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
             Element row = rows.get(rowIndex);
-            Elements columns = row.getElementsByAttribute("td");
+            Elements columns = row.getElementsByTag("td");
             if (columns.isEmpty()) {
-                Elements topRow = row.getElementsByAttribute("th");
-                Element weekElement = topRow.first();
-                topRow.remove(0);
+                Elements topRow = row.getElementsByTag("th");
+                Element weekElement = topRow.remove(0);
                 this.week = Week.parseWeek(weekElement);
 
-                for (Day day : Day.parseDays(row.getElementsByAttribute("th")))
+                for (Day day : Day.parseDays(topRow))
                     this.week.getDays().put(day,
                             new ArrayList<Period>());
             } else {

@@ -4,11 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gmail.gogobebe2.thedayahead.R;
-
 import org.jsoup.nodes.Element;
-import org.w3c.dom.Text;
-
 
 public class Lesson extends Period {
     private String subjectName;
@@ -37,8 +33,8 @@ public class Lesson extends Period {
 
         // Replaces default values in TextViews with the ones from the parsed html from Kmar.
         TextView textViewSubject = (TextView) linearLayout.getChildAt(0);
-        TextView textViewTeacher = (TextView) ((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
-        TextView textViewClass = (TextView) ((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
+        TextView textViewTeacher = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
+        TextView textViewClass = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
 
         textViewSubject.setText(subjectName);
         textViewTeacher.setText(teacherInitials);
@@ -47,14 +43,12 @@ public class Lesson extends Period {
 
     static Lesson parseLesson(Element period, View view) {
         String subjectInfo = period.getElementsByClass("result").text();
-
+        String[] classroomAndTeacherInitials;
         if (subjectInfo == null || subjectInfo.equals(" ")) return null;
         else {
-            subjectInfo = subjectInfo.replaceAll("\t", "").replaceAll(" ", "");
-            String teacher = subjectInfo.substring(0, 2);
-            String classroom = subjectInfo.substring(3, 5);
-            return new Lesson(period.getElementsByAttribute("strong").first().text(),
-                    teacher, classroom, view);
+            classroomAndTeacherInitials = subjectInfo.split(" ");
+            return new Lesson(period.getElementsByTag("strong").first().text(),
+                    classroomAndTeacherInitials[0], classroomAndTeacherInitials[1], view);
         }
     }
 }
