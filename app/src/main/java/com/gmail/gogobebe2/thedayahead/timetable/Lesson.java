@@ -43,12 +43,14 @@ public class Lesson extends Period {
 
     static Lesson parseLesson(Element period, View view) {
         String subjectInfo = period.getElementsByClass("result").text();
-        String[] classroomAndTeacherInitials;
+
         if (subjectInfo == null || subjectInfo.equals(" ")) return null;
         else {
-            classroomAndTeacherInitials = subjectInfo.split(" ");
-            return new Lesson(period.getElementsByTag("strong").first().text(),
-                    classroomAndTeacherInitials[0], classroomAndTeacherInitials[1], view);
+            subjectInfo = subjectInfo.replaceAll("\t", "").replaceAll(" ", "");
+            String teacher = subjectInfo.substring(0, 2);
+            String classroom = subjectInfo.substring(3, 5);
+            return new Lesson(period.getElementsByAttribute("strong").first().text(),
+                    teacher, classroom, view);
         }
     }
 }
