@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,12 +50,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
     public TimetableFragment() { /* Required empty public constructor */}
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    }
-
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -81,7 +74,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             rememberMeCheckBox.setChecked(true);
         }
 
-        if (timetable != null) timetable.show();
+        if (timetable != null && !timetable.isVisible()) timetable.show();
+        else getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         return linearLayout;
     }
@@ -147,7 +141,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     }
 
     private void updateLoginPreferences(CheckBox rememberMeCheckBox, EditText usernameEditText,
-                                      EditText passwordEditText) {
+                                        EditText passwordEditText) {
         String usernameString = usernameEditText.getText().toString();
         String passwordString = passwordEditText.getText().toString();
 
@@ -157,8 +151,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             loginPrefEditor.putString("username", usernameString);
             loginPrefEditor.putString("password", passwordString);
             loginPrefEditor.apply();
-        }
-        else {
+        } else {
             loginPrefEditor.clear();
             loginPrefEditor.apply();
         }
@@ -213,7 +206,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                         final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
                                 "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
                         if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
-                            webView.setVisibility(View.VISIBLE); // TODO remove;
+                            // debug: webView.setVisibility(View.VISIBLE);
                             webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
                         } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
                             webView.loadUrl(LOGIN_JAVASCRIPT);

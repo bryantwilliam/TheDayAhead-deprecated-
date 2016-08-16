@@ -24,7 +24,7 @@ public class Lesson extends Period {
         return this.classroom;
     }
 
-    private Lesson(String subjectName, String teacherInitials, String classroom, View view) {
+    private Lesson(final String subjectName, final String teacherInitials, final String classroom, View view, TimetableFragment timetableFragment) {
         super(view);
         this.subjectName = subjectName;
         this.teacherInitials = teacherInitials;
@@ -32,24 +32,36 @@ public class Lesson extends Period {
         this.linearLayout = (LinearLayout) getView();
 
         // Replaces default values in TextViews with the ones from the parsed html from Kmar.
-        TextView textViewSubject = (TextView) linearLayout.getChildAt(0);
-        TextView textViewTeacher = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
-        TextView textViewClass = (TextView)((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
+        final TextView textViewSubject = (TextView) linearLayout.getChildAt(0);
+        final TextView textViewTeacher = (TextView) ((LinearLayout) linearLayout.getChildAt(1)).getChildAt(0);
+        final TextView textViewClass = (TextView) ((LinearLayout) linearLayout.getChildAt(1)).getChildAt(1);
 
-        textViewSubject.setText(subjectName);
-        textViewTeacher.setText(teacherInitials);
-        textViewClass.setText(classroom);
+        timetableFragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textViewSubject.setText(subjectName);
+                textViewTeacher.setText(teacherInitials);
+                textViewClass.setText(classroom);
+            }
+        });
     }
 
-    static Lesson parseLesson(Element period, View view) {
+    static Lesson parseLesson(Element period, View view, TimetableFragment timetableFragment) {
         String subjectInfo = period.getElementsByClass("result").text();
-        if (subjectInfo == null || subjectInfo.equals(" ")) return null;
+        if (subjectInfo == null || subjectInfo.equals("")) return null;
         else {
             subjectInfo = subjectInfo.replaceAll("\t", "").replaceAll(" ", "");
-            String teacher = subjectInfo.substring(0, 2);
-            String classroom = subjectInfo.substring(3, 5);
-            return new Lesson(period.getElementsByAttribute("strong").first().text(),
-                    teacher, classroom, view);
+            if (subjectInfo.isEmpty()) return null;
+
+            String teacher = subjectInfo.substring(0, 3);
+            String classroom = subjectInfo.substring(3, 6);
+            String subjectName = period.getElementsByTag("strong").first().text();
+
+            /*Log.i(Utils.getTagName(timetableFragment), "teacher: " + teacher);
+            Log.i(Utils.getTagName(timetableFragment), "classroom: " + classroom);
+            Log.i(Utils.getTagName(timetableFragment), "subjectName: " + subjectName);*/
+
+            return new Lesson(subjectName, teacher, classroom, view, timetableFragment);
         }
     }
 }
