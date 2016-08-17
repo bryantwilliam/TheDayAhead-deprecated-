@@ -10,6 +10,9 @@
             android:id="@+id/nav_timetable"
             android:title="Timetable"
             android:checked="true" />
+        <item
+            android:id="@+id/nav_diary"
+            android:title="Diary" />
     </group>
 
     <item android:title="@string/nav_share_title">

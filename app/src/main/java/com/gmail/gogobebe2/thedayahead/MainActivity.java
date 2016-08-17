@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
+import com.gmail.gogobebe2.thedayahead.diary.DiaryFragment;
 import com.gmail.gogobebe2.thedayahead.timetable.TimetableFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle drawerToggle;
 
     private TimetableFragment timetableFragment;
+    private DiaryFragment diaryFragment;
 
     @SuppressWarnings("TryWithIdenticalCatches")
     @Override
@@ -110,11 +112,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TheDayAheadFragment fragment = null;
         try {
             switch (menuItem.getItemId()) {
+                case R.id.nav_diary:
+                    if (diaryFragment == null) diaryFragment = DiaryFragment.class.newInstance();
+                    fragment = diaryFragment;
+                    break;
                 case R.id.nav_slideshow: // TODO fragmentClass = SlideshowFragment.class; break;
                 case R.id.nav_share: // TODO fragmentClass = ShareFragment.class; break;
                 case R.id.nav_timetable:
-                    if (timetableFragment == null)
-                        timetableFragment = TimetableFragment.class.newInstance();
+                    if (timetableFragment == null) timetableFragment = TimetableFragment.class.newInstance();
                     fragment = timetableFragment;
                     break;
             }
