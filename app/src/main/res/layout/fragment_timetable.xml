@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".timetable.TimetableFragment">
 
-    <include layout="@layout/fragment_timetable_login"/>
-    <include layout="@layout/fragment_timetable_table"/>
+    <include layout="@layout/fragment_timetable_login" />
+
+    <include layout="@layout/fragment_timetable_table" />
 </LinearLayout>

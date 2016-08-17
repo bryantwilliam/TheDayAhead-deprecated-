@@ -25,4 +25,7 @@
     <string name="wednesday">WEDNESDAY</string>
     <string name="thursday">THURSDAY</string>
     <string name="friday">FRIDAY</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
