@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +47,16 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
-    private Timetable timetable = null;
+    private static Timetable timetable = null;
 
     public TimetableFragment() { /* Required empty public constructor */}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (timetable != null && !timetable.isVisible()) timetable.show();
+        else getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
 
     @SuppressLint("InflateParams")
     @Override
@@ -73,9 +81,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             passwordField.setText(loginPreferences.getString("password", ""));
             rememberMeCheckBox.setChecked(true);
         }
-
-        if (timetable != null && !timetable.isVisible()) timetable.show();
-        else getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         return linearLayout;
     }

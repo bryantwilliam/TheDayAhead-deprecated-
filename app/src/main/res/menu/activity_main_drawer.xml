@@ -3,16 +3,16 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow Guide" />
+            android:id="@+id/nav_diary"
+            android:title="Diary" />
         <item
             android:id="@+id/nav_timetable"
             android:title="Timetable"
             android:checked="true" />
         <item
-            android:id="@+id/nav_diary"
-            android:title="Diary" />
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Slideshow Guide" />
     </group>
 
     <item android:title="@string/nav_share_title">

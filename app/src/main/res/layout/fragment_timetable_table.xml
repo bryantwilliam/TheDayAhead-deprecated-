@@ -1,16 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tablelayout_timetable"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
     android:screenOrientation="landscape"
     android:stretchColumns="*"
-    android:visibility="visible"
+    android:visibility="gone"
+    android:weightSum="11"
     tools:context=".timetable.TimetableFragment">
 
     <TableRow
+        android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -28,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:text="Monday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -38,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_column="3"
             android:text="Tuesday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -48,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_column="4"
             android:text="Wednesday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -58,7 +57,6 @@
             android:layout_height="wrap_content"
             android:layout_column="5"
             android:text="Thursday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -68,13 +66,14 @@
             android:layout_height="wrap_content"
             android:layout_column="6"
             android:text="Friday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -83,8 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="0"
-            android:text="12:00am"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text="12:00am" />
 
         <TextView
             android:id="@+id/textView_title1"
@@ -92,7 +90,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="BF"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -120,6 +117,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -129,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="8:40am"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title2"
@@ -137,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="HR"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -160,17 +159,17 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textview_hrTeacher1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XYZ"
+                    android:id="@+id/textview_hrTeacher1"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/textview_hrSubject1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DG1"
+                    android:id="@+id/textview_hrSubject1"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -319,6 +318,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -328,7 +329,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="9:00am"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title3"
@@ -336,7 +337,7 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="P1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -518,6 +519,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -527,7 +530,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="10:00am"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title4"
@@ -535,7 +538,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="P2"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -716,6 +718,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -725,7 +729,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="11:00am"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title5"
@@ -733,7 +737,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="I"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -759,6 +762,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -768,7 +773,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="11:25am"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title6"
@@ -776,7 +781,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="P3"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -957,6 +961,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -966,7 +972,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="12:25pm"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title7"
@@ -974,7 +980,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="P4"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -1155,6 +1160,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -1164,7 +1171,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="1:25pm"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title8"
@@ -1172,7 +1179,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="L"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -1198,6 +1204,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -1207,7 +1215,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="2:15pm"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView_title9"
@@ -1215,7 +1223,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="P5"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -1396,6 +1403,8 @@
     </TableRow>
 
     <TableRow
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -1405,7 +1414,7 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:text="3:15pm"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            />
 
         <TextView
             android:id="@+id/textView42"
@@ -1413,7 +1422,6 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:text="AS"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"
             android:textStyle="bold" />
 
