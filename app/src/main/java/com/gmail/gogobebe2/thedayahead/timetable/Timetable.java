@@ -19,7 +19,6 @@ public class Timetable {
     private Week week;
     private TimetableFragment timetableFragment;
     private TableLayout tableLayout;
-    private boolean visible = false;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
         this.timetableFragment = timetableFragment;
@@ -74,24 +73,6 @@ public class Timetable {
             }
         });
         timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        visible = true;
-    }
-
-    public void hide() {
-        final RelativeLayout relativeLayout = timetableFragment.getLoginRelativeLayout();
-        timetableFragment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                tableLayout.setVisibility(View.GONE);
-                relativeLayout.setVisibility(View.VISIBLE);
-            }
-        });
-        timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        visible = false;
-    }
-
-    public boolean isVisible() {
-        return visible;
     }
 
     public Week getWeek() {

@@ -47,15 +47,15 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
-    public static Timetable timetable = null;
+
+    private Timetable timetable;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (timetable != null && timetable.isVisible()) timetable.show();
-        else getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
     }
 
     @SuppressLint("InflateParams")
@@ -63,6 +63,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         linearLayout = (LinearLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
         loginRelativeLayout = (RelativeLayout) linearLayout.findViewById(R.id.relativelayout_timetablelogin);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         initKmarLoginConnection();
 

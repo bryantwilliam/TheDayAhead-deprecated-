@@ -25,4 +25,5 @@
     <string name="wednesday">WEDNESDAY</string>
     <string name="thursday">THURSDAY</string>
     <string name="friday">FRIDAY</string>
+    <string name="save_and_set_date_and_time">Save and set date and time</string>
 </resources>

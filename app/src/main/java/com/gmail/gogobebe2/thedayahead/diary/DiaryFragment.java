@@ -1,5 +1,6 @@
 package com.gmail.gogobebe2.thedayahead.diary;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ public class DiaryFragment extends TheDayAheadFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_diary, container, false);
     }
