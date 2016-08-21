@@ -86,6 +86,18 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         return linearLayout;
     }
 
+    @Override
+    public void onPause() {
+        if (timetable != null) timetable.getTimetableHighlighter().pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (timetable != null) timetable.getTimetableHighlighter().resume();
+    }
+
     private SharedPreferences getLoginPreferencesInstance() {
         return getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
     }
@@ -162,6 +174,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             loginPrefEditor.apply();
         }
     }
+
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override

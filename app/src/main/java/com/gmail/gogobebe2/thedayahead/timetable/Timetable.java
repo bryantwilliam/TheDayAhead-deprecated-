@@ -14,11 +14,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class Timetable {
     private Week week;
     private TimetableFragment timetableFragment;
     private TableLayout tableLayout;
+    private TimetableHighlighter timetableHighlighter;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
         this.timetableFragment = timetableFragment;
@@ -61,6 +64,9 @@ public class Timetable {
                 }
             }
         }
+
+        timetableHighlighter = new TimetableHighlighter(this);
+        timetableHighlighter.execute();
     }
 
     public void show() {
@@ -77,5 +83,32 @@ public class Timetable {
 
     public Week getWeek() {
         return this.week;
+    }
+
+    public Period getPeriod(int dayInt, int hourInt, int minuteInt) {
+        LinkedHashMap<Day, List<Period>> days = getWeek().getDays();
+
+        List<Period> periods = null;
+
+        dayInt -= 2;
+        int index = 0;
+
+        if (dayInt == 5 || dayInt == -1) return null;
+        else for (Day day : days.keySet()) {
+            if (index == dayInt) {
+                periods = days.get(day);
+                break;
+            }
+            index++;
+        }
+
+        if (periods == null) throw new NullPointerException("periods should never be null");
+
+        // TODO switch/case return period from periods.
+        return null;
+    }
+
+    TimetableHighlighter getTimetableHighlighter() {
+        return this.timetableHighlighter;
     }
 }
