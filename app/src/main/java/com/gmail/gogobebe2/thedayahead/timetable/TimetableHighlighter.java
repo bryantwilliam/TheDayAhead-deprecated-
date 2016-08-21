@@ -15,6 +15,8 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+        // Highlights current period:
+
         Calendar calendar = Calendar.getInstance();
         Period newPeriod = timetable.getPeriod(calendar.get(Calendar.DAY_OF_WEEK),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));

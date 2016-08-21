@@ -88,7 +88,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
     @Override
     public void onPause() {
-        if (timetable != null) timetable.getTimetableHighlighter().pause();
+        if (timetable != null) {
+            timetable.show();
+            timetable.getTimetableHighlighter().pause();
+        }
         super.onPause();
     }
 
@@ -115,7 +118,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
             protected Boolean doInBackground(Void... params) {
                 try {
                     kmarDocument = Jsoup.connect(KMAR_LOGIN_URL).get();
-                    if (kmarDocument == null) throw new NullPointerException();
                 } catch (IOException e) {
                     if (e instanceof ConnectException) Log.w(Utils.getTagName(this),
                             "ConnectException, Kmar Portal down or internet down.");
@@ -125,7 +127,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                     }
                     return false;
                 }
-                return true;
+                return kmarDocument != null;
             }
 
             @Override
