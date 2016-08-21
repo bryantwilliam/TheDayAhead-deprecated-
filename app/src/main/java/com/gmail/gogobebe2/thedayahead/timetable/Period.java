@@ -1,6 +1,6 @@
 package com.gmail.gogobebe2.thedayahead.timetable;
-
 import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
 
 public class Period {
@@ -11,11 +11,21 @@ public class Period {
     }
 
     public void highlightImportant() {
-        view.setBackgroundColor(view.getResources().getColor(android.R.color.holo_red_light));
+        highlight(android.R.color.holo_red_light);
     }
 
     public void highlightAsCurrentSession() {
-        view.setBackgroundColor(view.getResources().getColor(android.R.color.background_light));
+        highlight(android.R.color.background_light);
+    }
+
+    private void highlight(final int COLOUR_ID) {
+        int colour;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) colour = view.getResources().getColor(
+                COLOUR_ID, view.getContext().getTheme());
+        else colour = view.getResources().getColor(COLOUR_ID);
+
+        view.setBackgroundColor(colour);
     }
 
     public void unHighlight() {

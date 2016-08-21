@@ -86,20 +86,20 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         return linearLayout;
     }
 
-    @Override
+/*    @Override
     public void onPause() {
-        if (timetable != null) {
-            timetable.show();
-            timetable.getTimetableHighlighter().pause();
-        }
+        if (timetable != null) timetable.getTimetableHighlighter().cancel(true);
         super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (timetable != null) timetable.getTimetableHighlighter().resume();
-    }
+        if (timetable != null) {
+            timetable.show();
+            timetable.getTimetableHighlighter().execute();
+        }
+    }*/
 
     private SharedPreferences getLoginPreferencesInstance() {
         return getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);

@@ -1,7 +1,6 @@
 package com.gmail.gogobebe2.thedayahead.timetable;
 
 import android.os.AsyncTask;
-import android.os.Handler;
 
 import java.util.Calendar;
 
@@ -21,10 +20,11 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
         Period newPeriod = timetable.getPeriod(calendar.get(Calendar.DAY_OF_WEEK),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
-        if (!(newPeriod == null || currentPeriod.equals(newPeriod))) {
-            newPeriod.highlightAsCurrentSession();
+        if (currentPeriod != null && newPeriod != null && !currentPeriod.equals(newPeriod)) {
             currentPeriod.unHighlight();
             currentPeriod = newPeriod;
+            currentPeriod.highlightAsCurrentSession();
+
         }
 
         return null;
@@ -32,22 +32,7 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void v) {
-        final int MINUTE = 60000;
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (!isCancelled()) new TimetableHighlighter(timetable).execute();
-            }
-        };
-        Handler handler = new Handler();
-        handler.postDelayed(runnable, MINUTE);
+        //if (!isCancelled()) execute();
     }
 
-    void resume() {
-        execute();
-    }
-
-    void pause() {
-        cancel(true);
-    }
 }
