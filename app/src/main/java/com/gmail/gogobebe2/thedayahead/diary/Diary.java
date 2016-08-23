@@ -28,4 +28,12 @@ public class Diary {
     public String getText() {
         return text;
     }
+
+    private void saveDiary(Diary diary) {
+        // TODO
+    }
+
+    private Diary loadDiary() {
+        return new Diary(null, -1, -1, -1); // TODO
+    }
 }
