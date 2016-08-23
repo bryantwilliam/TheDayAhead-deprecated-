@@ -13,13 +13,14 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save_and_set_date_and_time"/>
+            android:text="@string/save_and_set_date_and_time"
+            android:id="@+id/button_saveAndSetDateAndTimeDiary"/>
         <EditText
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
-            android:id="@+id/editText"
+            android:id="@+id/editText_diary"
             android:background="@color/colorTableLight" />
 
     </LinearLayout>
@@ -33,7 +34,7 @@
         <ListView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/listView"
+            android:id="@+id/listView_diaryEntries"
             android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>
