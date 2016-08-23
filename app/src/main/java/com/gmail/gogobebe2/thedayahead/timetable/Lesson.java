@@ -25,7 +25,7 @@ public class Lesson extends Period {
     }
 
     private Lesson(final String subjectName, final String teacherInitials, final String classroom, View view, TimetableFragment timetableFragment) {
-        super(view);
+        super(view, timetableFragment);
         this.subjectName = subjectName;
         this.teacherInitials = teacherInitials;
         this.classroom = classroom;

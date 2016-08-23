@@ -17,12 +17,10 @@ import java.util.ArrayList;
 
 public class Timetable {
     private Week week;
-    private TimetableFragment timetableFragment;
     private TableLayout tableLayout;
     private TimetableHighlighter timetableHighlighter;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
-        this.timetableFragment = timetableFragment;
         this.tableLayout = (TableLayout) timetableFragment.getTimetableLinearLayout().findViewById(R.id.tablelayout_timetable);
         Document html = Jsoup.parse(htmlString);
         Element timetableTableElement = html.getElementsByTag("tbody").first();
@@ -56,18 +54,15 @@ public class Timetable {
 
                     if (view instanceof LinearLayout)
                         period = Lesson.parseLesson(columns.get(columnIndex), view, timetableFragment);
-                    if (period == null) period = Period.parsePeriod(view);
+                    if (period == null) period = Period.parsePeriod(view, timetableFragment);
 
                     week.getDays().get(day).add(period);
                 }
             }
         }
-
         timetableHighlighter = new TimetableHighlighter(this);
         timetableHighlighter.execute();
-    }
 
-    public void show() {
         final RelativeLayout relativeLayout = timetableFragment.getLoginRelativeLayout();
         timetableFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -77,6 +72,7 @@ public class Timetable {
             }
         });
         timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
     }
 
     public Week getWeek() {

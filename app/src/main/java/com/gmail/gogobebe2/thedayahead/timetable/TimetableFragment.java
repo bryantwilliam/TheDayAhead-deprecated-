@@ -47,6 +47,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
+    private String kmarTimetableHTML;
 
     private Timetable timetable;
 
@@ -86,20 +87,13 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         return linearLayout;
     }
 
-/*    @Override
-    public void onPause() {
-        if (timetable != null) timetable.getTimetableHighlighter().cancel(true);
-        super.onPause();
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        if (timetable != null) {
-            timetable.show();
-            timetable.getTimetableHighlighter().execute();
+        if (kmarTimetableHTML != null) {
+            timetable = new Timetable(kmarTimetableHTML, this);
         }
-    }*/
+    }
 
     private SharedPreferences getLoginPreferencesInstance() {
         return getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
@@ -203,8 +197,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 class HTMLRetrieverJavaScriptInterface {
                     @JavascriptInterface
                     void showHTML(String html) {
-                        timetable = new Timetable(html, INSTANCE);
-                        timetable.show();
+                        kmarTimetableHTML = html;
+                        timetable = new Timetable(kmarTimetableHTML, INSTANCE);
                     }
                 }
 

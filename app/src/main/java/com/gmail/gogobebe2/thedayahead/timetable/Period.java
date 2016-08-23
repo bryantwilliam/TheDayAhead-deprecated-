@@ -1,12 +1,15 @@
 package com.gmail.gogobebe2.thedayahead.timetable;
+
 import android.graphics.Color;
-import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 public class Period {
     private View view;
+    private TimetableFragment timetableFragment;
 
-    Period(View view) {
+    Period(View view, TimetableFragment timetableFragment) {
+        this.timetableFragment = timetableFragment;
         this.view = view;
     }
 
@@ -15,17 +18,17 @@ public class Period {
     }
 
     public void highlightAsCurrentSession() {
-        highlight(android.R.color.background_light);
+        highlight(android.R.color.holo_blue_light);
     }
 
     private void highlight(final int COLOUR_ID) {
-        int colour;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) colour = view.getResources().getColor(
-                COLOUR_ID, view.getContext().getTheme());
-        else colour = view.getResources().getColor(COLOUR_ID);
-
-        view.setBackgroundColor(colour);
+        final int COLOR = ContextCompat.getColor(timetableFragment.getContext(), COLOUR_ID);
+        timetableFragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                view.setBackgroundColor(COLOR);
+            }
+        });
     }
 
     public void unHighlight() {
@@ -36,8 +39,8 @@ public class Period {
         return this.view;
     }
 
-    static Period parsePeriod(View view) {
-        return new Period(view);
+    static Period parsePeriod(View view, TimetableFragment timetableFragment) {
+        return new Period(view, timetableFragment);
     }
 
     @Override

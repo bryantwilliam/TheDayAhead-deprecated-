@@ -32,9 +32,5 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(Void v) {
-        //if (!isCancelled()) execute();
-    }
-
+    // TODO find way to keep this running.
 }
