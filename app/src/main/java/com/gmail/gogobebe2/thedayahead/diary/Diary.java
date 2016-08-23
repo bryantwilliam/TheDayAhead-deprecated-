@@ -25,15 +25,15 @@ public class Diary {
         return minute;
     }
 
-    public String getText() {
+    String getText() {
         return text;
     }
 
-    private void saveDiary(Diary diary) {
+    void saveDiary() {
         // TODO
     }
 
-    private Diary loadDiary() {
+    static Diary loadDiary() {
         return new Diary(null, -1, -1, -1); // TODO
     }
 }

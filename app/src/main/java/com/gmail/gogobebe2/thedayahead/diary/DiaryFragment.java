@@ -41,6 +41,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
             int hourInt = -1;
             int minuteInt = -1;
             Diary diary = new Diary(text, dayInt,hourInt, minuteInt);
+            diary.saveDiary();
         }
     }
 }
