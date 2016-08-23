@@ -20,11 +20,13 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
         Period newPeriod = timetable.getPeriod(calendar.get(Calendar.DAY_OF_WEEK),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
-        if (currentPeriod != null && newPeriod != null && !currentPeriod.equals(newPeriod)) {
-            currentPeriod.unHighlight();
+        if (newPeriod != null) {
+            if (currentPeriod != null) {
+                if (!currentPeriod.equals(newPeriod)) return null;
+                currentPeriod.unHighlight();
+            }
             currentPeriod = newPeriod;
             currentPeriod.highlightAsCurrentSession();
-
         }
 
         return null;
