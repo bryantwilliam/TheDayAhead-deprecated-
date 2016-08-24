@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Timetable {
     private Week week;
     private TableLayout tableLayout;
-    private TimetableHighlighter timetableHighlighter;
+    private static TimetableHighlighter timetableHighlighter;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
         this.tableLayout = (TableLayout) timetableFragment.getTimetableLinearLayout().findViewById(R.id.tablelayout_timetable);
@@ -60,7 +60,10 @@ public class Timetable {
                 }
             }
         }
-        timetableHighlighter = new TimetableHighlighter(this);
+        
+        if (timetableHighlighter == null) timetableHighlighter = new TimetableHighlighter(this);
+        else timetableHighlighter.setTimetable(this);
+        
         timetableHighlighter.execute();
 
         final RelativeLayout relativeLayout = timetableFragment.getLoginRelativeLayout();
