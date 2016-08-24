@@ -31,6 +31,10 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
 
         return null;
     }
+    
+    private void setTimetable(Timetable timetable) {
+        this.timetable = timetable;
+    }
 
     // TODO find way to keep this running.
 }
