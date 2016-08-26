@@ -36,10 +36,12 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
     public void onClick(View view) {
         if (view.getId() == R.id.button_saveAndSetDateAndTimeDiary) {
             EditText editText = (EditText) linearLayout.findViewById(R.id.editText_diary);
+
             String text = editText.getText().toString();
             int dayInt = -1;
             int hourInt = -1;
             int minuteInt = -1;
+
             Diary diary = new Diary(text, dayInt,hourInt, minuteInt);
             diary.saveDiary();
         }

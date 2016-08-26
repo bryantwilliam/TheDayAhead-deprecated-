@@ -117,8 +117,4 @@ public class Timetable {
 
         return getPeriod(periodIndex, dayIndex);
     }
-
-    TimetableHighlighter getTimetableHighlighter() {
-        return this.timetableHighlighter;
-    }
 }
