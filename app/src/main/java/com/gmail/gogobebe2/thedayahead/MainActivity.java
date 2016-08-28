@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import com.gmail.gogobebe2.thedayahead.diary.DiaryFragment;
+import com.gmail.gogobebe2.thedayahead.timetable.Timetable;
 import com.gmail.gogobebe2.thedayahead.timetable.TimetableFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private TimetableFragment timetableFragment;
     private DiaryFragment diaryFragment;
+
+    public static Timetable timetable = null;
 
     @SuppressWarnings("TryWithIdenticalCatches")
     @Override
@@ -36,18 +39,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setupDrawer(toolbar);
 
-        /*******Default Fragment*******/
-        if (timetableFragment == null) try {
-            timetableFragment = TimetableFragment.class.newInstance();
+        try {
+            if (diaryFragment == null) diaryFragment = DiaryFragment.class.newInstance();
+            if (timetableFragment == null)
+                timetableFragment = TimetableFragment.class.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        // TODO Change this later to a home page fragment
-        showFragmentInFrameLayout(timetableFragment);
-        /******************************/
 
+        // Startup fragment:
+        // TODO if (firstTimeRun): Change to slideshow fragment;
+        // TODO else:
+        showFragmentInFrameLayout(timetableFragment);
 
         drawer.openDrawer(GravityCompat.START); // Opened this on first run so they know what's in it.
 
@@ -110,27 +115,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         TheDayAheadFragment fragment = null;
-        try {
-            switch (menuItem.getItemId()) {
-                case R.id.nav_diary:
-                    if (diaryFragment == null) diaryFragment = DiaryFragment.class.newInstance();
-                    fragment = diaryFragment;
-                    break;
-                case R.id.nav_slideshow: // TODO fragmentClass = SlideshowFragment.class; break;
-                case R.id.nav_share: // TODO fragmentClass = ShareFragment.class; break;
-                case R.id.nav_timetable:
-                    if (timetableFragment == null) timetableFragment = TimetableFragment.class.newInstance();
-                    fragment = timetableFragment;
-                    break;
-            }
-            showFragmentInFrameLayout(fragment);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        switch (menuItem.getItemId()) {
+            case R.id.nav_diary:
+                fragment = diaryFragment;
+                break;
+            case R.id.nav_slideshow: // TODO
+            case R.id.nav_share: // TODO
+            case R.id.nav_timetable:
+                fragment = timetableFragment;
+                break;
         }
-
+        showFragmentInFrameLayout(fragment);
         menuItem.setChecked(true);
         return true;
     }

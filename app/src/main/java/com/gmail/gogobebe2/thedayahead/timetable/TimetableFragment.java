@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.gmail.gogobebe2.thedayahead.MainActivity;
 import com.gmail.gogobebe2.thedayahead.R;
 import com.gmail.gogobebe2.thedayahead.TheDayAheadFragment;
 import com.gmail.gogobebe2.thedayahead.Utils;
@@ -48,8 +49,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
 
     private String kmarTimetableHTML;
-
-    private Timetable timetable;
 
     public TimetableFragment() { /* Required empty public constructor */}
 
@@ -91,7 +90,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     public void onResume() {
         super.onResume();
         if (kmarTimetableHTML != null) {
-            timetable = new Timetable(kmarTimetableHTML, this);
+            MainActivity.timetable = new Timetable(kmarTimetableHTML, this);
         }
     }
 
@@ -198,7 +197,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                     @JavascriptInterface
                     void showHTML(String html) {
                         kmarTimetableHTML = html;
-                        timetable = new Timetable(kmarTimetableHTML, INSTANCE);
+                        MainActivity.timetable = new Timetable(kmarTimetableHTML, INSTANCE);
                     }
                 }
 

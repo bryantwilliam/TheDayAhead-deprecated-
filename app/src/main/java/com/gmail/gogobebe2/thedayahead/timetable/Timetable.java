@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.gmail.gogobebe2.thedayahead.R;
 
@@ -14,10 +15,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Timetable {
     private Week week;
     private TableLayout tableLayout;
+    private List<SubjectType> subjects = new ArrayList<>();
     private static TimetableHighlighter timetableHighlighter;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
@@ -60,10 +63,26 @@ public class Timetable {
                 }
             }
         }
-        
+
+        int dayIndex = 0;
+        for (List<Period> day : getWeek().getDays().values()) {
+            for (int periodIndex = 0; periodIndex < day.size(); periodIndex++) {
+                Period period = day.get(periodIndex);
+                if (period instanceof Lesson) {
+                    String subjectName = ((Lesson) period).getSubjectName();
+                    boolean unique = true;
+                    for (SubjectType subjectType : subjects)
+                        if (subjectName.equals(subjectType.getName()))
+                            unique = false;
+
+                    if (unique) subjects.add(new SubjectType(subjectName, dayIndex, periodIndex));
+                }
+            }
+            dayIndex++;
+        }
+
         if (timetableHighlighter == null) timetableHighlighter = new TimetableHighlighter(this);
-        else timetableHighlighter.setTimetable(this);
-        
+
         timetableHighlighter.execute();
 
         final RelativeLayout relativeLayout = timetableFragment.getLoginRelativeLayout();
@@ -75,7 +94,6 @@ public class Timetable {
             }
         });
         timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
     }
 
     public Week getWeek() {
@@ -116,5 +134,23 @@ public class Timetable {
         else periodIndex = 9;
 
         return getPeriod(periodIndex, dayIndex);
+    }
+
+    public List<SubjectType> getSubjects() {
+        return subjects;
+    }
+
+    private TextView getTimeTextView(int periodIndex) {
+        return (TextView) tableLayout.findViewById(tableLayout.getResources().getIdentifier(
+                "textview_" + ++periodIndex, "id", tableLayout.getContext().getPackageName()));
+    }
+
+    public int getMinute(int periodIndex) {
+        return Integer.parseInt(getTimeTextView(periodIndex).getText().toString().split(":")[1]
+                .replace("am", "").replace("pm", ""));
+    }
+
+    public int getHour(int periodIndex) {
+        return Integer.parseInt(getTimeTextView(periodIndex).getText().toString().split(":")[0]);
     }
 }

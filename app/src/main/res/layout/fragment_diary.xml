@@ -4,82 +4,74 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:screenOrientation="landscape"
+    android:weightSum="2"
     tools:context="com.gmail.gogobebe2.thedayahead.diary.DiaryFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/save_and_set_date_and_time"
-            android:id="@+id/button_saveAndSetDateAndTimeDiary"/>
-        <EditText
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:id="@+id/editText_diary"
-            android:background="@color/colorTableLight" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
+    <EditText
+        android:layout_weight="1"
+        android:id="@+id/editText_diary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:background="@color/colorTableLight"
+        android:inputType="textMultiLine" />
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set due time by:"
             android:textAlignment="center"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <LinearLayout
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Date/Time"/>
+                android:text="Date/Time"
+                android:textAlignment="center" />
+
             <Switch
+                android:id="@+id/switch_dateTimeOrPeriod"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switch1" />
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Period"/>
+                android:text="Period" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/dialogButtonOK"
+            android:id="@+id/button_pickDateOrPeriod"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pick Date/Pick Period"
             android:layout_marginTop="5dp"
-            android:layout_width="wrap_content" />
+            android:text="Pick Date/Time" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
 
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Diary Entries:"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
         <ListView
             android:id="@+id/listView_diaryEntries"

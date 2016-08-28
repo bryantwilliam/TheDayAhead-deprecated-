@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="landscape"
+    android:weightSum="2"
+    android:gravity="center">
+
+    <TimePicker
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/timePicker"
+        android:visibility="gone"/>
+
+    <DatePicker
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/datePicker"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Pick Date"
+        android:id="@+id/button_pickDate"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Pick Time"
+        android:id="@+id/button_pickTime"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

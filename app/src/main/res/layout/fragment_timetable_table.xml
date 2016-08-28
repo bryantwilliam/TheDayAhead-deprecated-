@@ -7,7 +7,6 @@
     android:orientation="horizontal"
     android:screenOrientation="landscape"
     android:stretchColumns="*"
-    android:visibility="visible"
     android:weightSum="11"
     tools:context=".timetable.TimetableFragment">
 
