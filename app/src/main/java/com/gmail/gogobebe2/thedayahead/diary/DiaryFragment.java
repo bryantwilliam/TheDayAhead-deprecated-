@@ -38,41 +38,40 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         fragmentDiary = (LinearLayout) inflater.inflate(R.layout.fragment_diary, container, false);
         listviewPeriodSelector = (ListView) diaryDialogByDateAndTime.findViewById(R.id.listView_periodSelector);
 
-        ((Switch) fragmentDiary.findViewById(R.id.switch_dateTimeOrPeriod)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((Switch) fragmentDiary.findViewById(R.id.switch_dateTimeOrPeriod))
+                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.getId() == R.id.switch_dateTimeOrPeriod) {
-                    Switch switchView = (Switch) buttonView;
-                    String buttonTitle = "Save entry and pick ";
+                Switch switchView = (Switch) buttonView;
+                String buttonTitle = "Save entry and pick ";
 
-                    Button button = (Button) switchView.findViewById(R.id.button_pickDateOrPeriod);
+                Button button = (Button) switchView.findViewById(R.id.button_pickDateOrPeriod);
 
-                    if (isChecked) {
-                        if (MainActivity.timetable == null) {
-                            switchView.setChecked(false);
-                            Toast.makeText(getContext(), "You need to create a timetable instance "
-                                    + "by logging in on the \"Timetable\" tab", Toast.LENGTH_LONG)
-                                    .show();
-                            return;
-                        }
-
-                        for (SubjectType subjectType : MainActivity.timetable.getSubjects()) {
-                            Button subjectButton = new Button(getContext());
-                            subjectButton.setText(subjectType.getName());
-                            listviewPeriodSelector.addView(subjectButton);
-                        }
-
-                        listviewPeriodSelector.setVisibility(View.VISIBLE);
-                        diaryDialogByDateAndTime.setVisibility(View.GONE);
-                        buttonTitle += "period";
-
-                    } else {
-                        listviewPeriodSelector.setVisibility(View.GONE);
-                        diaryDialogByDateAndTime.setVisibility(View.VISIBLE);
-                        buttonTitle += "date/time";
+                if (isChecked) {
+                    if (MainActivity.timetable == null) {
+                        switchView.setChecked(false);
+                        Toast.makeText(getContext(), "You need to create a timetable instance "
+                                + "by logging in on the \"Timetable\" tab", Toast.LENGTH_LONG)
+                                .show();
+                        return;
                     }
-                    button.setText(buttonTitle);
+
+                    for (SubjectType subjectType : MainActivity.timetable.getSubjects()) {
+                        Button subjectButton = new Button(getContext());
+                        subjectButton.setText(subjectType.getName());
+                        listviewPeriodSelector.addView(subjectButton);
+                    }
+
+                    listviewPeriodSelector.setVisibility(View.VISIBLE);
+                    diaryDialogByDateAndTime.setVisibility(View.GONE);
+                    buttonTitle += "period";
+
+                } else {
+                    listviewPeriodSelector.setVisibility(View.GONE);
+                    diaryDialogByDateAndTime.setVisibility(View.VISIBLE);
+                    buttonTitle += "date/time";
                 }
+                button.setText(buttonTitle);
             }
         });
         return fragmentDiary;
