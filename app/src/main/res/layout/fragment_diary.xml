@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorTableLight"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:hint="@string/hint_editText_diary"/>
 
 
     <LinearLayout
@@ -27,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set due time by:"
-            android:textAlignment="center"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -39,8 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date/Time"
-                android:textAlignment="center" />
+                android:text="Date/Time" />
 
             <Switch
                 android:id="@+id/switch_dateTimeOrPeriod"
@@ -58,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Pick Date/Time" />
+            android:text="Save entry and pick date/time" />
 
         <View
             android:layout_width="wrap_content"

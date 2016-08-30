@@ -3,71 +3,71 @@
     android:id="@+id/relativelayout_timetablelogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:windowSoftInputMode="stateHidden"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:screenOrientation="portrait"
     android:orientation="vertical"
+    android:screenOrientation="portrait"
+    android:windowSoftInputMode="stateHidden"
     tools:context=".timetable.TimetableFragment">
 
     <EditText
+        android:id="@+id/editText_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/username"
-        android:ems="10"
-        android:id="@+id/editText_username"
-        android:textAlignment="center"
-        android:layout_marginTop="23dp"
-        android:layout_below="@+id/imageView_kmarLogo"
         android:layout_alignLeft="@+id/editText_password"
         android:layout_alignStart="@+id/editText_password"
+        android:layout_below="@+id/imageView_kmarLogo"
+        android:layout_marginTop="23dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
         tools:targetApi="jelly_bean_mr1" />
 
     <EditText
+        android:id="@+id/editText_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/password"
-        android:ems="10"
-        android:id="@+id/editText_password"
-        android:textAlignment="center"
         android:layout_below="@+id/editText_username"
         android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
         tools:targetApi="jelly_bean_mr1" />
 
     <Button
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:id="@+id/login_button"
-        android:clickable="false"
         android:layout_below="@+id/editText_password"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="false"
+        android:text="@string/login" />
 
     <ImageView
+        android:id="@+id/imageView_kmarLogo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView_kmarLogo"
-        android:src="@drawable/smclogo"
         android:layout_marginTop="40dp"
-        android:contentDescription="@string/sancta_maria_college_logo_content_description" />
+        android:contentDescription="@string/sancta_maria_college_logo_content_description"
+        android:src="@drawable/smclogo" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:visibility="invisible"
         android:layout_below="@+id/login_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:visibility="invisible" />
 
     <CheckBox
+        android:id="@+id/checkBox_rememberMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/remember_me"
-        android:id="@+id/checkBox_rememberMe"
         android:layout_alignTop="@+id/progressBar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/remember_me" />
 
 </RelativeLayout>
