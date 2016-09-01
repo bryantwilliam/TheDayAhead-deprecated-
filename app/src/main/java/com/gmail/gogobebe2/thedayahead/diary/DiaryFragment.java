@@ -1,6 +1,7 @@
 package com.gmail.gogobebe2.thedayahead.diary;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import com.gmail.gogobebe2.thedayahead.R;
 import com.gmail.gogobebe2.thedayahead.TheDayAheadFragment;
 import com.gmail.gogobebe2.thedayahead.timetable.SubjectType;
 
+import java.util.Calendar;
+
 public class DiaryFragment extends TheDayAheadFragment implements View.OnClickListener,
         CompoundButton.OnCheckedChangeListener {
     public DiaryFragment() {/* Required empty public constructor*/}
@@ -29,6 +33,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
     private LinearLayout fragmentDiary;
     private LinearLayout diaryDialogByDateAndTime;
     private ListView listviewPeriodSelector;
+    private ListView listviewDiaryEntries;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +43,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         diaryDialogByDateAndTime = (LinearLayout) inflater.inflate(R.layout.fragment_diary_dialog_bydateandtime, container, false);
         fragmentDiary = (LinearLayout) inflater.inflate(R.layout.fragment_diary, container, false);
         listviewPeriodSelector = (ListView) diaryDialogByDateAndTime.findViewById(R.id.listView_periodSelector);
+        listviewDiaryEntries = (ListView) fragmentDiary.findViewById(R.id.listView_diaryEntries);
 
         ((Switch) fragmentDiary.findViewById(R.id.switch_dateTimeOrPeriod))
                 .setOnCheckedChangeListener(this);
@@ -119,7 +125,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                         hourInt = timePicker.getHour();
                         minuteInt = timePicker.getMinute();
 
-                        DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, monthInt, dayInt, hourInt, minuteInt);
+                        DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, monthInt, dayInt, hourInt, minuteInt, getContext());
                     } else {
                         Toast.makeText(getContext(), "Android version too low to support this " +
                                         "function, please use the period selection option only",
@@ -151,9 +157,38 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     hourInt = MainActivity.timetable.getHour(firstPeriodIndex);
                     minuteInt = MainActivity.timetable.getMinute(firstPeriodIndex);
 
-                    DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, dayInt, hourInt, minuteInt);
+                    DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, dayInt, hourInt
+                            , minuteInt, getContext());
                 }
             }
         }
+    }
+
+    private void updateDiaryEntryListView() { // TODO USE IT
+        for (DiaryEntry diaryEntry : DiaryEntry.loadDiaries(getContext())) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
+                    .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            TextView entryDate = new TextView(getContext());
+            String date = diaryEntry.getDayOfMonth() + "/" + diaryEntry.getMonthOfYear() + "/"
+                    + Calendar.YEAR + " - " + diaryEntry.getHourOfDay() + ":" + diaryEntry.getMinuteOfHour();
+            entryDate.setText(date);
+            entryDate.setTypeface(null, Typeface.BOLD);
+            entryDate.setLayoutParams(layoutParams);
+
+            TextView entryText = new TextView(getContext());
+            entryText.setText(diaryEntry.getText());
+            entryText.setLayoutParams(layoutParams);
+
+            LinearLayout linearLayout = new LinearLayout(getContext());
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.addView(entryDate);
+            linearLayout.addView(entryText);
+            linearLayout.setLayoutParams(layoutParams);
+
+            listviewDiaryEntries.removeAllViewsInLayout();
+            listviewDiaryEntries.addView(linearLayout);
+        }
+
     }
 }
