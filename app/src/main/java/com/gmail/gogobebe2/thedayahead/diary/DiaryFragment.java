@@ -29,30 +29,28 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
 
     private LinearLayout fragmentDiary;
     private LinearLayout diaryDialogByDateAndTime;
-    private ListView listviewPeriodSelector;
+    private ListView listViewPeriodSelector;
     private ListView listViewDiaryEntries;
     private Dialog diaryDialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        // Inflate the layouts for this fragment
-        diaryDialogByDateAndTime = (LinearLayout) inflater.inflate(R.layout.fragment_diary_dialog_bydateandtime, container, false);
-        fragmentDiary = (LinearLayout) inflater.inflate(R.layout.fragment_diary, container, false);
-        listviewPeriodSelector = (ListView) diaryDialogByDateAndTime.findViewById(R.id.listView_periodSelector);
-        listViewDiaryEntries = (ListView) fragmentDiary.findViewById(R.id.listView_diaryEntries);
 
-        ((Switch) fragmentDiary.findViewById(R.id.switch_dateTimeOrPeriod))
-                .setOnCheckedChangeListener(this);
-        fragmentDiary.findViewById(R.id.button_pickDateOrPeriod).setOnClickListener(this);
-        fragmentDiary.findViewById(R.id.button_doneDateAndTimeSelection).setOnClickListener(this);
-        fragmentDiary.findViewById(R.id.button_pickDate).setOnClickListener(this);
-        fragmentDiary.findViewById(R.id.button_pickTime).setOnClickListener(this);
+        fragmentDiary = (LinearLayout) inflater.inflate(R.layout.fragment_diary, parent, false);
+        listViewDiaryEntries = (ListView) fragmentDiary.findViewById(R.id.listView_diaryEntries);
 
         diaryDialog = new Dialog(getContext());
         diaryDialog.setContentView(R.layout.fragment_diary_dialog);
         diaryDialog.setTitle("Pick period/(date and time)");
+        diaryDialogByDateAndTime = (LinearLayout) diaryDialog.findViewById(R.id.linearlayout_dialogByDateAndTime);
+        listViewPeriodSelector = (ListView) diaryDialog.findViewById(R.id.listView_periodSelector);
+
+        ((Switch) fragmentDiary.findViewById(R.id.switch_dateTimeOrPeriod)).setOnCheckedChangeListener(this);
+        fragmentDiary.findViewById(R.id.button_pickDateOrPeriod).setOnClickListener(this);
+        diaryDialogByDateAndTime.findViewById(R.id.button_doneDateAndTimeSelection).setOnClickListener(this);
+        diaryDialogByDateAndTime.findViewById(R.id.button_pickDate).setOnClickListener(this);
+        diaryDialogByDateAndTime.findViewById(R.id.button_pickTime).setOnClickListener(this);
 
         return fragmentDiary;
     }
@@ -64,11 +62,10 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        Switch switchView = (Switch) buttonView;
-        String buttonTitle = "Save entry and pick ";
+    public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+        final Switch switchView = (Switch) buttonView;
 
-        Button button = (Button) switchView.findViewById(R.id.button_pickDateOrPeriod);
+        final Button button = (Button) fragmentDiary.findViewById(R.id.button_pickDateOrPeriod);
 
         if (isChecked) {
             if (MainActivity.timetable == null) {
@@ -78,24 +75,34 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                         .show();
                 return;
             }
+        }
 
-            for (SubjectType subjectType : MainActivity.timetable.getSubjects()) {
+        String buttonTitle = "Save entry and pick ";
+
+        if (isChecked) {
+            for (final SubjectType subjectType : MainActivity.timetable.getSubjects()) {
                 Button subjectButton = new Button(getContext());
                 subjectButton.setText(subjectType.getName());
                 subjectButton.setOnClickListener(this);
-                listviewPeriodSelector.addView(subjectButton);
+                listViewPeriodSelector.addHeaderView(subjectButton);
             }
 
-            listviewPeriodSelector.setVisibility(View.VISIBLE);
+            listViewPeriodSelector.setVisibility(View.VISIBLE);
             diaryDialogByDateAndTime.setVisibility(View.GONE);
+
             buttonTitle += "period";
 
         } else {
-            listviewPeriodSelector.setVisibility(View.GONE);
+            listViewPeriodSelector.setVisibility(View.GONE);
             diaryDialogByDateAndTime.setVisibility(View.VISIBLE);
+
             buttonTitle += "date/time";
         }
-        button.setText(buttonTitle);
+
+        final String finalButtonTitle = buttonTitle;
+        button.setText(finalButtonTitle);
+
+
     }
 
     @Override

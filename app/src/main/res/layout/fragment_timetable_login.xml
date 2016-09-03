@@ -68,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/progressBar"
         android:layout_centerHorizontal="true"
-        android:text="@string/remember_me" />
+        android:text="@string/remember_me"
+        android:checked="true" />
 
 </RelativeLayout>
