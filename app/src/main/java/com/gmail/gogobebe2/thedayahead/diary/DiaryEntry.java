@@ -70,8 +70,7 @@ public class DiaryEntry {
         return diaryEntryIndex;
     }
 
-    static
-    List<DiaryEntry> loadDiaries(Context context) {
+    static List<DiaryEntry> loadDiaries(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context
                 .getApplicationInfo().name, Context.MODE_PRIVATE);
 
