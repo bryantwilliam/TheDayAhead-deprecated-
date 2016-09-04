@@ -151,11 +151,9 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     R.id.linearlayout_dialogByDateAndTime);
 
             switch (button.getId()) {
-                // * Used "return" in this switch statement when the computer doesn't need to go
-                //   onto the rest of the method.
                 case R.id.button_pickDateOrPeriod:
                     diaryDialog.show();
-                    return; // *
+                    break;
                 case R.id.button_doneDateAndTimeSelection:
 
 
@@ -178,22 +176,18 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     timePicker.setVisibility(View.GONE);
                     datePicker.setVisibility(View.GONE);
                     diaryDialog.dismiss();
-                    return; // *
+                    break;
                 case R.id.button_pickDate:
                     for (int index = 0; index < linearLayoutDialogByDateAndTime.getChildCount(); index++)
                         linearLayoutDialogByDateAndTime.getChildAt(index).setVisibility(View.GONE);
                     datePicker.setVisibility(View.VISIBLE);
-                    return; // *
+                    break;
                 case R.id.button_pickTime:
                     for (int index = 0; index < linearLayoutDialogByDateAndTime.getChildCount(); index++)
                         linearLayoutDialogByDateAndTime.getChildAt(index).setVisibility(View.GONE);
                     timePicker.setVisibility(View.VISIBLE);
-                    return; // *
+                    break;
             }
-
-
         }
     }
-
-
 }

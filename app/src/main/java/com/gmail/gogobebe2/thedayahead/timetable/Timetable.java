@@ -142,7 +142,7 @@ public class Timetable {
 
     private TextView getTimeTextView(int periodIndex) {
         return (TextView) tableLayout.findViewById(tableLayout.getResources().getIdentifier(
-                "textview_" + ++periodIndex, "id", tableLayout.getContext().getPackageName()));
+                "textView_time" + ++periodIndex, "id", tableLayout.getContext().getPackageName()));
     }
 
     public int getMinute(int periodIndex) {
