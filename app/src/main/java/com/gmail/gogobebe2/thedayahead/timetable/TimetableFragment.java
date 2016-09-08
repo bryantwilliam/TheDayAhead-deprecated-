@@ -44,6 +44,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private RelativeLayout loginRelativeLayout;
     private LinearLayout linearLayout;
 
+
+
     private Document kmarDocument = null;
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
@@ -63,24 +65,27 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         linearLayout = (LinearLayout) inflater.inflate(R.layout.fragment_timetable, parent, false);
         loginRelativeLayout = (RelativeLayout) linearLayout.findViewById(R.id.relativelayout_timetablelogin);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        initKmarLoginConnection();
+        if (kmarTimetableHTML == null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Button loginButton = (Button) loginRelativeLayout.findViewById(R.id.login_button);
-        loginButton.setOnClickListener(this);
+            initKmarLoginConnection();
 
-        EditText usernameField = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
-        EditText passwordField = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
-        CheckBox rememberMeCheckBox = (CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe);
+            Button loginButton = (Button) loginRelativeLayout.findViewById(R.id.login_button);
+            loginButton.setOnClickListener(this);
 
-        SharedPreferences loginPreferences = getLoginPreferencesInstance();
+            EditText usernameField = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
+            EditText passwordField = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
+            CheckBox rememberMeCheckBox = (CheckBox) loginRelativeLayout.findViewById(R.id.checkBox_rememberMe);
 
-        boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
-        if (saveLogin) {
-            usernameField.setText(loginPreferences.getString("username", ""));
-            passwordField.setText(loginPreferences.getString("password", ""));
-            rememberMeCheckBox.setChecked(true);
+            SharedPreferences loginPreferences = getLoginPreferencesInstance();
+
+            boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+            if (saveLogin) {
+                usernameField.setText(loginPreferences.getString("username", ""));
+                passwordField.setText(loginPreferences.getString("password", ""));
+                rememberMeCheckBox.setChecked(true);
+            }
         }
 
         return linearLayout;

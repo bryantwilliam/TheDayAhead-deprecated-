@@ -2,6 +2,7 @@ package com.gmail.gogobebe2.thedayahead.diary;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -67,7 +68,8 @@ public class DiaryEntryMakerAndSaver {
     }
 
     private static String getCurrentDiaryEntryText(EditText editText) {
-        return editText.getText().toString();
-
+        Editable text = editText.getText();
+        if (text == null) return "<";
+        else return text.toString();
     }
 }

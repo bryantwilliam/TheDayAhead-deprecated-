@@ -2,7 +2,6 @@ package com.gmail.gogobebe2.thedayahead.diary;
 
 import android.app.Dialog;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -38,6 +37,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
     private ListView listViewPeriodSelector;
     private ListView listViewDiaryEntries;
     private Dialog diaryDialog;
+    private EditText editText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
 
         fragmentDiaryXML = (LinearLayout) inflater.inflate(R.layout.fragment_diary, parent, false);
         listViewDiaryEntries = (ListView) fragmentDiaryXML.findViewById(R.id.listView_diaryEntries);
+        editText = (EditText) fragmentDiaryXML.findViewById(R.id.editText_diary);
 
         diaryDialog = new Dialog(getContext());
         diaryDialog.setContentView(R.layout.fragment_diary_dialog);
@@ -57,6 +58,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         diaryDialogByDateAndTime.findViewById(R.id.button_doneDateAndTimeSelection).setOnClickListener(this);
         diaryDialogByDateAndTime.findViewById(R.id.button_pickDate).setOnClickListener(this);
         diaryDialogByDateAndTime.findViewById(R.id.button_pickTime).setOnClickListener(this);
+        diaryDialogByDateAndTime.findViewById(R.id.button_set).setOnClickListener(this);
 
         return fragmentDiaryXML;
     }
@@ -128,8 +130,6 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     int hourInt = MainActivity.timetable.getHour(firstPeriodIndex);
                     int minuteInt = MainActivity.timetable.getMinute(firstPeriodIndex);
 
-                    EditText editText = (EditText) fragmentDiaryXML.findViewById(R.id.editText_diary);
-
                     DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, dayInt, hourInt
                             , minuteInt, getContext(), listViewDiaryEntries);
 
@@ -144,11 +144,14 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         if (view instanceof Button) {
             Button button = (Button) view;
 
-            TimePicker timePicker = (TimePicker) button.findViewById(R.id.timePicker);
-            DatePicker datePicker = (DatePicker) button.findViewById(R.id.datePicker);
-
-            LinearLayout linearLayoutDialogByDateAndTime = (LinearLayout) button.findViewById(
+            LinearLayout linearLayoutDialogByDateAndTime = (LinearLayout) diaryDialog.findViewById(
                     R.id.linearlayout_dialogByDateAndTime);
+
+            LinearLayout linearLayoutMenu = (LinearLayout) linearLayoutDialogByDateAndTime.
+                    findViewById(R.id.linearLayout_dateTimeDoneMenu);
+            TimePicker timePicker = (TimePicker) linearLayoutDialogByDateAndTime.findViewById(R.id.timePicker);
+            DatePicker datePicker = (DatePicker) linearLayoutDialogByDateAndTime.findViewById(R.id.datePicker);
+            Button buttonSet = (Button) linearLayoutDialogByDateAndTime.findViewById(R.id.button_set);
 
             switch (button.getId()) {
                 case R.id.button_pickDateOrPeriod:
@@ -156,38 +159,43 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     break;
                 case R.id.button_doneDateAndTimeSelection:
 
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        int dayInt = datePicker.getDayOfMonth();
-                        int hourInt = timePicker.getHour();
-                        int minuteInt = timePicker.getMinute();
-                        int monthInt = datePicker.getMonth();
-                        EditText editText = (EditText) button.findViewById(R.id.editText_diary);
-
-                        DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, monthInt, dayInt,
-                                hourInt, minuteInt, getContext(), listViewDiaryEntries);
-                    } else {
-                        Toast.makeText(getContext(), "Android version too low to support this " +
-                                        "function, please use the period selection option only",
-                                Toast.LENGTH_LONG).show();
+                    int dayInt = datePicker.getDayOfMonth();
+                    int hourInt;
+                    int minuteInt;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        hourInt = timePicker.getHour();
+                        minuteInt = timePicker.getMinute();
                     }
-                    for (int index = 0; index < linearLayoutDialogByDateAndTime.getChildCount(); index++)
-                        linearLayoutDialogByDateAndTime.getChildAt(index).setVisibility(View.VISIBLE);
-                    timePicker.setVisibility(View.GONE);
-                    datePicker.setVisibility(View.GONE);
+                    else {
+                        hourInt = timePicker.getCurrentHour();
+                        minuteInt = timePicker.getCurrentMinute();
+                    }
+                    int monthInt = datePicker.getMonth();
+
+                    DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, monthInt, dayInt,
+                            hourInt, minuteInt, getContext(), listViewDiaryEntries);
+
                     diaryDialog.dismiss();
                     break;
                 case R.id.button_pickDate:
-                    for (int index = 0; index < linearLayoutDialogByDateAndTime.getChildCount(); index++)
-                        linearLayoutDialogByDateAndTime.getChildAt(index).setVisibility(View.GONE);
-                    datePicker.setVisibility(View.VISIBLE);
+                    showDateOrTimerPicker(datePicker, buttonSet, linearLayoutMenu);
                     break;
                 case R.id.button_pickTime:
-                    for (int index = 0; index < linearLayoutDialogByDateAndTime.getChildCount(); index++)
-                        linearLayoutDialogByDateAndTime.getChildAt(index).setVisibility(View.GONE);
-                    timePicker.setVisibility(View.VISIBLE);
+                    showDateOrTimerPicker(timePicker, buttonSet, linearLayoutMenu);
                     break;
+                case R.id.button_set:
+                    linearLayoutMenu.setVisibility(View.VISIBLE);
+                    timePicker.setVisibility(View.GONE);
+                    datePicker.setVisibility(View.GONE);
+                    buttonSet.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void showDateOrTimerPicker(View view, Button buttonSet, LinearLayout linearLayoutMenu) {
+        linearLayoutMenu.setVisibility(View.GONE);
+        view.setVisibility(View.VISIBLE);
+        buttonSet.setVisibility(View.VISIBLE);
+
     }
 }

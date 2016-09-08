@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.gmail.gogobebe2.thedayahead.MainActivity;
 import com.gmail.gogobebe2.thedayahead.R;
 
 import org.jsoup.Jsoup;
@@ -21,7 +22,7 @@ public class Timetable {
     private Week week;
     private TableLayout tableLayout;
     private List<SubjectType> subjects = new ArrayList<>();
-    private static TimetableHighlighter timetableHighlighter;
+    private TimetableHighlighter timetableHighlighter;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
         this.tableLayout = (TableLayout) timetableFragment.getTimetableLinearLayout().findViewById(R.id.tablelayout_timetable);
@@ -81,10 +82,6 @@ public class Timetable {
             dayIndex++;
         }
 
-        if (timetableHighlighter == null) timetableHighlighter = new TimetableHighlighter(this);
-
-        timetableHighlighter.execute();
-
         final RelativeLayout relativeLayout = timetableFragment.getLoginRelativeLayout();
         timetableFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -94,6 +91,9 @@ public class Timetable {
             }
         });
         timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        timetableHighlighter = new TimetableHighlighter(MainActivity.timetable);
+        timetableHighlighter.execute();
     }
 
     public Week getWeek() {
