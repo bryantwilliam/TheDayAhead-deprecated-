@@ -17,6 +17,7 @@
         android:layout_marginLeft="-60dp"
         android:layout_marginRight="-60dp"
         android:layout_marginTop="-60dp"
+        android:padding="10dp"
         android:scaleX="0.65"
         android:scaleY="0.65"
         android:visibility="gone" />
@@ -29,23 +30,25 @@
         android:layout_marginLeft="-60dp"
         android:layout_marginRight="-60dp"
         android:layout_marginTop="-60dp"
-        android:calendarViewShown="true"
+        android:calendarViewShown="false"
+        android:padding="10dp"
         android:scaleX="0.65"
         android:scaleY="0.65"
         android:visibility="gone" />
 
     <Button
-            android:id="@+id/button_set"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Set"
-            android:visibility="gone"/>
+        android:id="@+id/button_set"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Set"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/linearLayout_dateTimeDoneMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout_dateTimeDoneMenu"
         android:orientation="vertical">
+
         <Button
             android:id="@+id/button_pickDate"
             android:layout_width="wrap_content"
