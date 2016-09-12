@@ -8,19 +8,19 @@
     tools:context="com.gmail.gogobebe2.thedayahead.diary.DiaryFragment">
 
     <EditText
-        android:layout_weight="1"
         android:id="@+id/editText_diary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:background="@color/colorTableLight"
-        android:inputType="textMultiLine"
-        android:hint="@string/hint_editText_diary"/>
+        android:hint="@string/hint_editText_diary"
+        android:inputType="textMultiLine" />
 
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -69,12 +69,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Diary Entries:"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/listView_diaryEntries"
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_diaryEntriesList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>

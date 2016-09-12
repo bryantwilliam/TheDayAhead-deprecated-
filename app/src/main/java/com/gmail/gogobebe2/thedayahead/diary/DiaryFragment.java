@@ -35,7 +35,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
     private LinearLayout fragmentDiaryXML;
     private LinearLayout diaryDialogByDateAndTime;
     private ListView listViewPeriodSelector;
-    private ListView listViewDiaryEntries;
+    private LinearLayout linearLayoutDiaryEntriesList;
     private Dialog diaryDialog;
     private EditText editText;
 
@@ -44,7 +44,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         fragmentDiaryXML = (LinearLayout) inflater.inflate(R.layout.fragment_diary, parent, false);
-        listViewDiaryEntries = (ListView) fragmentDiaryXML.findViewById(R.id.listView_diaryEntries);
+        linearLayoutDiaryEntriesList = (LinearLayout) fragmentDiaryXML.findViewById(R.id.linearLayout_diaryEntriesList);
         editText = (EditText) fragmentDiaryXML.findViewById(R.id.editText_diary);
 
         diaryDialog = new Dialog(getContext());
@@ -131,7 +131,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     int minuteInt = MainActivity.timetable.getMinute(firstPeriodIndex);
 
                     DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, dayInt, hourInt
-                            , minuteInt, getContext(), listViewDiaryEntries);
+                            , minuteInt, getContext(), linearLayoutDiaryEntriesList);
 
                     diaryDialog.dismiss();
                 }
@@ -173,7 +173,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     int monthInt = datePicker.getMonth();
 
                     DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, monthInt, dayInt,
-                            hourInt, minuteInt, getContext(), listViewDiaryEntries);
+                            hourInt, minuteInt, getContext(), linearLayoutDiaryEntriesList);
 
                     diaryDialog.dismiss();
                     break;

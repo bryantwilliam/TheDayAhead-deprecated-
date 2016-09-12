@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -18,9 +17,9 @@ public class DiaryEntryMakerAndSaver {
      */
     static void makeAndSaveDiaryEntry(EditText editText, int dayOfWeekInt, int hourOfDayInt,
                                       int minuteOfHourInt, Context context,
-                                      ListView listViewDiaryEntries) {
+                                      LinearLayout linearLayoutDiaryEntriesList) {
         makeAndSaveDiaryEntry(editText, Calendar.MONTH, dayOfWeekInt - ((Calendar.WEEK_OF_MONTH - 1)
-                * 7), hourOfDayInt, minuteOfHourInt, context, listViewDiaryEntries);
+                * 7), hourOfDayInt, minuteOfHourInt, context, linearLayoutDiaryEntriesList);
     }
 
     /**
@@ -28,13 +27,14 @@ public class DiaryEntryMakerAndSaver {
      */
     static void makeAndSaveDiaryEntry(EditText editText, int monthOfYearInt, int dayOfMonthInt,
                                       int hourOfDayInt, int minuteOfHourInt, Context context,
-                                      ListView listViewDiaryEntries) {
+                                      LinearLayout linearLayoutDiaryEntriesList) {
         saveDiaryEntry(new DiaryEntry(getCurrentDiaryEntryText(editText), monthOfYearInt,
                 dayOfMonthInt, hourOfDayInt, minuteOfHourInt), context);
-        updateDiaryEntryListView(context, listViewDiaryEntries);
+        updateDiaryEntryListView(context, linearLayoutDiaryEntriesList);
     }
 
-    private static void updateDiaryEntryListView(Context context, ListView listViewDiaryEntries) {
+    private static void updateDiaryEntryListView(Context context, LinearLayout linearLayoutDiaryEntriesList) {
+        linearLayoutDiaryEntriesList.removeAllViewsInLayout();
         for (DiaryEntry diaryEntry : DiaryEntry.loadDiaries(context)) {
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
                     .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -57,8 +57,7 @@ public class DiaryEntryMakerAndSaver {
             linearLayout.addView(entryText);
             linearLayout.setLayoutParams(layoutParams);
 
-            listViewDiaryEntries.removeAllViewsInLayout();
-            listViewDiaryEntries.addView(linearLayout);
+            linearLayoutDiaryEntriesList.addView(linearLayout);
         }
 
     }
@@ -69,7 +68,8 @@ public class DiaryEntryMakerAndSaver {
 
     private static String getCurrentDiaryEntryText(EditText editText) {
         Editable text = editText.getText();
-        if (text == null) return "<";
+
+        if (text == null || text.toString().equals("")) return "{empty}";
         else return text.toString();
     }
 }

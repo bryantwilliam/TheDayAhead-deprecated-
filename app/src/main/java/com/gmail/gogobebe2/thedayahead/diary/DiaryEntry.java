@@ -62,7 +62,7 @@ public class DiaryEntry {
             if (key.contains("diary_text") || key.contains("diary_monthOfYear")
                     || key.contains("diary_dayOfMonth") || key.contains("diary_hourOfDay")
                     || key.contains("diary_minuteOfHour")) {
-                int tempDiaryEntryIndex = key.charAt(key.length() - 1);
+                int tempDiaryEntryIndex = Character.getNumericValue(key.charAt(key.length() - 1));
                 if (diaryEntryIndex <= tempDiaryEntryIndex) diaryEntryIndex = ++tempDiaryEntryIndex;
             }
         }
@@ -84,8 +84,8 @@ public class DiaryEntry {
             int hourOfDay = sharedPreferences.getInt("diary_hourOfDay" + index, -1);
             int minuteOfHour = sharedPreferences.getInt("diary_minuteOfHour" + index, -1);
 
-            if (text == null || monthOfYear == -1 || dayOfMonth == -1 || hourOfDay == -1
-                    || minuteOfHour == -1) break;
+            if (text == null && monthOfYear == -1 && dayOfMonth == -1 && hourOfDay == -1
+                    && minuteOfHour == -1) break;
 
             diaryEntries.add(new DiaryEntry(text, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour));
 
