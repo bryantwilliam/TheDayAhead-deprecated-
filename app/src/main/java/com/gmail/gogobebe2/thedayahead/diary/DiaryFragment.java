@@ -60,8 +60,13 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         diaryDialogByDateAndTime.findViewById(R.id.button_pickTime).setOnClickListener(this);
         diaryDialogByDateAndTime.findViewById(R.id.button_set).setOnClickListener(this);
 
-        DiaryEntryManager.updateDiaryEntryListView(getContext(), linearLayoutDiaryEntriesList);
         return fragmentDiaryXML;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DiaryEntryManager.updateDiaryEntryListView(getContext(), linearLayoutDiaryEntriesList);
     }
 
     @NonNull
