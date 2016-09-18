@@ -60,6 +60,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
         diaryDialogByDateAndTime.findViewById(R.id.button_pickTime).setOnClickListener(this);
         diaryDialogByDateAndTime.findViewById(R.id.button_set).setOnClickListener(this);
 
+        DiaryEntryManager.updateDiaryEntryListView(getContext(), linearLayoutDiaryEntriesList);
         return fragmentDiaryXML;
     }
 
@@ -130,7 +131,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     int hourInt = MainActivity.timetable.getHour(firstPeriodIndex);
                     int minuteInt = MainActivity.timetable.getMinute(firstPeriodIndex);
 
-                    DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, dayInt, hourInt
+                    DiaryEntryManager.makeAndSaveDiaryEntry(editText, dayInt, hourInt
                             , minuteInt, getContext(), linearLayoutDiaryEntriesList);
 
                     diaryDialog.dismiss();
@@ -172,7 +173,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
                     }
                     int monthInt = datePicker.getMonth();
 
-                    DiaryEntryMakerAndSaver.makeAndSaveDiaryEntry(editText, monthInt, dayInt,
+                    DiaryEntryManager.makeAndSaveDiaryEntry(editText, monthInt, dayInt,
                             hourInt, minuteInt, getContext(), linearLayoutDiaryEntriesList);
 
                     diaryDialog.dismiss();

@@ -7,16 +7,6 @@
     android:weightSum="2"
     tools:context="com.gmail.gogobebe2.thedayahead.diary.DiaryFragment">
 
-    <EditText
-        android:id="@+id/editText_diary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/colorTableLight"
-        android:hint="@string/hint_editText_diary"
-        android:inputType="textMultiLine" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +21,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
@@ -52,18 +42,32 @@
                 android:text="Period" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/editText_diary"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@color/colorTableLight"
+            android:hint="@string/hint_editText_diary"
+            android:inputType="textMultiLine"
+            tools:ignore="NestedWeights" />
+
         <Button
             android:id="@+id/button_pickDateOrPeriod"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:text="Save entry and pick date/time" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
+    </LinearLayout>
 
-            android:background="@android:color/darker_gray" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,15 +76,23 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorTableDark" />
+
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/linearLayout_diaryEntriesList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:orientation="vertical" />
         </ScrollView>
     </LinearLayout>
+
+
 </LinearLayout>

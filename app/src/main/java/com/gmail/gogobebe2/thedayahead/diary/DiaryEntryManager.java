@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class DiaryEntryMakerAndSaver {
+public class DiaryEntryManager {
 
     /**
      * Used for the first week of the current month.
@@ -18,7 +18,8 @@ public class DiaryEntryMakerAndSaver {
     static void makeAndSaveDiaryEntry(EditText editText, int dayOfWeekInt, int hourOfDayInt,
                                       int minuteOfHourInt, Context context,
                                       LinearLayout linearLayoutDiaryEntriesList) {
-        makeAndSaveDiaryEntry(editText, Calendar.MONTH, dayOfWeekInt - ((Calendar.WEEK_OF_MONTH - 1)
+        Calendar calendar = Calendar.getInstance();
+        makeAndSaveDiaryEntry(editText, calendar.get(Calendar.MONTH), dayOfWeekInt + ((calendar.get(Calendar.WEEK_OF_MONTH) - 1)
                 * 7), hourOfDayInt, minuteOfHourInt, context, linearLayoutDiaryEntriesList);
     }
 
@@ -33,16 +34,21 @@ public class DiaryEntryMakerAndSaver {
         updateDiaryEntryListView(context, linearLayoutDiaryEntriesList);
     }
 
-    private static void updateDiaryEntryListView(Context context, LinearLayout linearLayoutDiaryEntriesList) {
+    public static void updateDiaryEntryListView(Context context, LinearLayout linearLayoutDiaryEntriesList) {
         linearLayoutDiaryEntriesList.removeAllViewsInLayout();
         for (DiaryEntry diaryEntry : DiaryEntry.loadDiaries(context)) {
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
                     .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             TextView entryDate = new TextView(context);
+
+            String minuteOfHourStr = "" + diaryEntry.getMinuteOfHour();
+            if (minuteOfHourStr.length() == 1) minuteOfHourStr = "0" + minuteOfHourStr;
+
             String date = diaryEntry.getDayOfMonth() + "/" + diaryEntry.getMonthOfYear() + "/"
-                    + Calendar.YEAR + " - " + diaryEntry.getHourOfDay() + ":" + diaryEntry
-                    .getMinuteOfHour();
+                    + Calendar.getInstance().get(Calendar.YEAR) + " - " + diaryEntry.getHourOfDay()
+                    + ":" + minuteOfHourStr;
+
             entryDate.setText(date);
             entryDate.setTypeface(null, Typeface.BOLD);
             entryDate.setLayoutParams(layoutParams);

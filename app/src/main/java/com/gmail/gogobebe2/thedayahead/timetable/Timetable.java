@@ -76,7 +76,7 @@ public class Timetable {
                         if (subjectName.equals(subjectType.getName()))
                             unique = false;
 
-                    if (unique) subjects.add(new SubjectType(subjectName, dayIndex, periodIndex));
+                    if (unique) subjects.add(new SubjectType(subjectName, dayIndex - 2, periodIndex));
                 }
             }
             dayIndex++;
