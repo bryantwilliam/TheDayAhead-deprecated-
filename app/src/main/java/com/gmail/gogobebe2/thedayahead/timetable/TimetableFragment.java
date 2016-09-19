@@ -209,9 +209,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                 webView.clearHistory();
                 clearCookies(this);
 
-                final TimetableFragment INSTANCE = this;
-
-
                 webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(this), "HtmlRetriever");
 
                 webView.setWebViewClient(new WebViewClient() {
