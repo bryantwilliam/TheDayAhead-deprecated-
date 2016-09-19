@@ -9,8 +9,8 @@ android {
         applicationId "com.gmail.gogobebe2.thedayahead"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 3
-        versionName "3"
+        versionCode 4
+        versionName "4"
     }
     buildTypes {
         release {
@@ -24,9 +24,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile 'junit:junit:4.12'
     // jsoup HTML parser library @ http://jsoup.org/
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'org.jsoup:jsoup:1.9.1'
-    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:support-v4:24.2.1'
     compile 'org.jetbrains:annotations-java5:15.0'
 }

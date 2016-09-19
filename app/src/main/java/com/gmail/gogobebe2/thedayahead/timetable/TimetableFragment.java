@@ -45,7 +45,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private LinearLayout linearLayout;
 
 
-
     private Document kmarDocument = null;
     private final String KMAR_LOGIN_URL = "https://portal.sanctamaria.school.nz/student/index.php/login";
     private final String KMAR_TIMETABLE_URL = "https://portal.sanctamaria.school.nz/student/index.php/timetable";
@@ -175,6 +174,20 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         }
     }
 
+    public class HTMLRetrieverJavaScriptInterface {
+        TimetableFragment timetableFragment;
+
+        HTMLRetrieverJavaScriptInterface(TimetableFragment timetableFragment) {
+            super();
+            this.timetableFragment = timetableFragment;
+        }
+
+        @JavascriptInterface
+        void showHTML(String html) {
+            kmarTimetableHTML = html;
+            MainActivity.timetable = new Timetable(kmarTimetableHTML, timetableFragment);
+        }
+    }
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
@@ -198,15 +211,8 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
 
                 final TimetableFragment INSTANCE = this;
 
-                class HTMLRetrieverJavaScriptInterface {
-                    @JavascriptInterface
-                    void showHTML(String html) {
-                        kmarTimetableHTML = html;
-                        MainActivity.timetable = new Timetable(kmarTimetableHTML, INSTANCE);
-                    }
-                }
 
-                webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(), "HtmlRetriever");
+                webView.addJavascriptInterface(new HTMLRetrieverJavaScriptInterface(this), "HtmlRetriever");
 
                 webView.setWebViewClient(new WebViewClient() {
 
