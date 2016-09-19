@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
-
     defaultConfig {
         applicationId "com.gmail.gogobebe2.thedayahead"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 2
-        versionName "2"
+        versionCode 3
+        versionName "3"
     }
     buildTypes {
         release {
@@ -20,8 +21,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile 'junit:junit:4.12'
     // jsoup HTML parser library @ http://jsoup.org/
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
