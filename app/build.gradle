@@ -9,8 +9,8 @@ android {
         applicationId "com.gmail.gogobebe2.thedayahead"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 5
-        versionName "5-alpha-debug"
+        versionCode 6
+        versionName "6-alpha"
     }
     buildTypes {
         release {
