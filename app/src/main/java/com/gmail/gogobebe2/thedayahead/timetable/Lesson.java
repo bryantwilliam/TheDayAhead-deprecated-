@@ -16,10 +16,12 @@ public class Lesson extends Period {
         return this.subjectName;
     }
 
+    @SuppressWarnings("unused")
     public String getTeacherInitials() {
         return this.teacherInitials;
     }
 
+    @SuppressWarnings("unused")
     public String getClassroom() {
         return this.classroom;
     }

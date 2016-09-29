@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -174,6 +175,7 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         }
     }
 
+    @Keep
     public class HTMLRetrieverJavaScriptInterface {
         TimetableFragment timetableFragment;
 

@@ -11,6 +11,7 @@ public class Day {
         return this.name;
     }
 
+    @SuppressWarnings("unused")
     public String getDate() {
         return this.date;
     }

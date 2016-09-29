@@ -9,12 +9,12 @@ android {
         applicationId "com.gmail.gogobebe2.thedayahead"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 7
-        versionName "7-alpha"
+        versionCode 9
+        versionName "9-alpha"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
