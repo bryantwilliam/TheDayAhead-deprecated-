@@ -182,12 +182,14 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
         HTMLRetrieverJavaScriptInterface(TimetableFragment timetableFragment) {
             super();
             this.timetableFragment = timetableFragment;
+            Toast.makeText(getContext(), "Debug 4", Toast.LENGTH_LONG).show();
         }
 
         @JavascriptInterface
         void showHTML(String html) {
             kmarTimetableHTML = html;
             MainActivity.timetable = new Timetable(kmarTimetableHTML, timetableFragment);
+            Toast.makeText(getContext(), "Debug 5: " + html, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -195,7 +197,10 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
-            if (kmarDocument == null) initKmarLoginConnection();
+            if (kmarDocument == null) {
+                Toast.makeText(getContext(), "Haven't connected yet, retrying now...", Toast.LENGTH_SHORT).show();
+                initKmarLoginConnection();
+            }
             else {
                 EditText usernameEditText = (EditText) loginRelativeLayout.findViewById(R.id.editText_username);
                 EditText passwordEditText = (EditText) loginRelativeLayout.findViewById(R.id.editText_password);
@@ -229,11 +234,14 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                         final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
                         final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
                                 "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
+                        Toast.makeText(getContext(), "Debug 1", Toast.LENGTH_LONG).show();
                         if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
                             // debug: webView.setVisibility(View.VISIBLE);
                             webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
+                            Toast.makeText(getContext(), "Debug 2", Toast.LENGTH_LONG).show();
                         } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
                             webView.loadUrl(LOGIN_JAVASCRIPT);
+                            Toast.makeText(getContext(), "Debug 3: ", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
