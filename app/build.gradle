@@ -4,13 +4,13 @@ android {
     signingConfigs {
     }
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.gmail.gogobebe2.thedayahead"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 9
-        versionName "9-alpha"
+        versionCode 11
+        versionName "11-alpha"
     }
     buildTypes {
         release {

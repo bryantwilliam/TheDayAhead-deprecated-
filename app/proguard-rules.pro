@@ -12,6 +12,7 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class com.gmail.gogobebe2.thedayahead.timetable.TimetableFragment$HTMLRetrieverJavaScriptInterface {
-#   public *;
-#}
+-keepclassmembers class com.gmail.gogobebe2.thedayahead.timetable.TimetableFragment$HTMLRetrieverJavaScriptInterface {
+   public *;
+}
+-keepattributes JavascriptInterface

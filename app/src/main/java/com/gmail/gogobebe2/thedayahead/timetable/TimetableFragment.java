@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,12 +52,6 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     private String kmarTimetableHTML;
 
     public TimetableFragment() { /* Required empty public constructor */}
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @SuppressLint("InflateParams")
     @Override
@@ -179,17 +172,16 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
     public class HTMLRetrieverJavaScriptInterface {
         TimetableFragment timetableFragment;
 
-        HTMLRetrieverJavaScriptInterface(TimetableFragment timetableFragment) {
+        public HTMLRetrieverJavaScriptInterface(TimetableFragment timetableFragment) {
             super();
             this.timetableFragment = timetableFragment;
-            Toast.makeText(getContext(), "Debug 4", Toast.LENGTH_LONG).show();
         }
 
+        @Keep
         @JavascriptInterface
-        void showHTML(String html) {
+        public void showHTML(String html) {
             kmarTimetableHTML = html;
             MainActivity.timetable = new Timetable(kmarTimetableHTML, timetableFragment);
-            Toast.makeText(getContext(), "Debug 5: " + html, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -234,14 +226,11 @@ public class TimetableFragment extends TheDayAheadFragment implements View.OnCli
                         final String LOGIN_JAVASCRIPT = "javascript:document.getElementById(\"loginSubmit\").click()";
                         final String HTML_RETRIEVER_JAVASCRIPT = "javascript:window.HtmlRetriever.showHTML" +
                                 "('<html>' + document.getElementsByTagName('html')[0].innerHTML + '</html>');";
-                        Toast.makeText(getContext(), "Debug 1", Toast.LENGTH_LONG).show();
                         if (urlLoaded.equals(KMAR_TIMETABLE_URL)) {
                             // debug: webView.setVisibility(View.VISIBLE);
                             webView.loadUrl(HTML_RETRIEVER_JAVASCRIPT);
-                            Toast.makeText(getContext(), "Debug 2", Toast.LENGTH_LONG).show();
                         } else if (!urlLoaded.equals(LOGIN_JAVASCRIPT)) {
                             webView.loadUrl(LOGIN_JAVASCRIPT);
-                            Toast.makeText(getContext(), "Debug 3: ", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
