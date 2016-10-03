@@ -65,7 +65,6 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
             currentPeriod.highlightAsCurrentSession();
         }
         //
-
         return null;
     }
 
