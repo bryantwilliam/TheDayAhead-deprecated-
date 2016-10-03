@@ -64,6 +64,27 @@ public class DiaryEntryManager {
             linearLayout.setLayoutParams(layoutParams);
 
             linearLayoutDiaryEntriesList.addView(linearLayout);
+            
+            // TODO: highlight due times:
+            Calendar currentCalendar = Calendar.getInstance();
+            int currentMonthOfYear = currentCalendar.get(Calendar.MONTH);
+            int currentDayOfMonth = currentCalendar.get(Calendar.DAY_OF_MONTH);
+            int currentHourOfDay = currentCalendar.get(Calendar.HOUR_OF_DAY);
+            int currentMinuteOfHour = currentCalendar.get(Calendar.MINUTE);
+
+            Calendar entryCalendar = Calendar.getInstance();
+            entryCalendar.set(entryCalendar.get(Calendar.YEAR), diaryEntry.getMonthOfYear(), diaryEntry.getDayOfMonth());
+            int dayOfWeekInt = entryCalendar.get(Calendar.DAY_OF_WEEK);
+
+            Period period = MainActivity.timetable.getPeriod(dayOfWeekInt,
+                    diaryEntry.getHourOfDay(), diaryEntry.getMinuteOfHour());
+
+            if (diaryEntry.getMinuteOfHour() < currentMinuteOfHour
+                    && diaryEntry.getHourOfDay() <= currentHourOfDay
+                    && diaryEntry.getDayOfMonth() <= currentDayOfMonth
+                    && diaryEntry.getMonthOfYear() <= currentMonthOfYear) {
+
+            }
         }
 
     }
