@@ -7,28 +7,43 @@ import android.view.View;
 public class Period {
     private View view;
     private TimetableFragment timetableFragment;
+    private final int IMPORTANT_COLOUR;
+    private final int CURRENT_SESSION_COLOUR;
 
     Period(View view, TimetableFragment timetableFragment) {
+        this.IMPORTANT_COLOUR = getColour(android.R.color.holo_red_light);
+        this.CURRENT_SESSION_COLOUR = getColour(android.R.color.holo_blue_light);
         this.timetableFragment = timetableFragment;
         this.view = view;
     }
 
     public void highlightImportant() {
-        highlight(android.R.color.holo_red_light);
+        highlight(IMPORTANT_COLOUR);
     }
 
     public void highlightAsCurrentSession() {
-        highlight(android.R.color.holo_blue_light);
+        highlight(CURRENT_SESSION_COLOUR);
     }
 
-    private void highlight(final int COLOUR_ID) {
-        final int COLOR = ContextCompat.getColor(timetableFragment.getContext(), COLOUR_ID);
+    private int getColour(int COLOUR_ID) {
+        return ContextCompat.getColor(timetableFragment.getContext(), COLOUR_ID);
+    }
+
+    private void highlight(final int COLOUR) {
         timetableFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                view.setBackgroundColor(COLOR);
+                view.setBackgroundColor(COLOUR);
             }
         });
+    }
+
+    public boolean isHighlightedAsCurrent() {
+        return view.getSolidColor() == CURRENT_SESSION_COLOUR;
+    }
+
+    public boolean isHighlightedAsImportant() {
+        return view.getSolidColor() == IMPORTANT_COLOUR;
     }
 
     public void unHighlight() {

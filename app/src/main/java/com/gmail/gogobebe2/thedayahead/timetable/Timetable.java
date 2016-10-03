@@ -92,7 +92,7 @@ public class Timetable {
         });
         timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        timetableHighlighter = new TimetableHighlighter(MainActivity.timetable);
+        timetableHighlighter = new TimetableHighlighter(MainActivity.timetable, timetableFragment.getContext());
         timetableHighlighter.execute();
     }
 
