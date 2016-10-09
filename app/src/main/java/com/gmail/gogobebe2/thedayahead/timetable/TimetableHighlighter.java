@@ -34,8 +34,10 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
         if (newPeriod != null) {
             if (currentPeriod != null) {
                 if (!currentPeriod.equals(newPeriod)) return null;
-                if (currentPeriod.isHighlightedAsCurrent()) currentPeriod.unHighlightAsCurrent();
-                if (currentPeriod.isHighlightedAsImportant()) currentPeriod.unHighlightAsImportant();
+                else {
+                    if (currentPeriod.isHighlightedAsCurrent()) currentPeriod.unHighlightAsCurrent();
+                    if (currentPeriod.isHighlightedAsImportant()) currentPeriod.unHighlightAsImportant();
+                }
             }
             currentPeriod = newPeriod;
             currentPeriod.highlightAsCurrentSession();
