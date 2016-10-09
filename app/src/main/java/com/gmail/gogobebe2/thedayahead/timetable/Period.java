@@ -9,20 +9,24 @@ public class Period {
     private TimetableFragment timetableFragment;
     private final int IMPORTANT_COLOUR;
     private final int CURRENT_SESSION_COLOUR;
+    private boolean important = false;
+    private boolean current = false;
 
     Period(View view, TimetableFragment timetableFragment) {
-        this.IMPORTANT_COLOUR = getColour(android.R.color.holo_red_light);
-        this.CURRENT_SESSION_COLOUR = getColour(android.R.color.holo_blue_light);
         this.timetableFragment = timetableFragment;
         this.view = view;
+        this.IMPORTANT_COLOUR = getColour(android.R.color.holo_red_light);
+        this.CURRENT_SESSION_COLOUR = getColour(android.R.color.holo_blue_light);
     }
 
     public void highlightImportant() {
         highlight(IMPORTANT_COLOUR);
+        important = true;
     }
 
     public void highlightAsCurrentSession() {
         highlight(CURRENT_SESSION_COLOUR);
+        current = true;
     }
 
     private int getColour(int COLOUR_ID) {
@@ -30,24 +34,34 @@ public class Period {
     }
 
     private void highlight(final int COLOUR) {
-        timetableFragment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                view.setBackgroundColor(COLOUR);
-            }
-        });
+        if (!important) {
+            timetableFragment.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setBackgroundColor(COLOUR);
+                }
+            });
+        }
     }
 
     public boolean isHighlightedAsCurrent() {
-        return view.getSolidColor() == CURRENT_SESSION_COLOUR;
+        return current;
     }
 
     public boolean isHighlightedAsImportant() {
-        return view.getSolidColor() == IMPORTANT_COLOUR;
+        return important;
     }
 
-    public void unHighlight() {
-        view.setBackgroundColor(Color.WHITE);
+    public void unHighlightAsImportant() {
+        important = false;
+        if (!current) view.setBackgroundColor(Color.WHITE);
+        else highlightAsCurrentSession();
+    }
+
+    public void unHighlightAsCurrent() {
+        current = false;
+        if (!important) view.setBackgroundColor(Color.WHITE);
+        else highlightImportant();
     }
 
     View getView() {

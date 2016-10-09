@@ -8,11 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gmail.gogobebe2.thedayahead.MainActivity;
-import com.gmail.gogobebe2.thedayahead.timetable.Period;
-
 import java.util.Calendar;
-import java.util.List;
 
 public class DiaryEntryManager {
 

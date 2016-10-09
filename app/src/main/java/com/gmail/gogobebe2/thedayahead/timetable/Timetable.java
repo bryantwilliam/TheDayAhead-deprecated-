@@ -22,7 +22,6 @@ public class Timetable {
     private Week week;
     private TableLayout tableLayout;
     private List<SubjectType> subjects = new ArrayList<>();
-    private TimetableHighlighter timetableHighlighter;
 
     public Timetable(String htmlString, TimetableFragment timetableFragment) {
         this.tableLayout = (TableLayout) timetableFragment.getTimetableLinearLayout().findViewById(R.id.tablelayout_timetable);
@@ -76,7 +75,8 @@ public class Timetable {
                         if (subjectName.equals(subjectType.getName()))
                             unique = false;
 
-                    if (unique) subjects.add(new SubjectType(subjectName, dayIndex - 2, periodIndex));
+                    if (unique)
+                        subjects.add(new SubjectType(subjectName, dayIndex - 2, periodIndex));
                 }
             }
             dayIndex++;
@@ -92,7 +92,7 @@ public class Timetable {
         });
         timetableFragment.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        timetableHighlighter = new TimetableHighlighter(MainActivity.timetable, timetableFragment.getContext());
+        TimetableHighlighter timetableHighlighter = new TimetableHighlighter(MainActivity.timetable, timetableFragment.getContext());
         timetableHighlighter.execute();
     }
 
@@ -107,10 +107,6 @@ public class Timetable {
             index++;
         }
         return null;
-    }
-
-    private Period getPeriod(int periodIndex, int dayIndex) {
-        return getWeek().getDays().get(getDay(dayIndex)).get(periodIndex);
     }
 
     public Period getPeriod(int dayInt, int hourInt, int minuteInt) {
@@ -133,7 +129,7 @@ public class Timetable {
         else if (hourInt == 14 || (hourInt == 3 && minuteInt < 15)) periodIndex = 8;
         else periodIndex = 9;
 
-        return getPeriod(periodIndex, dayIndex);
+        return getWeek().getDays().get(getDay(dayIndex)).get(periodIndex);
     }
 
     public List<SubjectType> getSubjects() {

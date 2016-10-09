@@ -20,15 +20,32 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+
         Calendar currentCalendar = Calendar.getInstance();
         int currentMonthOfYear = currentCalendar.get(Calendar.MONTH);
         int currentDayOfMonth = currentCalendar.get(Calendar.DAY_OF_MONTH);
         int currentHourOfDay = currentCalendar.get(Calendar.HOUR_OF_DAY);
         int currentMinuteOfHour = currentCalendar.get(Calendar.MINUTE);
 
+        // Highlights current period:
+        Period newPeriod = MainActivity.timetable.getPeriod(currentCalendar.get(Calendar.DAY_OF_WEEK),
+                currentHourOfDay, currentMinuteOfHour);
+
+        if (newPeriod != null) {
+            if (currentPeriod != null) {
+                if (!currentPeriod.equals(newPeriod)) return null;
+                if (currentPeriod.isHighlightedAsCurrent()) currentPeriod.unHighlightAsCurrent();
+                if (currentPeriod.isHighlightedAsImportant()) currentPeriod.unHighlightAsImportant();
+            }
+            currentPeriod = newPeriod;
+            currentPeriod.highlightAsCurrentSession();
+        }
+
         // Highlights as important:
         List<DiaryEntry> diaries = DiaryEntry.loadDiaries(context);
-        for (DiaryEntry diaryEntry : diaries) {
+        for (int d = 0; d < diaries.size(); d++) {
+            DiaryEntry diaryEntry = diaries.get(d);
+
             Calendar entryCalendar = Calendar.getInstance();
             entryCalendar.set(entryCalendar.get(Calendar.YEAR), diaryEntry.getMonthOfYear(),
                     diaryEntry.getDayOfMonth());
@@ -41,28 +58,9 @@ public class TimetableHighlighter extends AsyncTask<Void, Void, Void> {
                     && diaryEntry.getHourOfDay() <= currentHourOfDay
                     && diaryEntry.getDayOfMonth() <= currentDayOfMonth
                     && diaryEntry.getMonthOfYear() <= currentMonthOfYear) {
-                if (period.isHighlightedAsImportant()) {
-                    boolean rehighlightAsCurrent = period.isHighlightedAsCurrent();
-                    period.unHighlight();
-                    if (rehighlightAsCurrent) period.highlightAsCurrentSession();
-                }
-                diaries.remove(diaryEntry);
-            } else period.isHighlightedAsImportant();
-        }
-
-        // Highlights current period:
-        Period newPeriod = MainActivity.timetable.getPeriod(currentCalendar.get(Calendar.DAY_OF_WEEK),
-                currentHourOfDay, currentMinuteOfHour);
-
-        if (newPeriod != null) {
-            if (currentPeriod != null) {
-                if (!currentPeriod.equals(newPeriod)) return null;
-                boolean rehighlightAsImportant = currentPeriod.isHighlightedAsImportant();
-                currentPeriod.unHighlight();
-                if (rehighlightAsImportant) currentPeriod.isHighlightedAsImportant();
-            }
-            currentPeriod = newPeriod;
-            currentPeriod.highlightAsCurrentSession();
+                if (period.isHighlightedAsImportant()) period.unHighlightAsImportant();
+                diaries.remove(d);
+            } else period.highlightImportant();
         }
         //
         return null;

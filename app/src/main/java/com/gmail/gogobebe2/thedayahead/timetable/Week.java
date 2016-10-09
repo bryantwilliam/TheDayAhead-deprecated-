@@ -26,10 +26,6 @@ public class Week {
         });
     }
 
-    public int getWeekNumber() {
-        return this.weekNumber;
-    }
-
     public LinkedHashMap<Day, List<Period>> getDays() {
         return this.days;
     }
