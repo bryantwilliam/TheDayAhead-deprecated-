@@ -72,7 +72,7 @@ public class DiaryFragment extends TheDayAheadFragment implements View.OnClickLi
     @NonNull
     @Override
     protected String getTitle() {
-        return "DiaryEntry";
+        return "Diary";
     }
 
     @Override
